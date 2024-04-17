@@ -1,0 +1,16 @@
+# Členové vývojového týmu
+- Matěj Blažík
+- Eva Brátová
+- Adam Bureš
+- Karel Čapek
+- Martin Hoffmann
+- Matyáš Hudeček
+- Ondřej Imlauf
+- Vojtěch Jiruš
+- Čestmír Kalousek
+- Jakub Kneifel
+- Matěj Kubíček
+- Nikola Mádrová
+- Denis Molodcij
+- Vojtěch Novák
+- Jan Serbousek
