@@ -1,3 +1,3 @@
-# NoName
+# EPLauncher
 
-Projekt, jehož jméno nevyslovujeme.
+Herní launcher *made by* EP.
