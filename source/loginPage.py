@@ -1,4 +1,4 @@
-import pygame
+import pygame, sys
 pygame.init()
 
 #barvy
@@ -18,6 +18,8 @@ loginText = "login"
 loginTextSurface = font.render(loginText, True, white)
 
 
+
+
 def login(rozliseni, window, clock):
     running = True
     clock.tick(60)
@@ -25,8 +27,10 @@ def login(rozliseni, window, clock):
     while running:
         for udalost in pygame.event.get():
             if udalost.type == pygame.QUIT:
-                running = False
-                completed_login = False
+                pygame.quit()
+                sys.exit()
+
+
 
         window.fill(background_color)
         #vykreslí rámeček profilovky
@@ -35,11 +39,16 @@ def login(rozliseni, window, clock):
         pygame.draw.line(window, black, (rozliseni[0]/2 - 110, 520), (rozliseni[0]/2 + 110, 520), 5)
         pygame.draw.line(window, black, (rozliseni[0] / 2 - 110, 590), (rozliseni[0] / 2 + 110, 590), 5)
         #vykreslí přihlašovací tlačítko
-        pygame.draw.rect(window, loginButton, (rozliseni[0] / 2 - 110, 630, 220, 60))
+        Login = pygame.draw.rect(window, loginButton, (rozliseni[0] / 2 - 110, 630, 220, 60))
         #vykreslí text
         window.blit(jmenoSurface, (rozliseni[0]/2 - 100, 480))
         window.blit(hesloSurface, (rozliseni[0]/2 - 100, 550))
         window.blit(loginTextSurface, (rozliseni[0] / 2 - 100, 645))
+
+        pos = pygame.mouse.get_pos()
+        if Login.colliderect((pos[0], pos[1], 1, 1)) and pygame.mouse.get_pressed()[0]:
+            completed_login = False
+            running = False
 
         pygame.display.flip()
 

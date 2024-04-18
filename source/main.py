@@ -5,6 +5,7 @@ def main():
     import library_menu
     pygame.init()
 
+
     #nastaveni okna
     rozliseni = [800, 800]
     pygame.display.set_caption("EPLauncher")
@@ -15,6 +16,7 @@ def main():
 
     if completed_login:
         library_menu.library(rozliseni, window, clock)
+
 
 
 if __name__ == "__main__":
