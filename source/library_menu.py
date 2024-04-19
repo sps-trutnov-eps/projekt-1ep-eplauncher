@@ -14,8 +14,6 @@ Timetable_surface = font.render(Timetable, True, WHITE)
 # username přihlášeného uživatele
 username_text = font.render("username", True, WHITE)
 
-games = []
-
 
 def scrolling():
     pass
@@ -25,11 +23,16 @@ def library_draw(window, rozliseni, games):
     window.fill(BACKGROUND_COLOR)
 
     # zobrazování her
-    x = 200
+    x = 100
     y = 200
+    game_number = 0
+    pygame.draw.rect(window, (0, 0, 0), (x - 15, y - 7, rozliseni[0] - 185, 2))
     for game in games:
-        game.drawing(x, y, window)
+        game.drawing(x, y, window, rozliseni, games[0+game_number].location)
+        y += 57
+        game_number += 1
 
+    # čára
     pygame.draw.rect(window, BLACK, (0, 110, 1300, 2))
     # texty
     window.blit(Timetable_surface, (50, 32))
@@ -43,8 +46,8 @@ def library(rozliseni, window, clock):
     running = True
     clock.tick(60)
 
-#    for game in games:
- #       print(x)
+    from game_list import get_games
+    games = get_games()
 
     while running:
         for udalost in pygame.event.get():
@@ -52,7 +55,7 @@ def library(rozliseni, window, clock):
                 running = False
 
         testing = False
-        if pygame.mouse.get_pressed() and testing:
+        if pygame.mouse.get_pressed()[0] and testing:
             from minihry.Pokerun import main
         scrolling()
         library_draw(window, rozliseni, games)
