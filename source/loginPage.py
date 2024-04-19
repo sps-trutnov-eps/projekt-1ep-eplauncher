@@ -30,8 +30,6 @@ def login(rozliseni, window, clock):
                 pygame.quit()
                 sys.exit()
 
-
-
         window.fill(background_color)
         #vykreslí rámeček profilovky
         profilovka = pygame.draw.rect(window, black, (rozliseni[0]/2 - 110, rozliseni[1]/2 - 200, 220, 220), 5)

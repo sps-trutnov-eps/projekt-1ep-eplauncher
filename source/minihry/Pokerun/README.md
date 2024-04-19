@@ -1,2 +1,0 @@
-# Pokérun
-Pokérun je hra, ve které je hlavní cíl získat co nejvíce bodů. Hra se spustí zmáčknutím klávesy a. Hráč má tři životy, pokud narazí na zvíře červené barvy, život se mu odebere. Hráč se jim vyhýbá skokem pomocí mezerníku. Naopak při srážce se zeleným zvířetem získá pět bodů. Po ztrátě všech tří životů hra skončí a ukáže se celkové skóre. Po zmáčknutí klávesy a se skóre resetuje a hra začne od začátku. 
