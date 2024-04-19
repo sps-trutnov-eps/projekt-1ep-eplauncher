@@ -50,6 +50,7 @@ def library(rozliseni, window, clock):
         for udalost in pygame.event.get():
             if udalost.type == pygame.QUIT:
                 running = False
+                
 
         testing = False
         if pygame.mouse.get_pressed() and testing:

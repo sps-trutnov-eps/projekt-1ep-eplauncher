@@ -18,6 +18,5 @@ def main():
         library_menu.library(rozliseni, window, clock)
 
 
-
 if __name__ == "__main__":
     main()
