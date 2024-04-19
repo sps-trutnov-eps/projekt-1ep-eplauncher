@@ -29,7 +29,6 @@ def library_draw(window, rozliseni, games):
     for game in games:
         game.drawing(x, y, window)
 
-
     pygame.draw.rect(window, BLACK, (0, 110, 1300, 2))
     # texty
     window.blit(Timetable_surface, (50, 32))
@@ -52,6 +51,6 @@ def library(rozliseni, window, clock):
 
         testing = False
         if pygame.mouse.get_pressed() and testing:
-            from minihry.Pokerun.source import main
+            from minihry.Pokerun import main
         scrolling()
         library_draw(window, rozliseni, games)

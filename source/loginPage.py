@@ -18,8 +18,6 @@ loginText = "login"
 loginTextSurface = font.render(loginText, True, white)
 
 
-
-
 def login(rozliseni, window, clock):
     running = True
     clock.tick(60)
@@ -29,8 +27,6 @@ def login(rozliseni, window, clock):
             if udalost.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-
-
 
         window.fill(background_color)
         #vykreslí rámeček profilovky
