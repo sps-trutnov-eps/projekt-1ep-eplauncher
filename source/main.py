@@ -11,8 +11,9 @@ def main():
     window = pygame.display.set_mode(rozliseni)
     clock = pygame.time.Clock()
 
-    completed_login = loginPage.login(rozliseni, window, clock)
-
+    completed_login = False
+    if not completed_login:
+        completed_login = loginPage.login(rozliseni, window, clock)
     if completed_login:
         library_menu.library(rozliseni, window, clock)
 

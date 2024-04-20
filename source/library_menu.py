@@ -1,5 +1,4 @@
 import pygame
-pygame.init()
 
 # barvy
 RED = (255, 0, 0)
@@ -54,8 +53,5 @@ def library(rozliseni, window, clock):
             if udalost.type == pygame.QUIT:
                 running = False
 
-        testing = False
-        if pygame.mouse.get_pressed()[0] and testing:
-            from minihry.Pokerun import main
         scrolling()
         library_draw(window, rozliseni, games)
