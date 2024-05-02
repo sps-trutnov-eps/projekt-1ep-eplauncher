@@ -22,12 +22,16 @@ def library_draw(window, rozliseni, games):
     window.fill(BACKGROUND_COLOR)
 
     # zobrazování her
-    x = 100
+    x = 150
     y = 200
     game_number = 0
-    pygame.draw.rect(window, (0, 0, 0), (x - 15, y - 7, rozliseni[0] - 185, 2))
+
+    # horní čára
+    pygame.draw.rect(window, (0, 0, 0), (x - 75, y - 7, rozliseni[0] - 145, 2))
+
     for game in games:
         game.drawing(x, y, window, rozliseni, games[0+game_number].location)
+
         y += 57
         game_number += 1
 

@@ -141,22 +141,23 @@ zeme = pygame.image.load("minihry/Pokerun/Files/ground.png")
 
 font = pygame.font.Font(None, 44)
 instruction = font.render("Stiskni [a] pro vstup do hry", False, (0, 30, 150))
-instruction_rect = instruction.get_rect(center = (400, 75))
+instruction_rect = instruction.get_rect(center=(400, 75))
 instruction2 = font.render("Stiskni [a] pro novou hru", False, (0, 30, 150))
-instruction2_rect = instruction.get_rect(center = (420, 330))
+instruction2_rect = instruction.get_rect(center=(420, 330))
 
-prekazky_timer = pygame.USEREVENT +1
-pygame.time.set_timer(prekazky_timer,1500)
+prekazky_timer = pygame.USEREVENT + 1
+pygame.time.set_timer(prekazky_timer, 1500)
 
 game_running = True
 while game_running:
-    screen.fill((255,255,255))
+    screen.fill((255, 255, 255))
     for event in pygame.event.get():
 
         if event.type == pygame.QUIT:
             game_running = False
             screen = pygame.display.set_mode((800, 800))
             pygame.display.set_caption("EPLauncher")
+            hra = False
 
         if hra:
             if event.type == prekazky_timer:
@@ -175,11 +176,11 @@ while game_running:
                 bonus_group.empty()
 
     if hra:
-        screen.blit(obloha,(0,0))
-        screen.blit(zeme,(0,300))
+        screen.blit(obloha, (0, 0))
+        screen.blit(zeme, (0, 300))
         show_score()
         hearts_surf = font.render(f"Životy: {hearts}", False, (159,252,253))
-        hearts_rect = hearts_surf.get_rect(center = (700, 365))
+        hearts_rect = hearts_surf.get_rect(center=(700, 365))
         screen.blit(hearts_surf, hearts_rect)
         hrac.draw(screen)
         hrac.update()
@@ -193,12 +194,12 @@ while game_running:
         hra = collisions()
 
     else:
-        screen.fill((159,252,253))
+        screen.fill((159, 252, 253))
 
         score_text = font.render(f" Tvoje score: {final_score}", False, (0, 30, 150))
-        score_text_rect = score_text.get_rect(center = (400, 75))
+        score_text_rect = score_text.get_rect(center=(400, 75))
         player = pygame.image.load("minihry/Pokerun/Files/hrac_.png")
-        player_rect = player.get_rect(midbottom = (400, 270))
+        player_rect = player.get_rect(midbottom=(400, 270))
         if final_score == 0:
             screen.blit(instruction, instruction_rect)
             screen.blit(player, player_rect)
