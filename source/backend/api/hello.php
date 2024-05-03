@@ -2,7 +2,7 @@
 header('Content-Type: application/json');
 
 $data = [
-    'zprava' => 'Hello there!',
+    'text' => 'Hello there!',
 ];
 
 echo json_encode($data);

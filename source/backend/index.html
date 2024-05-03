@@ -11,21 +11,74 @@
     
     <div>
         <button id="hello">Hello</button>
-
+        <button id="users">Users</button>
+        <button id="games">Games</button>
+        <button id="owned">Owned</button>
+    </div>
+    <div>
         <p id="vystup"></p>
     </div>
 
     <script>
+        // hello
         document.getElementById('hello').addEventListener('click', () => {
             fetch('api/hello.php')
                 .then(odpoved => odpoved.json())
                 .then(data => {
-                    document.getElementById('vystup').innerText = data.zprava;
+                    document.getElementById('vystup').innerText = data.text;
                 })
                 .catch(chyba => {
                     document.getElementById('vystup').innerText = chyba;
                 });
         });
+
+        // users
+        document.getElementById('users').addEventListener('click', () => {
+            fetch('api/users.php')
+                .then(odpoved => odpoved.json())
+                .then(data => {
+                    document.getElementById('vystup').innerText = '';
+
+                    for(let i = 0; i < data.length; i++) {
+                        document.getElementById('vystup').innerText += JSON.stringify(data[i]) + '\n';
+                    }
+                })
+                .catch(chyba => {
+                    document.getElementById('vystup').innerText = chyba;
+                });
+        });
+
+        // games
+        document.getElementById('games').addEventListener('click', () => {
+            fetch('api/games.php')
+                .then(odpoved => odpoved.json())
+                .then(data => {
+                    document.getElementById('vystup').innerText = '';
+
+                    for(let i = 0; i < data.length; i++) {
+                        document.getElementById('vystup').innerText += JSON.stringify(data[i]) + '\n';
+                    }
+                })
+                .catch(chyba => {
+                    document.getElementById('vystup').innerText = chyba;
+                });
+        });
+
+        // owned
+        document.getElementById('owned').addEventListener('click', () => {
+            fetch('api/owned.php')
+                .then(odpoved => odpoved.json())
+                .then(data => {
+                    document.getElementById('vystup').innerText = '';
+                    
+                    for(let i = 0; i < data.length; i++) {
+                        document.getElementById('vystup').innerText += JSON.stringify(data[i]) + '\n';
+                    }
+                })
+                .catch(chyba => {
+                    document.getElementById('vystup').innerText = chyba;
+                });
+        });      
     </script>
 </body>
 </html>
