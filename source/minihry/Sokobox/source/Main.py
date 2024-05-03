@@ -6,7 +6,7 @@ import random
 # Constants for colors and sizes
 WIDTH = 800
 HEIGHT = 600
-TILE_SIZE = 40  # Adjusted to 40x40 for 2 times bigger textures
+TILE_SIZE = 60  # Adjusted to 40x40 for 2 times bigger textures
 
 # Colors
 WHITE = (255, 255, 255)
@@ -44,16 +44,47 @@ class Spot(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (TILE_SIZE, TILE_SIZE))  # Resize image
         self.rect = self.image.get_rect(topleft=(x, y))
 
-# Function to generate random level layout
-def generate_level():
-    level = [
-        "########",
-        "#      #",
-        "# # BB #",
-        "#P#S  S#",
-        "########",
-    ]
-    return level
+# Define level templates
+level1 = [
+    "########",
+    "#      #",
+    "# # BB #",
+    "#P#S  S#",
+    "########",
+]
+
+level2 = [
+    "####    ",
+    "#  #####",
+    "# B#S#P#",
+    "#  # # #",
+    "#      #",
+    "###  ###",
+    "  ####  "
+]
+
+level3 = [
+    " #####  ",
+    " #P ### ",
+    " # B  # ",
+    "### # ##",
+    "#S# #  #",
+    "#SB  # #",
+    "#S   B #",
+    "########",
+]
+
+# Function to generate a new level
+def generate_new_level(level_template):
+    return level_template
+
+def load_new_level(levels, level_index):
+    if level_index < len(levels) - 1:  # Check if there are more levels
+        level_index += 1
+        # Generate next level
+        return generate_new_level(levels[level_index])
+    else:
+        return None  # Return None if there are no more levels
 
 # Function to draw the level
 def draw_level(level):
@@ -92,8 +123,10 @@ def main():
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     clock = pygame.time.Clock()
 
-    level = generate_level()
-    all_sprites, walls, boxes, player, spots = draw_level(level)
+    level_index = 0  # Keep track of the current level index
+    levels = [level1, level2, level3]  # Define specific level templates
+
+    all_sprites, walls, boxes, player, spots = draw_level(levels[level_index])
 
     running = True
     while running:
@@ -104,6 +137,9 @@ def main():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     running = False
+                elif event.key == pygame.K_r:
+                # Restart level
+                    all_sprites, walls, boxes, player, spots = draw_level(levels[level_index])
                 elif not all(box.rect.topleft == spot.rect.topleft for box, spot in zip(boxes, spots)):
                     # Allow player to move only if not all boxes are on spots
                     if not moving:  # If not already moving
@@ -159,10 +195,15 @@ def main():
         all_sprites.draw(screen)
         
         if all_boxes_on_spots:
-            font = pygame.font.Font(None, 36)
-            text = font.render("Congratulations! All boxes are on spots!", True, BLACK)
-            text_rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
-            screen.blit(text, text_rect)
+            if level_index < len(levels) - 1:  # Check if there are more levels
+                level_index += 1
+                # Generate next level
+                all_sprites, walls, boxes, player, spots = draw_level(levels[level_index])
+            else:
+                font = pygame.font.Font(None, 36)
+                text = font.render("You completed all levels!", True, BLACK)
+                text_rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+                screen.blit(text, text_rect)
         
         pygame.display.flip()
         clock.tick(60)
