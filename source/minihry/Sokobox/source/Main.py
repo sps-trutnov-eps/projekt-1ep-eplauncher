@@ -1,76 +1,167 @@
 import pygame
 import sys
+import os
+import random
 
-# Nastavení velikosti okna
+# Constants for colors and sizes
 WIDTH = 800
 HEIGHT = 600
+TILE_SIZE = 40  # Adjusted to 40x40 for 2 times bigger textures
 
-# Nastavení barev
+# Colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
-# Třída pro hráčovu postavu
+# Class for the player character
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.image = pygame.image.load('player_texture.png').convert_alpha()
+        self.image = pygame.image.load(os.path.join('Textures', 'player_texture.png')).convert_alpha()
+        self.image = pygame.transform.scale(self.image, (TILE_SIZE, TILE_SIZE))  # Resize image
         self.rect = self.image.get_rect(topleft=(x, y))
 
-# Třída pro bedny
+# Class for boxes
 class Box(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.image = pygame.image.load('box_texture.png').convert_alpha()
+        self.image = pygame.image.load(os.path.join('Textures', 'box_texture.png')).convert_alpha()
+        self.image = pygame.transform.scale(self.image, (TILE_SIZE, TILE_SIZE))  # Resize image
         self.rect = self.image.get_rect(topleft=(x, y))
 
-# Třída pro stěny
+# Class for walls
 class Wall(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.image = pygame.image.load('wall_texture.png').convert_alpha()
+        self.image = pygame.image.load(os.path.join('Textures', 'wall_texture.png')).convert_alpha()
+        self.image = pygame.transform.scale(self.image, (TILE_SIZE, TILE_SIZE))  # Resize image
         self.rect = self.image.get_rect(topleft=(x, y))
 
-# Inicializace Pygame
-pygame.init()
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-clock = pygame.time.Clock()
+# Class for box spot
+class Spot(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        super().__init__()
+        self.image = pygame.image.load(os.path.join('Textures', 'box_place_texture.png')).convert_alpha()
+        self.image = pygame.transform.scale(self.image, (TILE_SIZE, TILE_SIZE))  # Resize image
+        self.rect = self.image.get_rect(topleft=(x, y))
 
-# Vytvoření hráčovy postavy, beden a stěn
-player = Player(50, 50)
-box = Box(150, 150)
-wall = Wall(250, 250)
+# Function to generate random level layout
+def generate_level():
+    level = [
+        "########",
+        "#      #",
+        "# #  B #",
+        "#P#   S#",
+        "########",
+    ]
+    return level
 
-# Skupina spritů pro snadnější manipulaci s objekty
-all_sprites = pygame.sprite.Group()
-all_sprites.add(player, box, wall)
+# Function to draw the level
+def draw_level(level):
+    all_sprites = pygame.sprite.LayeredUpdates()  # Use LayeredUpdates for layer management
+    walls = pygame.sprite.Group()
+    boxes = pygame.sprite.Group()
+    player = None
+    spots = pygame.sprite.Group()
 
-# Hlavní smyčka hry
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_ESCAPE:
+    for y, row in enumerate(level):
+        for x, tile in enumerate(row):
+            if tile == '#':
+                wall = Wall(x * TILE_SIZE, y * TILE_SIZE)
+                all_sprites.add(wall, layer=0)
+                walls.add(wall)
+            elif tile == 'P':
+                player = Player(x * TILE_SIZE, y * TILE_SIZE)
+                all_sprites.add(player, layer=1)
+            elif tile == 'B':
+                box = Box(x * TILE_SIZE, y * TILE_SIZE)
+                all_sprites.add(box, layer=1)
+                boxes.add(box)
+            elif tile == "S":
+                spot = Spot(x * TILE_SIZE, y * TILE_SIZE)
+                spots.add(spot)
+    
+    # Add spots to all_sprites with a lower layer than boxes
+    for spot in spots:
+        all_sprites.add(spot, layer=0)  # Set layer to 0 (lower layer)
+
+    return all_sprites, walls, boxes, player, spots
+
+# Main function
+def main():
+    pygame.init()
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    clock = pygame.time.Clock()
+
+    level = generate_level()
+    all_sprites, walls, boxes, player, spots = draw_level(level)
+
+    moving = False  # Flag to track player movement state
+
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
                 running = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    running = False
+                else:
+                    if not moving:  # If not already moving
+                        # Calculate the new position the player wants to move to
+                        new_x, new_y = player.rect.x, player.rect.y
+                        if event.key == pygame.K_LEFT:
+                            new_x -= TILE_SIZE
+                        elif event.key == pygame.K_RIGHT:
+                            new_x += TILE_SIZE
+                        elif event.key == pygame.K_UP:
+                            new_y -= TILE_SIZE
+                        elif event.key == pygame.K_DOWN:
+                            new_y += TILE_SIZE
+                        
+                        # Check if the new position is obstructed by a wall
+                        if not any(wall.rect.collidepoint(new_x, new_y) for wall in walls):
+                            # Check if there is a box in the new position
+                            box_to_move = None
+                            for box in boxes:
+                                if box.rect.x == new_x and box.rect.y == new_y:
+                                    box_to_move = box
+                                    break
+                            
+                            # If there is a box, check if the space beyond it is empty
+                            if box_to_move:
+                                new_box_x, new_box_y = box_to_move.rect.x, box_to_move.rect.y
+                                if event.key == pygame.K_LEFT:
+                                    new_box_x -= TILE_SIZE
+                                elif event.key == pygame.K_RIGHT:
+                                    new_box_x += TILE_SIZE
+                                elif event.key == pygame.K_UP:
+                                    new_box_y -= TILE_SIZE
+                                elif event.key == pygame.K_DOWN:
+                                    new_box_y += TILE_SIZE
+                                
+                                # Check if the space beyond the box is empty
+                                if not any(wall.rect.collidepoint(new_box_x, new_box_y) for wall in walls) \
+                                    and not any(box.rect.collidepoint(new_box_x, new_box_y) for box in boxes):
+                                    # Move both player and box
+                                    player.rect.x, player.rect.y = new_x, new_y
+                                    box_to_move.rect.x, box_to_move.rect.y = new_box_x, new_box_y
+                                    moving = True  # Set moving flag to True
+                            else:
+                                # Move the player only if there is no box in the new position
+                                player.rect.x, player.rect.y = new_x, new_y
+                                moving = True  # Set moving flag to True
 
-    # Pohyb hráče pomocí šipek
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_LEFT]:
-        player.rect.x -= 5
-    elif keys[pygame.K_RIGHT]:
-        player.rect.x += 5
-    elif keys[pygame.K_UP]:
-        player.rect.y -= 5
-    elif keys[pygame.K_DOWN]:
-        player.rect.y += 5
+            elif event.type == pygame.KEYUP:
+                moving = False  # Reset moving flag when key is released
 
-    # Vyplnění obrazovky bílou barvou
-    screen.fill(WHITE)
-    # Vykreslení všech spritů
-    all_sprites.draw(screen)
-    pygame.display.flip()
-    clock.tick(60)
+        screen.fill(WHITE)
+        # Draw all sprites
+        all_sprites.draw(screen)
+        pygame.display.flip()
+        clock.tick(60)
 
-pygame.quit()
-sys.exit()
+    pygame.quit()
+    sys.exit()
+
+if __name__ == "__main__":
+    main()
