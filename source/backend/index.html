@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testovací stránka</title>
+</head>
+<body>
+    <h1>Testovací stránka</h1>
+    <p>Zde je možné si otestovat, jaká data server vrací.</p>
+    
+    <div>
+        <button id="hello">Hello</button>
+
+        <p id="vystup"></p>
+    </div>
+
+    <script>
+        document.getElementById('hello').addEventListener('click', () => {
+            fetch('api/hello.php')
+                .then(odpoved => odpoved.json())
+                .then(data => {
+                    document.getElementById('vystup').innerText = data.zprava;
+                })
+                .catch(chyba => {
+                    document.getElementById('vystup').innerText = chyba;
+                });
+        });
+    </script>
+</body>
+</html>
