@@ -10,6 +10,9 @@ def main():
     pygame.display.set_caption("EPLauncher")
     window = pygame.display.set_mode(rozliseni)
     clock = pygame.time.Clock()
+    icon = pygame.image.load("test.png")
+
+    pygame.display.set_icon(icon)
 
     completed_login = False
     if not completed_login:

@@ -155,8 +155,6 @@ while game_running:
 
         if event.type == pygame.QUIT:
             game_running = False
-            screen = pygame.display.set_mode((800, 800))
-            pygame.display.set_caption("EPLauncher")
             hra = False
 
         if hra:

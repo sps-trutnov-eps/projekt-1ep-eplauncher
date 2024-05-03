@@ -16,7 +16,7 @@ class Games:
         self.locked = uzamcena
         self.owned = False
 
-    def drawing(self, x, y, window, rozliseni, nazev_slozky):
+    def drawing(self, x, y, window, rozliseni, nazev_slozky, y_difference):
         velky_font = pygame.font.Font(None, 45)
         maly_font = pygame.font.Font(None, 25)
         titul_hry = velky_font.render(self.name, True, (0, 0, 0))
@@ -30,25 +30,25 @@ class Games:
             icon = pygame.image.load("minihry/missing_icon.png")
 
         # pozadí výběru hry
-        play_button = pygame.Rect(int(x-15), int(y - 5), 595, 55)
+        play_button = pygame.Rect(int(x-15), int(y - 5 + y_difference), 595, 55)
         pygame.draw.rect(window, DARKER_BACKGROUND_COLOR, play_button)
 
         # zobrazení hry
-        window.blit(titul_hry, (x, y))
-        window.blit(popis_hry, (x, y + 30))
+        window.blit(titul_hry, (x, y + y_difference))
+        window.blit(popis_hry, (x, y + 30 + y_difference))
 
-        window.blit(icon, (x - 73, y - 5))
+        window.blit(icon, (x - 73, y - 5 + y_difference))
         if self.locked:
-            window.blit(locked_game_icon, (x - 73, y - 5))
+            window.blit(locked_game_icon, (x - 73, y - 5 + y_difference))
 
         # čára rozdělující ikonu hry a popis hry
-        pygame.draw.rect(window, (0, 0, 0), (x - 18, y - 5, 2, 55))
+        pygame.draw.rect(window, (0, 0, 0), (x - 18, y - 5 + y_difference, 2, 55))
         # spodní krajní čára pro hru
-        pygame.draw.rect(window, (0, 0, 0), (x - 75, y + 50, rozliseni[0] - 145, 2))
+        pygame.draw.rect(window, (0, 0, 0), (x - 75, y + 50 + y_difference, rozliseni[0] - 145, 2))
         # levá krajní čára pro hru
-        pygame.draw.rect(window, (0, 0, 0), (x - 75, y - 7, 2, 57))
+        pygame.draw.rect(window, (0, 0, 0), (x - 75, y - 7 + y_difference, 2, 57))
         # pravá krajní čára pro hru
-        pygame.draw.rect(window, (0, 0, 0), (rozliseni[0] - 70, y - 7, 2, 59))
+        pygame.draw.rect(window, (0, 0, 0), (rozliseni[0] - 70, y - 7 + y_difference, 2, 59))
 
         # spouštění hry
         Games.startin_game(self, play_button, self.function_name)
@@ -71,6 +71,9 @@ class Games:
                     #print(f"Error executing module '{module_name}': {e}")
                     # pokud není zadán název funkce -> spustit jako skript
                     exec(module.__loader__.get_source(module.__name__))
+
+                window = pygame.display.set_mode((800, 800))
+                pygame.display.set_caption("EPLauncher")
 
 
 def check_ownership(games_owned, games):
@@ -103,8 +106,26 @@ def get_games(games_owned):
     pokerun = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 0, "Pokerun", "main", False)
     pokerun2 = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 1, "Pokerun",
                     "main", True)
+    pokerun3 = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 1, "Pokerun",
+                     "main", True)
+    pokerun4 = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 1, "Pokerun",
+                     "main", True)
+    pokerun5 = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 1, "Pokerun",
+                     "main", True)
+    pokerun6 = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 1, "Pokerun",
+                     "main", True)
+    pokerun7 = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 1, "Pokerun",
+                     "main", True)
+    pokerun8 = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 1, "Pokerun",
+                     "main", True)
+    pokerun9 = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 1, "Pokerun",
+                     "main", True)
+    pokerun10 = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 1, "Pokerun",
+                     "main", True)
+    pokerun11 = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 1, "Pokerun",
+                     "main", True)
 
-    games = [pokerun, pokerun2]
+    games = [pokerun, pokerun2, pokerun3, pokerun4, pokerun5,pokerun6, pokerun7, pokerun8, pokerun9, pokerun10, pokerun11]
 
     check_ownership(games_owned, games)
 

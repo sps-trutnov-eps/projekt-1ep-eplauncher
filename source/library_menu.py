@@ -3,13 +3,14 @@ import pygame
 # barvy
 RED = (255, 0, 0)
 BACKGROUND_COLOR = (0, 128, 195)
+SECOND_BACKGROUND_COLOR = (0, 86, 132)
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
 # texty
 font = pygame.font.Font(None, 80)
 smaller_font = pygame.font.Font(None, 40)
-Timetable = "knihovna"
+Timetable = "Knihovna"
 Timetable_surface = font.render(Timetable, True, WHITE)
 # username přihlášeného uživatele
 username_text = smaller_font.render("username", True, WHITE)
@@ -28,7 +29,12 @@ def scrolling():
                 y_difference -= 10
             if event.button == 5:  # Scrolled down
                 y_difference += 10
+    keys = pygame.key.get_pressed()
 
+    if keys[pygame.K_UP] and y_difference < 0:
+        y_difference += 10
+    if keys[pygame.K_DOWN]:
+        y_difference -= 10
     #print(y_difference)
 
 
@@ -39,25 +45,30 @@ def library_draw(window, rozliseni, games):
 
     # zobrazování her
     x = 150
-    y = 200
+    y = 190
     game_number = 0
 
     # horní čára
     pygame.draw.rect(window, (0, 0, 0), (x - 75, y - 7, rozliseni[0] - 145, 2))
 
     for game in games:
-        game.drawing(x, y, window, rozliseni, games[0+game_number].location)
+        game.drawing(x, y, window, rozliseni, games[0+game_number].location, y_difference)
 
         y += 57
         game_number += 1
 
+    pygame.draw.rect(window, BACKGROUND_COLOR, (0, 0, rozliseni[0], 183))
+
     # čára
     pygame.draw.rect(window, BLACK, (0, 110, 1300, 2))
     # texty
-    window.blit(Timetable_surface, (50, 32))
-    window.blit(username_text, (rozliseni[0] - 55 - username_text.get_width(), 55 - username_text.get_height()))
+    window.blit(Timetable_surface, (25, 32))
+    window.blit(username_text, (rozliseni[0] - 105 - username_text.get_width(), 55 - username_text.get_height()/2))
     # profilový obrázek
     pygame.draw.circle(window, BLACK, (rozliseni[0] - 55, 55), 40, 40)
+
+    # překrytí her, spodní část
+    pygame.draw.rect(window, BACKGROUND_COLOR, (0, rozliseni[1] - 185, rozliseni[0], 185))
 
     pygame.display.flip()
 
