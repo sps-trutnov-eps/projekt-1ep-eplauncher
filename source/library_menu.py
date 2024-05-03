@@ -50,7 +50,8 @@ def library(rozliseni, window, clock):
     clock.tick(60)
 
     from game_list import get_games
-    games = get_games()
+    games_owned = [1]
+    games = get_games(games_owned)
 
     while running:
         for udalost in pygame.event.get():

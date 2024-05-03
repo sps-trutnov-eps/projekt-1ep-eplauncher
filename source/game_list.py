@@ -14,6 +14,7 @@ class Games:
         self.location = nazev_slozky
         self.function_name = nazev_hlavni_funkce
         self.locked = uzamcena
+        self.owned = False
 
     def drawing(self, x, y, window, rozliseni, nazev_slozky):
         velky_font = pygame.font.Font(None, 45)
@@ -42,14 +43,14 @@ class Games:
 
         # čára rozdělující ikonu hry a popis hry
         pygame.draw.rect(window, (0, 0, 0), (x - 18, y - 5, 2, 55))
-        #spodní krajní čára pro hru
+        # spodní krajní čára pro hru
         pygame.draw.rect(window, (0, 0, 0), (x - 75, y + 50, rozliseni[0] - 145, 2))
         # levá krajní čára pro hru
         pygame.draw.rect(window, (0, 0, 0), (x - 75, y - 7, 2, 57))
         # pravá krajní čára pro hru
         pygame.draw.rect(window, (0, 0, 0), (rozliseni[0] - 70, y - 7, 2, 59))
 
-        #spouštění hry
+        # spouštění hry
         Games.startin_game(self, play_button, self.function_name)
 
     def startin_game(self, play_button, *args, **kwargs):
@@ -72,7 +73,14 @@ class Games:
                     exec(module.__loader__.get_source(module.__name__))
 
 
-def get_games():
+def check_ownership(games_owned, games):
+    for game in games:
+        for number in games_owned:
+            if number == game.id:
+                game.owned = True
+
+
+def get_games(games_owned):
     #sem vypisujte své hry ve formátu:
     # název hry, její popis, kolikátá je v pořadí (kdo dřív příjde ten dřív mele), název její složky,
     # název hlavní funkce (pokud je), zda je defaultně uzamčená
@@ -93,9 +101,16 @@ def get_games():
     # ikonu vložte do samé složky co máte hlavní soubor vaší hry a pojmenujte ji icon.png
 
     pokerun = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 0, "Pokerun", "main", False)
-    pokerun2 = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 0, "Pokerun",
+    pokerun2 = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 1, "Pokerun",
                     "main", True)
 
     games = [pokerun, pokerun2]
+
+    check_ownership(games_owned, games)
+
+    for game in games:
+        if game.locked:
+            if game.owned:
+                game.locked = False
 
     return games
