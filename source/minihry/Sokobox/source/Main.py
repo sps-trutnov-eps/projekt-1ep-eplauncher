@@ -49,8 +49,8 @@ def generate_level():
     level = [
         "########",
         "#      #",
-        "# #  B #",
-        "#P#   S#",
+        "# # BB #",
+        "#P#S  S#",
         "########",
     ]
     return level
@@ -79,7 +79,7 @@ def draw_level(level):
             elif tile == "S":
                 spot = Spot(x * TILE_SIZE, y * TILE_SIZE)
                 spots.add(spot)
-    
+
     # Add spots to all_sprites with a lower layer than boxes
     for spot in spots:
         all_sprites.add(spot, layer=0)  # Set layer to 0 (lower layer)
@@ -95,17 +95,17 @@ def main():
     level = generate_level()
     all_sprites, walls, boxes, player, spots = draw_level(level)
 
-    moving = False  # Flag to track player movement state
-
     running = True
     while running:
+        moving = False  # Reset moving flag before each iteration
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     running = False
-                else:
+                elif not all(box.rect.topleft == spot.rect.topleft for box, spot in zip(boxes, spots)):
+                    # Allow player to move only if not all boxes are on spots
                     if not moving:  # If not already moving
                         # Calculate the new position the player wants to move to
                         new_x, new_y = player.rect.x, player.rect.y
@@ -151,12 +151,19 @@ def main():
                                 player.rect.x, player.rect.y = new_x, new_y
                                 moving = True  # Set moving flag to True
 
-            elif event.type == pygame.KEYUP:
-                moving = False  # Reset moving flag when key is released
+        # Check if all boxes are on spots
+        all_boxes_on_spots = all(box.rect.topleft == spot.rect.topleft for box, spot in zip(boxes, spots))
 
         screen.fill(WHITE)
         # Draw all sprites
         all_sprites.draw(screen)
+        
+        if all_boxes_on_spots:
+            font = pygame.font.Font(None, 36)
+            text = font.render("Congratulations! All boxes are on spots!", True, BLACK)
+            text_rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+            screen.blit(text, text_rect)
+        
         pygame.display.flip()
         clock.tick(60)
 
