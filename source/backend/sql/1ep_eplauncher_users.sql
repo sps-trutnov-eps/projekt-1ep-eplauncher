@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: localhost
--- Vytvořeno: Pát 03. kvě 2024, 11:09
+-- Vytvořeno: Pát 03. kvě 2024, 12:51
 -- Verze serveru: 10.1.48-MariaDB-0+deb9u2
 -- Verze PHP: 7.3.33-1+0~20211119.91+debian9~1.gbp618351
 
@@ -61,7 +61,7 @@ ALTER TABLE `1ep_eplauncher_users`
 -- AUTO_INCREMENT pro tabulku `1ep_eplauncher_users`
 --
 ALTER TABLE `1ep_eplauncher_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

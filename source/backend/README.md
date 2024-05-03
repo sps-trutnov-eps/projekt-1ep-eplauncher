@@ -8,10 +8,13 @@ Soubor `index.html` slouží k ručnímu testování jednotlivých skriptů.
 
 ## Seznam skriptů
 
-* `hello.php`
-* `users.php`
-* `games.php`
-* `owned.php`
+* `hello.php` (HTTP GET, vrací JSON s textem)
+
+* `users.php` (HTTP GET, vrací JSON s daty)
+* `games.php` (HTTP GET, vrací JSON s daty)
+* `owned.php` (HTTP GET, vrací JSON s daty)
+
+* `add_user.php` (HTTP POST, vrací JSON s výsledkem)
 
 ## Použití
 

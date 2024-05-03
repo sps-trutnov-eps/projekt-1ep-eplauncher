@@ -23,7 +23,10 @@
         <button id="owned">Owned</button>
 
         <h3>Akce serveru</h3>
-        <p>Coming soon...</p>
+        <input type="text" id="add_username" placeholder="Jméno..." />
+        <input type="password" id="add_password" placeholder="Heslo..." />
+        <button id="add_user">Přidat uživatele</button>
+        <p>To be continued...</p>
     </div>
 
     <script>
@@ -85,7 +88,31 @@
                 .catch(chyba => {
                     document.getElementById('vystup').innerText = chyba;
                 });
-        });      
+        });
+
+        // add_user
+        document.getElementById('add_user').addEventListener('click', () => {
+            let username = document.getElementById('add_username').value;
+            let password = document.getElementById('add_password').value;
+
+            fetch('api/add_user.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password,
+                }),
+            })
+            .then(odpoved => odpoved.json())
+            .then(data => {
+                document.getElementById('vystup').innerText = data.vysledek;
+            })
+            .catch(chyba => {
+                document.getElementById('vystup').innerText = chyba;
+            });
+        });
     </script>
 </body>
 </html>

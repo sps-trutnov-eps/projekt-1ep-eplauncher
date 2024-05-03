@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: localhost
--- Vytvořeno: Pát 03. kvě 2024, 11:09
+-- Vytvořeno: Pát 03. kvě 2024, 12:50
 -- Verze serveru: 10.1.48-MariaDB-0+deb9u2
 -- Verze PHP: 7.3.33-1+0~20211119.91+debian9~1.gbp618351
 
