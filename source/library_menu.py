@@ -43,8 +43,6 @@ def library(rozliseni, window, clock):
     running = True
     clock.tick(60)
 
-#    for game in games:
- #       print(x)
 
     while running:
         for udalost in pygame.event.get():
