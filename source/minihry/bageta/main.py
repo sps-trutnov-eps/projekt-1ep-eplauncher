@@ -35,18 +35,42 @@ def automat():
             
             
         if kurzor_x > 872 and kurzor_x < 930 and kurzor_y > 491 and kurzor_y < 557 and click_mysi == 1:
-            print("vložení mince")            
+            vklad_mince()           
             
         if kurzor_x > 900 and kurzor_x < 932 and kurzor_y > 318 and kurzor_y < 351 and click_mysi == 1:
-            print("nemáš kartu")         
+            print("nemáš kartu")
+            
+        if kurzor_x > 521 and kurzor_x < 797 and kurzor_y > 361 and kurzor_y < 737 and click_mysi == 1:
+            print("nic zatím nevypdalo")              
         
         
         
         
-        
-        
+
         okno.blit(obrazek_zed, (0,0))
         okno.blit(obrazek_automat, (450,100))
         pygame.display.flip()
         
+        
+        
+def vklad_mince():
+    while True:
+        
+         for event in pygame.event.get(): 
+            if event.type == pygame.QUIT: 
+                pygame.quit() 
+                sys.exit()
+                
+                
+                
+                
+                
+                
+                
+         okno.blit(obrazek_automat_vklad, (0,0))  
+         pygame.display.flip()       
+                
+
+
+
 automat()
