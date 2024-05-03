@@ -7,9 +7,9 @@ okno = pygame.display.set_mode(rozliseni_okna)
 #----------------------------------------------------------------------
 zluta = (255,215,0)
 cash = 100
-kytkacena = 50
-strileccena = 50
-zedcena = 100
+kytkacena = "50 - Q"
+strileccena = "50 - W"
+zedcena = "100 - E"
 font = pygame.font.SysFont(None, 50)    # pripava pro text penez
 fontcena = pygame.font.SysFont(None, 30)    # font pro cenu
 timer = pygame.time.get_ticks()          # casovac k pricitani penez
@@ -54,7 +54,7 @@ while True:
     pygame.draw.rect(okno, (255,255,255), (0,192,1320,1))
     pygame.draw.rect(okno, (255,255,255), (0,192*2,1320,1)) 
     pygame.draw.rect(okno, (255,255,255), (0,192*3,1320,1))     
-    pygame.draw.rect(okno, (255,0,0), (150,0,1,768))       
+    pygame.draw.rect(okno, (0,0,0), (150,0,1,768))       
     pygame.draw.rect(okno, (0,0,0), (150*2,0,1,768)) 
     pygame.draw.rect(okno, (0,0,0), (150*3,0,1,768)) 
     pygame.draw.rect(okno, (0,0,0), (150*4,0,1,768))
