@@ -10,23 +10,33 @@
     <p>Zde je možné si otestovat, jaká data server vrací.</p>
     
     <h3>Server říká...</h3>
-        <p id="vystup">...zatím nic</p>
+        <p id="vystup" style="color: blueviolet">...zatím nic</p>
     </div>
 
     <div>
         <h3>Základní odpověď serveru</h3>
+
         <button id="hello">Hello</button>
         
         <h3>Obsahy tabulek</h3>
+
         <button id="users">Users</button>
         <button id="games">Games</button>
         <button id="owned">Owned</button>
 
         <h3>Akce serveru</h3>
+
+        <div>
         <input type="text" id="add_username" placeholder="Jméno..." />
         <input type="password" id="add_password" placeholder="Heslo..." />
         <button id="add_user">Přidat uživatele</button>
-        <p>To be continued...</p>
+        </div>
+
+        <div>
+        <input type="text" id="check_username" placeholder="Jméno..." />
+        <input type="password" id="check_password" placeholder="Heslo..." />
+        <button id="check_user">Ověřit uživatele</button>
+        </div>
     </div>
 
     <script>
@@ -101,8 +111,32 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    username: username,
-                    password: password,
+                    username,
+                    password,
+                }),
+            })
+            .then(odpoved => odpoved.json())
+            .then(data => {
+                document.getElementById('vystup').innerText = data.vysledek;
+            })
+            .catch(chyba => {
+                document.getElementById('vystup').innerText = chyba;
+            });
+        });
+
+        // check_user
+        document.getElementById('check_user').addEventListener('click', () => {
+            let username = document.getElementById('check_username').value;
+            let password = document.getElementById('check_password').value;
+
+            fetch('api/check_user.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username,
+                    password,
                 }),
             })
             .then(odpoved => odpoved.json())
