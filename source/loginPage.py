@@ -23,6 +23,9 @@ def login(rozliseni, window, clock):
     running = True
     clock.tick(60)
 
+    icon = pygame.image.load("images/SPSlogo.jpg")
+    pygame.display.set_icon(icon)
+
     while running:
         for udalost in pygame.event.get():
             if udalost.type == pygame.QUIT:

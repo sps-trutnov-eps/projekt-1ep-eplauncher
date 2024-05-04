@@ -7,6 +7,8 @@ SECOND_BACKGROUND_COLOR = (0, 86, 132)
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
+running = True
+
 # texty
 font = pygame.font.Font(None, 80)
 smaller_font = pygame.font.Font(None, 40)
@@ -20,22 +22,24 @@ last_mouse_y = 0
 
 
 def scrolling():
-    global y_difference, last_mouse_y
+    global y_difference, last_mouse_y, running
 
     for event in pygame.event.get():
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            print(event.button)
-            if event.button == 4:  # Scrolled up
-                y_difference -= 10
-            if event.button == 5:  # Scrolled down
-                y_difference += 10
+        if event.type == pygame.MOUSEWHEEL:
+            y_difference += int(event.y)*15
+
+            if y_difference > 0:
+                y_difference = 0
+
+        if event.type == pygame.QUIT:
+            running = False
+
     keys = pygame.key.get_pressed()
 
     if keys[pygame.K_UP] and y_difference < 0:
         y_difference += 10
     if keys[pygame.K_DOWN]:
         y_difference -= 10
-    #print(y_difference)
 
 
 def library_draw(window, rozliseni, games):
@@ -74,7 +78,7 @@ def library_draw(window, rozliseni, games):
 
 
 def library(rozliseni, window, clock):
-    running = True
+    global running
     clock.tick(60)
 
     from game_list import get_games
@@ -86,5 +90,5 @@ def library(rozliseni, window, clock):
             if udalost.type == pygame.QUIT:
                 running = False
 
-        scrolling()
         library_draw(window, rozliseni, games)
+        scrolling()

@@ -22,12 +22,12 @@ class Games:
         titul_hry = velky_font.render(self.name, True, (0, 0, 0))
         popis_hry = maly_font.render(self.description, True, (255, 255, 255))
 
-        locked_game_icon = pygame.image.load("minihry/locked.png")
+        locked_game_icon = pygame.image.load("images/locked.png")
 
         try:
             icon = pygame.transform.scale(pygame.image.load(f"minihry/{self.location}/icon.png"), (55, 55))
         except:
-            icon = pygame.image.load("minihry/missing_icon.png")
+            icon = pygame.image.load("images/missing_icon.png")
 
         # pozadí výběru hry
         play_button = pygame.Rect(int(x-15), int(y - 5 + y_difference), 595, 55)
@@ -104,28 +104,8 @@ def get_games(games_owned):
     # ikonu vložte do samé složky co máte hlavní soubor vaší hry a pojmenujte ji icon.png
 
     pokerun = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 0, "Pokerun", "main", False)
-    pokerun2 = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 1, "Pokerun",
-                    "main", True)
-    pokerun3 = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 1, "Pokerun",
-                     "main", True)
-    pokerun4 = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 1, "Pokerun",
-                     "main", True)
-    pokerun5 = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 1, "Pokerun",
-                     "main", True)
-    pokerun6 = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 1, "Pokerun",
-                     "main", True)
-    pokerun7 = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 1, "Pokerun",
-                     "main", True)
-    pokerun8 = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 1, "Pokerun",
-                     "main", True)
-    pokerun9 = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 1, "Pokerun",
-                     "main", True)
-    pokerun10 = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 1, "Pokerun",
-                     "main", True)
-    pokerun11 = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 1, "Pokerun",
-                     "main", True)
 
-    games = [pokerun, pokerun2, pokerun3, pokerun4, pokerun5,pokerun6, pokerun7, pokerun8, pokerun9, pokerun10, pokerun11]
+    games = [pokerun]
 
     check_ownership(games_owned, games)
 
