@@ -19,6 +19,7 @@ username_text = smaller_font.render("username", True, WHITE)
 
 y_difference = 0
 last_mouse_y = 0
+max_y = 0
 
 
 def scrolling():
@@ -31,6 +32,9 @@ def scrolling():
             if y_difference > 0:
                 y_difference = 0
 
+            elif y_difference < max_y * -1:
+                y_difference = -max_y
+
         if event.type == pygame.QUIT:
             running = False
 
@@ -38,12 +42,12 @@ def scrolling():
 
     if keys[pygame.K_UP] and y_difference < 0:
         y_difference += 10
-    if keys[pygame.K_DOWN]:
+    if keys[pygame.K_DOWN] and y_difference > max_y * -1:
         y_difference -= 10
 
 
 def library_draw(window, rozliseni, games):
-    global y_difference
+    global y_difference, max_y
 
     window.fill(BACKGROUND_COLOR)
 
@@ -78,12 +82,15 @@ def library_draw(window, rozliseni, games):
 
 
 def library(rozliseni, window, clock):
-    global running
+    global running, max_y
     clock.tick(60)
 
     from game_list import get_games
     games_owned = []
     games = get_games(games_owned)
+
+    for game in games:
+        max_y += 57
 
     while running:
         for udalost in pygame.event.get():
