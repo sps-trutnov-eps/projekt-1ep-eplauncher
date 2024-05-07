@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testovací stránka</title>
+</head>
+<body>
+    <h1>Testovací stránka</h1>
+    <p>Zde je možné si otestovat, jaká data server vrací.</p>
+    
+    <h3>Server říká...</h3>
+        <p id="vystup" style="color: blueviolet">...zatím nic</p>
+    </div>
+
+    <div>
+        <h3>Základní odpověď serveru</h3>
+
+        <button id="hello">Hello</button>
+        
+        <h3>Obsahy tabulek</h3>
+
+        <button id="users">Users</button>
+        <button id="games">Games</button>
+        <button id="owned">Owned</button>
+
+        <h3>Akce serveru</h3>
+
+        <div>
+        <input type="text" id="add_username" placeholder="Jméno..." />
+        <input type="password" id="add_password" placeholder="Heslo..." />
+        <button id="add_user">Přidat uživatele</button>
+        </div>
+
+        <div>
+        <input type="text" id="check_username" placeholder="Jméno..." />
+        <input type="password" id="check_password" placeholder="Heslo..." />
+        <button id="check_user">Ověřit uživatele</button>
+        </div>
+    </div>
+
+    <script>
+        // hello
+        document.getElementById('hello').addEventListener('click', () => {
+            fetch('api/hello.php')
+                .then(odpoved => odpoved.json())
+                .then(data => {
+                    document.getElementById('vystup').innerText = data.text;
+                })
+                .catch(chyba => {
+                    document.getElementById('vystup').innerText = chyba;
+                });
+        });
+
+        // users
+        document.getElementById('users').addEventListener('click', () => {
+            fetch('api/users.php')
+                .then(odpoved => odpoved.json())
+                .then(data => {
+                    document.getElementById('vystup').innerText = '';
+
+                    for(let i = 0; i < data.length; i++) {
+                        document.getElementById('vystup').innerText += JSON.stringify(data[i]) + '\n';
+                    }
+                })
+                .catch(chyba => {
+                    document.getElementById('vystup').innerText = chyba;
+                });
+        });
+
+        // games
+        document.getElementById('games').addEventListener('click', () => {
+            fetch('api/games.php')
+                .then(odpoved => odpoved.json())
+                .then(data => {
+                    document.getElementById('vystup').innerText = '';
+
+                    for(let i = 0; i < data.length; i++) {
+                        document.getElementById('vystup').innerText += JSON.stringify(data[i]) + '\n';
+                    }
+                })
+                .catch(chyba => {
+                    document.getElementById('vystup').innerText = chyba;
+                });
+        });
+
+        // owned
+        document.getElementById('owned').addEventListener('click', () => {
+            fetch('api/owned.php')
+                .then(odpoved => odpoved.json())
+                .then(data => {
+                    document.getElementById('vystup').innerText = '';
+
+                    for(let i = 0; i < data.length; i++) {
+                        document.getElementById('vystup').innerText += JSON.stringify(data[i]) + '\n';
+                    }
+                })
+                .catch(chyba => {
+                    document.getElementById('vystup').innerText = chyba;
+                });
+        });
+
+        // add_user
+        document.getElementById('add_user').addEventListener('click', () => {
+            let username = document.getElementById('add_username').value;
+            let password = document.getElementById('add_password').value;
+
+            fetch('api/add_user.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username,
+                    password,
+                }),
+            })
+            .then(odpoved => odpoved.json())
+            .then(data => {
+                document.getElementById('vystup').innerText = data.vysledek;
+            })
+            .catch(chyba => {
+                document.getElementById('vystup').innerText = chyba;
+            });
+        });
+
+        // check_user
+        document.getElementById('check_user').addEventListener('click', () => {
+            let username = document.getElementById('check_username').value;
+            let password = document.getElementById('check_password').value;
+
+            fetch('api/check_user.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username,
+                    password,
+                }),
+            })
+            .then(odpoved => odpoved.json())
+            .then(data => {
+                document.getElementById('vystup').innerText = data.vysledek;
+            })
+            .catch(chyba => {
+                document.getElementById('vystup').innerText = chyba;
+            });
+        });
+    </script>
+</body>
+</html>
