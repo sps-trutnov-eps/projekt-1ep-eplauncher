@@ -17,6 +17,7 @@ def main():
     completed_login = False
     if not completed_login:
         completed_login = loginPage.login(rozliseni, window, clock)
+        print(completed_login)
     if completed_login:
         library_menu.library(rozliseni, window, clock)
 

@@ -1,4 +1,5 @@
 import pygame
+pygame.init()
 
 # barvy
 RED = (255, 0, 0)
@@ -96,7 +97,6 @@ def library(rozliseni, window, clock):
         for udalost in pygame.event.get():
             if udalost.type == pygame.QUIT:
                 running = False
-                
 
         library_draw(window, rozliseni, games)
         scrolling()

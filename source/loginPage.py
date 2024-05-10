@@ -40,6 +40,7 @@ color1 = color_inactive1
 activePassword = False
 # Ukazuje se jen jako "*"
 ShowPassword = ""
+logged_in = False
 
 
 def get_clipboard_text():
@@ -54,12 +55,12 @@ def get_clipboard_text():
 def login(rozliseni, window, clock):
     running = True
     clock.tick(60)
-    global username, color, activeUsername, password, color1, activePassword, ShowPassword
+    global username, color, activeUsername, password, color1, activePassword, ShowPassword, logged_in
 
     completed_login = False
 
-    pygame.display.set_icon(icon)
     icon = pygame.image.load("images/SPSlogo.jpg")
+    pygame.display.set_icon(icon)
 
     while running:
         for event in pygame.event.get():
@@ -82,6 +83,7 @@ def login(rozliseni, window, clock):
                 if Login.collidepoint(event.pos):
                     if login_check(username, password):
                         print("Login successful!")  # Or do something else when login is successful
+                        logged_in = True
                     else:
                         print("Incorrect username or password!")  # Or handle incorrect login
 
@@ -95,7 +97,9 @@ def login(rozliseni, window, clock):
                         username += event.unicode
                 if activePassword:
                     if event.key == pygame.K_RETURN:
-                        print('whatdoesthisevendo?')
+                        # print('whatdoesthisevendo?')
+                        # Kubíček - "Měl by to být enter"
+                        pass
                     elif event.key == pygame.K_BACKSPACE:
                         # Handle Backspace key
                         password = password[:-1]
