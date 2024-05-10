@@ -58,6 +58,9 @@ def login(rozliseni, window, clock):
 
     completed_login = False
 
+    pygame.display.set_icon(icon)
+    icon = pygame.image.load("images/SPSlogo.jpg")
+
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
