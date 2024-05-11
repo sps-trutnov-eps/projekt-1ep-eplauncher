@@ -18,6 +18,11 @@ movementTimer = 10 #frames
 gameOver = False
 rychlostPrekazky = 10
 
+pocetPrekonanychPrekazek = 0
+
+def FontChoossenSize(font, size):
+    return pygame.font.SysFont(font, size)
+
 listPrekazek = []
 class Prekazky:
     def __init__(self):
@@ -34,9 +39,12 @@ class Prekazky:
         pygame.draw.rect(okno, (255,0,0), prekazkaRect)
         
     def outOfBounds(self):
+        global pocetPrekonanychPrekazek
+
         if self.poziceX < -64:
             for i,o in enumerate(listPrekazek):
                 del listPrekazek[i]
+                pocetPrekonanychPrekazek += 1
                 break
             
     def KontrolaKolize(self):
@@ -97,7 +105,10 @@ while run:
             i.vykresleniPrekazky()
             i.PohybPrekazky()
             i.outOfBounds()
-        
+        elif gameOver == True:
+            gameOverFont = FontChoossenSize("Verdana", 50).render("Game Over", True, (220,20,20))
+            okno.blit(gameOverFont, (450, 350))
+    
 
     okno.blit(greyRectangle, possiblePossition[pozice])
 
