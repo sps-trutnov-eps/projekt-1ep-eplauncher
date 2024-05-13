@@ -7,6 +7,7 @@ os.environ['SDL_VIDEO_CENTERED'] = '1'
 okno = pygame.display.set_mode((1200, 800))
 
 greyRectangle = pygame.image.load("Img\greyRectangle.png")
+dvere = pygame.image.load("Img\dvere.png")
 lineDark = (31, 77, 77)
 
 FPS = 60
@@ -19,8 +20,21 @@ movementTimer = 10 #frames
 gameOver = False
 rychlostPrekazky = 10
 
+pocetSmazanychPrekazek = 0
+WinningPrekazek = 5
+xLine = 1200  
+offsetDvery = 0
+
 def FontChoossenSize(font, size):
     return pygame.font.SysFont(font, size)
+
+def konecnaAnimace():
+    global offsetDvery
+    if offsetDvery <= 200:
+        offsetDvery += 1
+    okno.blit(dvere, (1200 - offsetDvery,0))
+    pass
+
 
 listPrekazek = []
 class Prekazky:
@@ -34,13 +48,18 @@ class Prekazky:
         
 
     def vykresleniPrekazky(self):
-        prekazkaRect = pygame.Rect(self.poziceX, (200*self.pozice)+68, 64, 64)
-        pygame.draw.rect(okno, (255,0,0), prekazkaRect)
+        global pocetSmazanychPrekazek
+        if pocetSmazanychPrekazek <= WinningPrekazek:
+            prekazkaRect = pygame.Rect(self.poziceX, (200*self.pozice)+68, 64, 64)
+            pygame.draw.rect(okno, (255,0,0), prekazkaRect)
         
     def outOfBounds(self):
+        global pocetSmazanychPrekazek
         if self.poziceX < -64:
             for i,o in enumerate(listPrekazek):
                 del listPrekazek[i]
+                pocetSmazanychPrekazek += 1
+                print(pocetSmazanychPrekazek)
                 break
             
     def KontrolaKolize(self):
@@ -98,22 +117,38 @@ while run:
         if movementTimer < 0:
             canMove = True
             movementTimer = 10
+            
+    if pocetSmazanychPrekazek >= WinningPrekazek:
+        canMove = False
+        pozice = 1
 
-    if gameOver == False:
+    if gameOver == False and pocetSmazanychPrekazek <= WinningPrekazek:
         for lines in range(4):
             pygame.draw.line(okno, lineDark, (0, 200*lines), (1200, 200*lines), 3)
 
 
     for i in listPrekazek:
-        if gameOver == False:
+        if gameOver == False and pocetSmazanychPrekazek <= WinningPrekazek:
             i.KontrolaKolize()
             i.vykresleniPrekazky()
             i.PohybPrekazky()
             i.outOfBounds()
         elif gameOver == True:
+            
             gameOverFont = FontChoossenSize("Verdana", 50).render("Game Over", True, (220,20,20))
             okno.blit(gameOverFont, (450, 350))
-    
+            
+        if pocetSmazanychPrekazek >= WinningPrekazek:
+            if xLine >= 0:
+                xLine -= 0.75
+                print(xLine)
+                
+                for lines in range(4):
+                    pygame.draw.line(okno, lineDark, (0, 200*lines), (xLine, 200*lines), 3)
+            else:
+                konecnaAnimace()
+
+
 
     okno.blit(greyRectangle, possiblePossition[pozice])
 
