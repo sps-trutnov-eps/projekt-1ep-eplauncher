@@ -1,11 +1,12 @@
 import pygame, os, random, threading
+pygame.init()
 
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 #open the window in the middle of the screen
 #sets resolution
 okno = pygame.display.set_mode((1200, 800))
 
-greyRectangle = pygame.image.load("source/minihry/Zvoni/Img/greyRectangle.png")
+greyRectangle = pygame.image.load("Img\greyRectangle.png")
 lineDark = (31, 77, 77)
 
 FPS = 60
@@ -17,8 +18,6 @@ movementTimer = 10 #frames
 
 gameOver = False
 rychlostPrekazky = 10
-
-pocetPrekonanychPrekazek = 0
 
 def FontChoossenSize(font, size):
     return pygame.font.SysFont(font, size)
@@ -39,22 +38,22 @@ class Prekazky:
         pygame.draw.rect(okno, (255,0,0), prekazkaRect)
         
     def outOfBounds(self):
-        global pocetPrekonanychPrekazek
-
         if self.poziceX < -64:
             for i,o in enumerate(listPrekazek):
                 del listPrekazek[i]
-                pocetPrekonanychPrekazek += 1
                 break
             
     def KontrolaKolize(self):
-        prekazkaRect = pygame.Rect(self.poziceX, (200*self.pozice)+68, 64, 64)
-        poziceHraceX =  [lis[0] for lis in possiblePossition]
-        poziceHraceY =  [lis[1] for lis in possiblePossition]
+        global gameOver
 
-        hracRect = pygame.Rect(poziceHraceX[pozice],poziceHraceY[pozice], 64, 64)
-        if pygame.Rect.colliderect(prekazkaRect, hracRect):
-            gameOver = True
+    #sets rectangle value for every object on screen
+        hraceRect = pygame.Rect(possiblePossition[pozice][0],possiblePossition[pozice][1], 64 ,64)
+        for prekazky in listPrekazek:
+            prekazkaRect = pygame.Rect(prekazky.poziceX, prekazky.pozice*200, 64, 80)
+
+            if pygame.Rect.colliderect(hraceRect, prekazkaRect): #když kolize
+                gameOver = True
+
 
 def SpawnPrekazek():
     threading.Timer(0.8, SpawnPrekazek).start()
@@ -76,8 +75,6 @@ while run:
 
     okno.fill((50, 120, 120))
 
-    for lines in range(4):
-        pygame.draw.line(okno, lineDark, (0, 200*lines), (1200, 200*lines), 3)
 
     if stisknuteKlavesy[pygame.K_UP] and canMove == True:
         pozice -= 1
@@ -86,6 +83,9 @@ while run:
     elif stisknuteKlavesy[pygame.K_DOWN] and canMove == True:
         pozice += 1
         canMove = False
+
+    if stisknuteKlavesy[pygame.K_g]:
+        pass
 
     if pozice < 0:
         pozice = 0
@@ -98,6 +98,11 @@ while run:
         if movementTimer < 0:
             canMove = True
             movementTimer = 10
+
+    if gameOver == False:
+        for lines in range(4):
+            pygame.draw.line(okno, lineDark, (0, 200*lines), (1200, 200*lines), 3)
+
 
     for i in listPrekazek:
         if gameOver == False:
