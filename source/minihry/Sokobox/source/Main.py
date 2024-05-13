@@ -102,6 +102,18 @@ level4 = [
     "########"
 ]
 
+level5 = [
+    "#####    ",
+    "#P  #    ",
+    "#  B# ###",
+    "# B # #S#",
+    "### ###S#",
+    " ##     #",
+    " #   #  #",
+    " #   ####",
+    " #####",
+]
+
 # Function to generate a new level
 def generate_new_level(level_template):
     return level_template
@@ -153,7 +165,7 @@ def main():
     clock = pygame.time.Clock()
 
     level_index = 0  # Keep track of the current level index
-    levels = [level1, level2, level3, level4]  # Define specific level templates
+    levels = [level1, level2, level3, level4, level5]  # Define specific level templates
 
     all_sprites, walls, boxes, player, spots = draw_level(levels[level_index])
 
@@ -238,12 +250,12 @@ def main():
         
         font = pygame.font.Font(None, 40)
         time_text = font.render(f"Time: {elapsed_time}s", True, WHITE)  # Render text with elapsed time
-        time_rect = time_text.get_rect(center=(75, 510))
+        time_rect = time_text.get_rect(center=(650, 60))
         screen.blit(time_text, time_rect)
         
         font = pygame.font.Font(None, 40)
         time_text = font.render(f"Moves: {moves}x", True, WHITE)  # Render text with elapsed time
-        time_rect = time_text.get_rect(center=(85, 540))
+        time_rect = time_text.get_rect(center=(650, 20))
         screen.blit(time_text, time_rect)
         
         font = pygame.font.Font(None, 20)
