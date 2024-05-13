@@ -13,6 +13,8 @@ obrazek_zed = pygame.image.load("zeď.png")
 
 global penezenka
 penezenka = 5
+global vlozeno
+vlozeno = 0
 global font
 font = pygame.font.Font(None, 50) 
 
@@ -63,7 +65,7 @@ def automat():
 def vklad_mince():
     global font
     global penezenka
-    
+    global vlozeno
 
     
     
@@ -87,9 +89,9 @@ def vklad_mince():
              plus = False            
 
          if minus:
-             x_mince -= random.randint(17,30)
+             x_mince -= random.randint(20,40)
          if plus:
-             x_mince += random.randint(17,30)
+             x_mince += random.randint(20,40)
              
          space_cooldown -= 1
          space = False
@@ -97,10 +99,11 @@ def vklad_mince():
              if pygame.key.get_pressed()[pygame.K_SPACE]:
                 if space_cooldown < 0:
                     space = True
-                    space_cooldown = 30
+                    space_cooldown = 20
 
 
-             
+         if pygame.key.get_pressed()[pygame.K_ESCAPE]:
+             automat()
              
              
              
@@ -132,6 +135,7 @@ def vklad_mince():
          okno.blit(obrazek_automat_vklad, (0,0))
          okno.blit(obrazek_10_korun, (x_mince,150))
          okno.blit(penezenka_status, (2, 5))
+         okno.blit(font.render("Vloženo:", str(vlozeno*10)+"Kč", True, (255, 255, 255)), (700, 700))
          okno.blit(pygame.font.Font(None, 30).render("Vlož minci stisknutím SPACE", True, (103, 103, 103)), (350, 700))
          if Trefa:
              okno.fill((0,150,0))
