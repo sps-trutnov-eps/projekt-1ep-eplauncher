@@ -15,12 +15,13 @@ Soubor `index.html` slouží k ručnímu testování jednotlivých skriptů.
 * `owned.php` (HTTP GET, vrací JSON s daty)
 
 * `add_user.php` (HTTP POST, vrací JSON s výsledkem - True nebo chybové hlášení ve stringu)
+* `buy_game.php` (HTTP POST, vrací JSON s výsledkem - True nebo chybové hlášení ve stringu)
 * `check_user.php` (HTTP POST, vrací JSON s výsledkem - True nebo chybové hlášení ve stringu)
 
 ## Použití
 
-Skripty  pro účely testování přímo v projektu jsou dostupné na [školním serveru](http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/) pod svými jmény.
+Skripty  pro účely testování přímo v projektu jsou dostupné na URL http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/ pod svými jmény.
 
-Pro získání JSON dat je třeba v daném jazyce použít HTTP request na URL (např. http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/users.php).
+Pro získání JSON dat je třeba použít HTTP request na dané URL (např. http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/users.php).
 
-Ruční testování lze provádět na [HTML stránce](http://senkyr.epsilon.spstrutnov.cz/eplauncher/).
+Ruční testování lze provádět na [HTML stránce](http://senkyr.epsilon.spstrutnov.cz/eplauncher/index.html).
