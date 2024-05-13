@@ -18,6 +18,8 @@ Soubor `index.html` slouží k ručnímu testování jednotlivých skriptů.
 
 ## Použití
 
-Složka se skripty je pro účely testování dostupná na [školním serveru](http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/).
+Skripty  pro účely testování přímo v projektu jsou dostupné na [školním serveru](http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/) pod svými jmény.
 
-Pro získání JSON dat je třeba použít HTTP request, např. http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/users.php
+Pro získání JSON dat je třeba v daném jazyce použít HTTP request na URL (např. http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/users.php).
+
+Ruční testování lze provádět na [HTML stránce](http://senkyr.epsilon.spstrutnov.cz/eplauncher/).
