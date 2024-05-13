@@ -16,7 +16,7 @@ smaller_font = pygame.font.Font(None, 40)
 Timetable = "Knihovna"
 Timetable_surface = font.render(Timetable, True, WHITE)
 # username přihlášeného uživatele
-username_text = smaller_font.render("username", True, WHITE)
+
 
 y_difference = 0
 last_mouse_y = 0
@@ -47,7 +47,7 @@ def scrolling():
         y_difference -= 10
 
 
-def library_draw(window, rozliseni, games):
+def library_draw(window, rozliseni, games, username_text):
     global y_difference, max_y
 
     window.fill(BACKGROUND_COLOR)
@@ -82,9 +82,11 @@ def library_draw(window, rozliseni, games):
     pygame.display.flip()
 
 
-def library(rozliseni, window, clock):
+def library(rozliseni, window, clock, username):
     global running, max_y
     clock.tick(60)
+
+    username_text = smaller_font.render(username, True, WHITE)
 
     from game_list import get_games
     games_owned = []
@@ -98,5 +100,5 @@ def library(rozliseni, window, clock):
             if udalost.type == pygame.QUIT:
                 running = False
 
-        library_draw(window, rozliseni, games)
+        library_draw(window, rozliseni, games, username_text)
         scrolling()

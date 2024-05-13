@@ -96,7 +96,6 @@ def login(rozliseni, window, clock):
                     import registration_page
                     registered, userinfo = registration_page.registration(window, rozliseni)
                     print(userinfo)
-                    print(registered)
 
             if event.type == pygame.KEYDOWN:
                 if activeUsername:
@@ -142,14 +141,14 @@ def login(rozliseni, window, clock):
         Login = pygame.draw.rect(window, loginButton, (rozliseni[0] / 2 - 110, 630, 220, 60))
 
         # vykresleni registracniho tlacitka
-        window.blit(registration_text, (rozliseni[0] / 2 - 87, 700))
+        window.blit(registration_text, (rozliseni[0] / 2 - registration_text.get_width()/2, 700))
 
         # vykreslí text
         if username == '':
             window.blit(jmenoSurface, (rozliseni[0] / 2 - 100, 480))
         if password == '':
             window.blit(hesloSurface, (rozliseni[0] / 2 - 100, 550))
-        window.blit(loginTextSurface, (rozliseni[0] / 2 - 100, 645))
+        window.blit(loginTextSurface, (rozliseni[0] / 2 - loginTextSurface.get_width()/2, 645))
 
         window.blit(logo, (rozliseni[0] / 2 - 110, rozliseni[1] / 2 - 200))
 
@@ -170,7 +169,7 @@ def login(rozliseni, window, clock):
         pygame.display.flip()
 
         if logged_in:
-            return True
+            return True, username
 
 
 def login_check(username, password):

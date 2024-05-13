@@ -42,6 +42,8 @@ activePassword = False
 # Ukazuje se jen jako "*"
 ShowPassword = ""
 registered = False
+URL1 = 'http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/add_user.php'
+URL2 = 'http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/users.php'
 
 
 def get_clipboard_text():
@@ -81,9 +83,17 @@ def registration(window, rozliseni):
                 if register_button.collidepoint(event.pos):
                     if register_the_user(username, password):
                         registered = True
-                    else:
-                        registered = False
-                        print("Failed to register the user!")
+
+                        response = requests.get(URL2)
+                        user_info = json.loads(response.text)
+
+                        recieved_id = '17'
+
+                        # Create a dictionary to store users' information with their IDs as keys
+                        users_dict = {user['id']: user for user in user_info}
+
+                        # Retrieve the user with the specified ID from the dictionary
+                        users_info = users_dict.get(recieved_id)
 
             if event.type == pygame.KEYDOWN:
                 if activeUsername:
@@ -116,10 +126,8 @@ def registration(window, rozliseni):
 
         registration_draw(window, rozliseni)
 
-        user_info = None
-
         if registered:
-            return True, user_info
+            return True, users_info
 
 
 def registration_draw(window, rozliseni):
@@ -162,4 +170,11 @@ def registration_draw(window, rozliseni):
 
 
 def register_the_user(username, password):
-    pass
+    user = {'username': username, 'password': password}
+
+    try:
+        response = requests.post(URL1, json=user)
+        return True
+    except:
+        print("Failed to run")
+        return False
