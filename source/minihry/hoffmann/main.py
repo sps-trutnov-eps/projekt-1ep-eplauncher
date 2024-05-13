@@ -17,8 +17,12 @@ class Objekty:
     def posun(self):
         self.y_pos += self.rychlost
 
-hrac = Objekty (1200, 850, 50, 50, 5)
+kyselina_textura = pygame.image.load('kyselina.png')
+man_textura = pygame.image.load("normal_man.png")
+
+hrac = Objekty (1200, 700, 50, 50, 5)
 koule = Objekty (1000, 500, 50, 50, 4)
+kyselina = Objekty (900, 600, 50, 50, 4)
 
 
 while True:
@@ -35,12 +39,14 @@ while True:
     if stisknute_klavesy[pygame.K_RIGHT]:
         hrac.x_pos += hrac.rychlost
          
-        
+    if stisknute_klavesy[pygame.K_SPACE]:
+        hrac.y_pos += 20 - 20
 
     okno.fill((50, 50, 50))
     
     
-    pygame.draw.rect(okno, (255, 255, 255), (hrac.x_pos, hrac.y_pos, hrac.x_velikost, hrac.y_velikost))
+    okno.blit(man_textura, (hrac.x_pos, hrac.y_pos))
     pygame.draw.rect(okno, (100, 255, 0), (koule.x_pos, koule.y_pos, koule.x_velikost, koule.y_velikost))
+    okno.blit(kyselina_textura, (kyselina.x_pos, kyselina.y_pos))
     
     pygame.display.update()
