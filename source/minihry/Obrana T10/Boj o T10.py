@@ -17,12 +17,18 @@ cas = pygame.time.Clock()
 cashplus = 5000      # cas pro pricteni penez - 1000 = 1 sekunda
 #----------------------------------------------------------------------
 herni_ctverce = [pygame.Rect(150 * i, 192 * j, 150, 192) for i in range(8) for j in range(4)]
+vyber_ctverce = [pygame.Rect(1320, 50 + 150 * j, 180, 150) for j in range(3)]
 
 
 
 kytka = pygame.image.load('kytka.png')
 strilec = pygame.image.load('strilec.png')
 zed = pygame.image.load('zed.png')
+#----------------------------------------------------------------------
+aktivni_ctverec = None
+aktivni_obrazek = None
+index_vybraneho_ctverce = None
+
 
 while True:
     for udalost in pygame.event.get():
@@ -33,8 +39,18 @@ while True:
             pozice = pygame.mouse.get_pos()
             for i, ctverec in enumerate(herni_ctverce):
                 if ctverec.collidepoint(pozice):
-                    print(f"kliknuto na čtverec č.{i}")
-    
+                    if aktivni_obrazek is not None and index_vybraneho_ctverce is not None:
+                        if index_vybraneho_ctverce is not None:
+                            print(f"Umístění obrázku {aktivni_obrazek} na čtverec č.{index_vybraneho_ctverce}")
+                            index_vybraneho_ctverce = None
+                    else:
+                        print(f"Kliknuto na herní čtverec č.{i}")
+                        index_vybraneho_ctverce = i
+            for j, vyber_ctverce_single in enumerate(vyber_ctverce):
+                if vyber_ctverce_single.collidepoint(pozice):
+                    aktivni_obrazek = f"obrazek_{j}"
+            
+                
     
     
     
@@ -45,12 +61,19 @@ while True:
 
      
 #----------------------------------------------------------------------   
+    
+    
+    
     okno.fill((34,139,34))                  
     penize = font.render(str(cash), True, zluta)     # text penez
     cenakytky = fontcena.render(str(kytkacena), True, zluta)
     cenastrilec = fontcena.render(str(strileccena), True, zluta)
     cenazed = fontcena.render(str(zedcena), True, zluta)
 #----------------------------------------------------------------------
+    
+    
+    
+    
     pygame.draw.rect(okno, (255,255,255), (0,192,1320,1))
     pygame.draw.rect(okno, (255,255,255), (0,192*2,1320,1)) 
     pygame.draw.rect(okno, (255,255,255), (0,192*3,1320,1))     
@@ -71,5 +94,10 @@ while True:
     okno.blit(strilec, (1380, 250))  # obrazek
     okno.blit(zed, (1380, 400))  # obrazek
     okno.blit(cenazed, (1390, 450))  # cena
+    
+    pygame.draw.rect(okno, (0,0,0), (1320, 200, 300, 1))
+    pygame.draw.rect(okno, (0,0,0), (1320, 350, 300, 1))
+    pygame.draw.rect(okno, (0,0,0), (1320, 500, 300, 1))
+    pygame.draw.rect(okno, (0,0,0), (1320, 0, 1, 500))
 #----------------------------------------------------------------------          
     pygame.display.update()
