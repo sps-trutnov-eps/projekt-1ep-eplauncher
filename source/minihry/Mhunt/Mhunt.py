@@ -77,7 +77,7 @@ class enemy(object):
          pygame.draw.circle(okno,(self.colour),(self.x,self.y),vel_enm)
 run = True
 while run:
-    okno.fill((0, 90, 70))
+    okno.fill((128, 70, 27))
     
     x, y = pygame.mouse.get_pos()
     for udalost in pygame.event.get():
@@ -113,6 +113,6 @@ while run:
         bullet.draw(okno)
     hrc.draw()   
     clock.tick(fps)
-    pygame.draw.rect(okno, (0, 0, 0), (25, 750, vel_cooldown, 30)) #cooldown bar
+
     pygame.display.update()
 
