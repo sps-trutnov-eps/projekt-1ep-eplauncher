@@ -2,7 +2,6 @@ import pygame
 import sys
 import tkinter as tk  # For clipboard access on Windows
 
-from source import library_menu
 
 pygame.init()
 
@@ -82,10 +81,10 @@ def login(rozliseni, window, clock):
 
                 if Login.collidepoint(event.pos):
                     if login_check(username, password):
-                        print("Login successful!")  # Or do something else when login is successful
+                        print("Login successful!")  #Pokud je správný login
                         logged_in = True
                     else:
-                        print("Incorrect username or password!")  # Or handle incorrect login
+                        print("Incorrect username or password!")  #Pokud je nesprávný login
 
             if event.type == pygame.KEYDOWN:
                 if activeUsername:
@@ -108,6 +107,10 @@ def login(rozliseni, window, clock):
                         # Handle Ctrl+V (paste) shortcut
                         clipboard_text = get_clipboard_text()
                         if clipboard_text:
+                            # Clear the password first
+                            password = ''
+                            ShowPassword = ''
+                            # Append the pasted text to the password
                             password += clipboard_text
                             ShowPassword += "*" * len(clipboard_text)
                     else:
@@ -148,11 +151,8 @@ def login(rozliseni, window, clock):
 
         pygame.display.flip()
 
-        if completed_login:
+        if logged_in:
             return True
-
-    return False  # Indicate that login is not completed
-
 
 def login_check(username, password):
     import requests
@@ -171,5 +171,3 @@ def login_check(username, password):
 
     except requests.RequestException as e:
         print("Error:", e)
-
-    return False
