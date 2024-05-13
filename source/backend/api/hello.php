@@ -1,8 +1,8 @@
 <?php
 header('Content-Type: application/json');
 
-$data = [
-    'text' => 'Hello there!',
+$hello = [
+    'message' => 'Hello there!',
 ];
 
-echo json_encode($data);
+echo json_encode($hello);
