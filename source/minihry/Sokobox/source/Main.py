@@ -4,21 +4,38 @@ import os
 import random
 
 # Constants for colors and sizes
-WIDTH = 800
+WIDTH = 780
 HEIGHT = 600
-TILE_SIZE = 60  # Adjusted to 40x40 for 2 times bigger textures
+TILE_SIZE = 60  # Adjusted
 
 # Colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
+RED = (200,0,0)
+GOLD = (255, 215, 0)
+
+# Score
+elapsed_time = 0
+moves = 0
+counting = True
+points = 0
 
 # Class for the player character
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.image = pygame.image.load(os.path.join('Textures', 'player_texture.png')).convert_alpha()
-        self.image = pygame.transform.scale(self.image, (TILE_SIZE, TILE_SIZE))  # Resize image
+        self.original_image = pygame.image.load(os.path.join('Textures', 'player_texture.png')).convert_alpha()
+        self.original_image = pygame.transform.scale(self.original_image, (TILE_SIZE, TILE_SIZE))  # Resize image
+        self.image = self.original_image
         self.rect = self.image.get_rect(topleft=(x, y))
+        self.direction = 'right'  # Initial direction is right
+
+    def rotate(self, direction):
+        if direction == 'left':
+            self.image = pygame.transform.flip(self.original_image, True, False)  # Flip horizontally for left
+        elif direction == 'right':
+            self.image = self.original_image
+        self.direction = direction
 
 # Class for boxes
 class Box(pygame.sprite.Sprite):
@@ -64,14 +81,25 @@ level2 = [
 ]
 
 level3 = [
-    " #####  ",
+    " ####   ",
     " #P ### ",
     " # B  # ",
     "### # ##",
     "#S# #  #",
-    "#SB  # #",
+    "#    # #",
     "#S   B #",
     "########",
+]
+
+level4 = [
+    "  ####  ",
+    "  #SS#  ",
+    " ##  ## ",
+    " # P S# ",
+    "## B  ##",
+    "#  #BB #",
+    "#      #",
+    "########"
 ]
 
 # Function to generate a new level
@@ -118,18 +146,28 @@ def draw_level(level):
     return all_sprites, walls, boxes, player, spots
 
 # Main function
+pygame.display.set_caption('SokoBox')
 def main():
     pygame.init()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     clock = pygame.time.Clock()
 
     level_index = 0  # Keep track of the current level index
-    levels = [level1, level2, level3]  # Define specific level templates
+    levels = [level1, level2, level3, level4]  # Define specific level templates
 
     all_sprites, walls, boxes, player, spots = draw_level(levels[level_index])
 
+    start_time = pygame.time.get_ticks()  # Get the initial time
+
     running = True
     while running:
+        global elapsed_time
+        global counting
+        global moves
+        global points
+        if counting:
+            elapsed_time = (pygame.time.get_ticks() - start_time) // 1000  # Calculate elapsed time in seconds
+        
         moving = False  # Reset moving flag before each iteration
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -137,9 +175,6 @@ def main():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     running = False
-                elif event.key == pygame.K_r:
-                # Restart level
-                    all_sprites, walls, boxes, player, spots = draw_level(levels[level_index])
                 elif not all(box.rect.topleft == spot.rect.topleft for box, spot in zip(boxes, spots)):
                     # Allow player to move only if not all boxes are on spots
                     if not moving:  # If not already moving
@@ -147,12 +182,17 @@ def main():
                         new_x, new_y = player.rect.x, player.rect.y
                         if event.key == pygame.K_LEFT:
                             new_x -= TILE_SIZE
+                            player.rotate('left')  # Rotate the player left
                         elif event.key == pygame.K_RIGHT:
                             new_x += TILE_SIZE
+                            player.rotate('right')  # Rotate the player right
                         elif event.key == pygame.K_UP:
                             new_y -= TILE_SIZE
                         elif event.key == pygame.K_DOWN:
                             new_y += TILE_SIZE
+                        elif event.key == pygame.K_r:
+                            # Restart level
+                            all_sprites, walls, boxes, player, spots = draw_level(levels[level_index])
                         
                         # Check if the new position is obstructed by a wall
                         if not any(wall.rect.collidepoint(new_x, new_y) for wall in walls):
@@ -182,32 +222,64 @@ def main():
                                     player.rect.x, player.rect.y = new_x, new_y
                                     box_to_move.rect.x, box_to_move.rect.y = new_box_x, new_box_y
                                     moving = True  # Set moving flag to True
+                                    moves += 1
                             else:
                                 # Move the player only if there is no box in the new position
                                 player.rect.x, player.rect.y = new_x, new_y
                                 moving = True  # Set moving flag to True
+                                moves += 1
 
         # Check if all boxes are on spots
         all_boxes_on_spots = all(box.rect.topleft == spot.rect.topleft for box, spot in zip(boxes, spots))
 
-        screen.fill(WHITE)
+        screen.fill((17, 1, 63))
         # Draw all sprites
         all_sprites.draw(screen)
         
+        font = pygame.font.Font(None, 40)
+        time_text = font.render(f"Time: {elapsed_time}s", True, WHITE)  # Render text with elapsed time
+        time_rect = time_text.get_rect(center=(75, 510))
+        screen.blit(time_text, time_rect)
+        
+        font = pygame.font.Font(None, 40)
+        time_text = font.render(f"Moves: {moves}x", True, WHITE)  # Render text with elapsed time
+        time_rect = time_text.get_rect(center=(85, 540))
+        screen.blit(time_text, time_rect)
+        
+        font = pygame.font.Font(None, 20)
+        time_text = font.render("´R´ for reset level", True, RED)  # Render text with elapsed time
+        time_rect = time_text.get_rect(center=(60, 590))
+        screen.blit(time_text, time_rect)
         if all_boxes_on_spots:
             if level_index < len(levels) - 1:  # Check if there are more levels
                 level_index += 1
                 # Generate next level
                 all_sprites, walls, boxes, player, spots = draw_level(levels[level_index])
             else:
-                font = pygame.font.Font(None, 36)
-                text = font.render("You completed all levels!", True, BLACK)
-                text_rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+                font = pygame.font.Font(None, 65)
+                text = font.render("You completed all levels!", True, GOLD)
+                text_rect = text.get_rect(center=(WIDTH // 1.6, 560))
                 screen.blit(text, text_rect)
-        
+                if counting:
+                    print("Moves:",moves,"","Time:",elapsed_time,"","Level:",level_index)
+                    if moves < 105:
+                        points += 5
+                    elif moves >= 105 and moves < 115:
+                        points += 2
+                    elif moves >= 115:
+                        points -= 1
+                    if elapsed_time < 40:
+                        points += 5
+                    elif elapsed_time >= 40 and moves < 50:
+                        points += 2
+                    elif elapsed_time >= 50:
+                        points -= 1
+                    print("Points:",points)
+                    counting = False
+                
         pygame.display.flip()
         clock.tick(60)
-
+        
     pygame.quit()
     sys.exit()
 
