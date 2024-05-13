@@ -40,9 +40,9 @@ while True:
             for i, ctverec in enumerate(herni_ctverce):
                 if ctverec.collidepoint(pozice):
                     if aktivni_obrazek is not None and index_vybraneho_ctverce is not None:
-                        if index_vybraneho_ctverce is not None:
-                            print(f"Umístění obrázku {aktivni_obrazek} na čtverec č.{index_vybraneho_ctverce}")
-                            index_vybraneho_ctverce = None
+                        okno.blit(pygame.image.load(aktivni_obrazek + 'strilec.png'), (herni_ctverce[index_vybraneho_ctverce].x, herni_ctverce[index_vybraneho_ctverce].y))
+                        print(f"Umístění obrázku {aktivni_obrazek} na čtverec č.{index_vybraneho_ctverce}")
+                        index_vybraneho_ctverce = None
                     else:
                         print(f"Kliknuto na herní čtverec č.{i}")
                         index_vybraneho_ctverce = i
