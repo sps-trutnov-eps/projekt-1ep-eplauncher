@@ -14,7 +14,8 @@ Soubor `index.html` slouží k ručnímu testování jednotlivých skriptů.
 * `games.php` (HTTP GET, vrací JSON s daty)
 * `owned.php` (HTTP GET, vrací JSON s daty)
 
-* `add_user.php` (HTTP POST, vrací JSON s výsledkem)
+* `add_user.php` (HTTP POST, vrací JSON s výsledkem - True nebo chybové hlášení ve stringu)
+* `check_user.php` (HTTP POST, vrací JSON s výsledkem - True nebo chybové hlášení ve stringu)
 
 ## Použití
 
