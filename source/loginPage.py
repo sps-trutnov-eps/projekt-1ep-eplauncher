@@ -2,6 +2,8 @@ import pygame
 import sys
 import tkinter as tk  # For clipboard access on Windows
 
+import requests
+import json
 
 pygame.init()
 
@@ -81,9 +83,9 @@ def login(rozliseni, window, clock):
 
                 if Login.collidepoint(event.pos):
                     if login_check(username, password):
-                        print("Login successful!")  #Pokud je správný login
                         logged_in = True
                     else:
+                        logged_in = False
                         print("Incorrect username or password!")  #Pokud je nesprávný login
 
             if event.type == pygame.KEYDOWN:
@@ -96,7 +98,6 @@ def login(rozliseni, window, clock):
                         username += event.unicode
                 if activePassword:
                     if event.key == pygame.K_RETURN:
-                        # print('whatdoesthisevendo?')
                         # Kubíček - "Měl by to být enter"
                         pass
                     elif event.key == pygame.K_BACKSPACE:
@@ -155,19 +156,13 @@ def login(rozliseni, window, clock):
             return True
 
 def login_check(username, password):
-    import requests
+    user = {'username': username, 'password': password}
+    url = 'http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/check_user.php'
+    response = requests.post(url, json = user)
 
-    url = "http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/users.php"
+    response_data = json.loads(response.text)
+    if isinstance(response_data['vysledek'], bool):
+        return response_data['vysledek']
+    elif response_data['vysledek'] == "Špatné heslo.":
+        return False
 
-    try:
-        response = requests.get(url)
-        if response.status_code == 200:
-            data = response.json()
-            for user in data:
-                if user["username"] == username and user["password"] == password:
-                    return True
-        else:
-            print(f"Error: Failed to retrieve data (Status Code: {response.status_code})")
-
-    except requests.RequestException as e:
-        print("Error:", e)
