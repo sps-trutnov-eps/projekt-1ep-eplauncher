@@ -8,13 +8,10 @@ clock = pygame.time.Clock()
 fps = 60
 clock = pygame.time.Clock()
 
-Wave1 = False
-wave2 = False
-wave3 = False
+
 vel_enm = 0
 vel_cooldown = 0
 rozliseni_okna = (1200, 800)
-dash_rych = 22
 okno = pygame.display.set_mode(rozliseni_okna)
 dash = False
 start_time = 0
@@ -41,12 +38,6 @@ hrc = hrac(100, 5.5, 600, 400,)
 
 
 
-class predmety:
-    def __init__(self, dmg, hp, spd,):
-        self.hp = hp
-        self.dmg = dmg
-        self.hp = hp
-        self.spd = spd
 class Bullet(object):
     def __init__(self, x, y, mouse_x, mouse_y,):
         self.x = x
@@ -79,25 +70,12 @@ class enemy(object):
         self.spd = spd
         self.x = x
         self.y = y
-        self.colour = colour
+
 
 
     def draw(self):
          pygame.draw.circle(okno,(self.colour),(self.x,self.y),vel_enm)
-
-
-
-ez = enemy(20,10,3,10,10,(0,250,0))
-mid = enemy(50,12,5, 250, 10,(255,95,21))
-hard = enemy(100,100,9,500,10,(255,0,0))
-
-
-
 run = True
-
-
-
-
 while run:
     okno.fill((0, 90, 70))
     
@@ -113,65 +91,8 @@ while run:
                  
                  
     stisknute_klavesy = pygame.key.get_pressed()
-    if hrc.hp == 0:
-        vel_hrc = 0
-        print("prohral jis")
-    if hard.x == hrc.x and hard.y == hrc.y:
-        hrc.hp -= hard.dmg
+
     
-      
-    if stisknute_klavesy[pygame.K_SPACE]:
-        Wave1 = True 
-    
-    if stisknute_klavesy[pygame.K_LSHIFT] and vel_cooldown < 1:
-        dash = True
-        start_time = time.perf_counter()
-        cooldown = True
-        vel_cooldown = 150
-    if cooldown:
-        vel_cooldown -= 3
-        
-        
-
-
-
-    if Wave1:
-        vel_enm = 50
-        
-        
-    if vel_enm == 50:
-        if hrc.x > ez.x:
-            ez.x = ez.x + ez.spd        
-        if hrc.x < ez.x:
-            ez.x = ez.x - ez.spd
-        if hrc.y > ez.y:
-            ez.y = ez.y + ez.spd
-        if hrc.y < ez.y:
-            ez.y = ez.y - ez.spd    
-    if vel_enm == 50:
-        if hrc.x > mid.x:
-            mid.x = mid.x + mid.spd        
-        if hrc.x < mid.x:
-            mid.x = mid.x - mid.spd
-        if hrc.y > mid.y:
-            mid.y = mid.y + mid.spd
-        if hrc.y < mid.y:
-            mid.y = mid.y - mid.spd 
-    if vel_enm == 50:
-        if hrc.x > hard.x:
-            hard.x = hard.x + hard.spd        
-        if hrc.x < hard.x:
-            hard.x = hard.x - hard.spd
-        if hrc.y > hard.y:
-            hard.y = hard.y + hard.spd
-        if hrc.y < hard.y:
-            hard.y = hard.y - hard.spd        
-    if dash:
-        hrc.spd = dash_rych
-
-    if dash and time.perf_counter() - start_time > 0.1:
-        dash = False
-        hrc.spd = 5.5
 
         
     
@@ -192,9 +113,6 @@ while run:
         bullet.draw(okno)
     hrc.draw()   
     clock.tick(fps)
-    ez.draw()
-    mid.draw()
-    hard.draw()
     pygame.draw.rect(okno, (0, 0, 0), (25, 750, vel_cooldown, 30)) #cooldown bar
     pygame.display.update()
 
