@@ -34,4 +34,19 @@ for user in users:
 input('<Enter> pro pokračování...')
 print()
 
+# 3) check_user (prijata data jako JSON objekt s True nebo chybou ve stringu)
+username = input('Zadej jméno uživatele: ')
+password = input('Zadej heslo uživatele: ')
+user = {'username': username, 'password': password}
+url = 'http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/check_user.php'
+response = requests.post(url, json = user)
+print('Toto jsou surová data vrácená z URL', url)
+print(response.text)
+print()
+
+print('Toto jsou data extrahovaná z formátu JSON')
+print(json.loads(response.text)['vysledek'])
+input('<Enter> pro pokračování...')
+print()
+
 print('A to je vše, lidičky!')
