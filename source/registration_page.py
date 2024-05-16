@@ -84,17 +84,6 @@ def registration(window, rozliseni):
                     if register_the_user(username, password):
                         registered = True
 
-                        response = requests.get(URL2)
-                        user_info = json.loads(response.text)
-
-                        recieved_id = '17'
-
-                        # Create a dictionary to store users' information with their IDs as keys
-                        users_dict = {user['id']: user for user in user_info}
-
-                        # Retrieve the user with the specified ID from the dictionary
-                        users_info = users_dict.get(recieved_id)
-
             if event.type == pygame.KEYDOWN:
                 if activeUsername:
                     if event.key == pygame.K_RETURN:
@@ -127,7 +116,7 @@ def registration(window, rozliseni):
         registration_draw(window, rozliseni)
 
         if registered:
-            return True, users_info
+            return True
 
 
 def registration_draw(window, rozliseni):

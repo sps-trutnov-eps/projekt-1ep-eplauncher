@@ -94,8 +94,7 @@ def login(rozliseni, window, clock):
 
                 if register_button_rect.collidepoint(event.pos):
                     import registration_page
-                    registered, userinfo = registration_page.registration(window, rozliseni)
-                    print(userinfo)
+                    registered = registration_page.registration(window, rozliseni)
 
             if event.type == pygame.KEYDOWN:
                 if activeUsername:

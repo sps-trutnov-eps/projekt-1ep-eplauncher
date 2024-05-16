@@ -1,4 +1,7 @@
 import pygame
+import requests
+import json
+
 pygame.init()
 
 # barvy
@@ -21,6 +24,24 @@ Timetable_surface = font.render(Timetable, True, WHITE)
 y_difference = 0
 last_mouse_y = 0
 max_y = 0
+
+#urls
+URL1 = 'http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/users.php'
+URL2 = 'http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/add_user.php'
+
+
+
+def get_user_info(username):
+    response = requests.get(URL1)
+    user_info = json.loads(response.text)
+
+    # Create a dictionary to store users' information with their usernames as keys
+    users_dict = {user['username']: user for user in user_info}
+
+    # Retrieve the user with the specified ID from the dictionary
+    users_info = users_dict.get(username)
+
+    return users_info
 
 
 def scrolling():
@@ -87,6 +108,9 @@ def library(rozliseni, window, clock, username):
     clock.tick(60)
 
     username_text = smaller_font.render(username, True, WHITE)
+
+    # obsahuje id, username, password, money
+    user_information = get_user_info(username)
 
     from game_list import get_games
     games_owned = []
