@@ -38,8 +38,9 @@ Backend udržuje data ve třech tabulkách s následujícími sloupci:
 * `1ep_eplauncher_games` přehled her v nabídce
   - `id` jednoznačný identifikátor hry, autoinkrementované celé číslo
   - `name` jméno hry pro zobrazení, unikátní text
-  - `unlock_key` tajná fráze pro odemčení hry, text
   - `price` cena hry potřebná pro její odemčení, celé číslo
+  - `unlock_key` tajná fráze pro odemčení hry, text
+  - `checksum` kontrolní součet zdrojového souboru hry, text
 * `1ep_eplauncher_owned` přehled transakcí nákupů
   - `id` jednoznačný identifikátor transakce, autoinkrementované celé číslo
   - `user_id` kdo transakci provedl, číslo korespondující s `id` v tabulce uživatelů
