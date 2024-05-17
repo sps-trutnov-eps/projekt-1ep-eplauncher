@@ -37,6 +37,13 @@
         <input type="password" id="check_password" placeholder="Heslo..." />
         <button id="check_user">Ověřit uživatele</button>
         </div>
+
+        <div>
+            <input type="text" id="buy_username" placeholder="Jméno..." />
+            <input type="password" id="buy_password" placeholder="Heslo..." />
+            <input type="text" id="buy_game_id" placeholder="ID hry..." />
+            <button id="buy_game">Koupit hru</button>
+        </div>
     </div>
 
     <script>
@@ -137,6 +144,32 @@
                 body: JSON.stringify({
                     username,
                     password,
+                }),
+            })
+            .then(odpoved => odpoved.json())
+            .then(data => {
+                document.getElementById('vystup').innerText = data.vysledek;
+            })
+            .catch(chyba => {
+                document.getElementById('vystup').innerText = chyba;
+            });
+        });
+
+        // buy_game
+        document.getElementById('buy_game').addEventListener('click', () => {
+            let username = document.getElementById('buy_username').value;
+            let password = document.getElementById('buy_password').value;
+            let game_id = document.getElementById('buy_game_id').value;
+            
+            fetch('api/buy_game.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username,
+                    password,
+                    game_id,
                 }),
             })
             .then(odpoved => odpoved.json())
