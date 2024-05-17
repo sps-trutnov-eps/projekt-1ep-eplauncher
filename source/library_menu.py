@@ -30,19 +30,18 @@ URL1 = 'http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/users.php'
 URL2 = 'http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/add_user.php'
 
 
-
 def get_user_info(username):
     response = requests.get(URL1)
     user_info = json.loads(response.text)
 
     # Create a dictionary to store users' information with their usernames as keys
     users_dict = {user['username']: user for user in user_info}
-
+    
     # Retrieve the user with the specified ID from the dictionary
     users_info = users_dict.get(username)
 
-    return users_info
-
+    user_id = users_info.get('id')
+    return user_id
 
 def scrolling():
     global y_difference, last_mouse_y, running
@@ -111,6 +110,7 @@ def library(rozliseni, window, clock, username):
 
     # obsahuje id, username, password, money
     user_information = get_user_info(username)
+
 
     from game_list import get_games
     games_owned = []

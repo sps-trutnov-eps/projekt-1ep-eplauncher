@@ -1,6 +1,9 @@
 import pygame
 import importlib
 import inspect
+import requests
+import json
+from library_menu import get_user_info
 
 BACKGROUND_COLOR = (0, 128, 195)
 DARKER_BACKGROUND_COLOR = (0, 106, 164)
@@ -77,11 +80,17 @@ class Games:
 
 
 def check_ownership(games_owned, games):
-    for game in games:
-        for number in games_owned:
-            if number == game.id:
-                game.owned = True
+    #Vybere user_id a game_id z odpovedi serveru
+    url = 'http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/owned.php'
+    response = requests.get('http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/owned.php')
+    hry = json.loads(response.text)
+    for hra in hry:
+        user_id = hra.get('user_id')
+        game_id = hra.get('game_id')
+        print({'user_id': user_id, 'game_id': game_id})    
 
+    uzivatel = get_user_info("test")
+    print(uzivatel)
 
 def get_games(games_owned):
     #sem vypisujte své hry ve formátu:

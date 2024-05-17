@@ -1,7 +1,6 @@
 import pygame
 import sys
 import tkinter as tk  # For clipboard access on Windows
-
 import requests
 import json
 
@@ -31,7 +30,7 @@ input_rect = pygame.Rect(300, 480, 140, 32)
 color_active = pygame.Color('lightskyblue3')
 color_inactive = pygame.Color('gray15')
 color = color_inactive
-activeUsername = False
+activeUsername = True
 # Nastavení hesla
 password = ''
 inputPassword_rect = pygame.Rect(300, 550, 140, 32)
@@ -181,4 +180,3 @@ def login_check(username, password):
         return response_data['vysledek']
     elif response_data['vysledek'] == "Špatné heslo.":
         return False
-
