@@ -11,7 +11,7 @@ import demo_minihra
 
 jmeno_hrace = 'senkyr'
 
-def unlock(how_many):
+def unlock(achievement):
     print('Nahlášeno dosažení achievementu, probíhá kontrola...')
     
     # z prijateho volani ziskame informace o volajicim
@@ -34,7 +34,12 @@ def unlock(how_many):
     print('  Kontrolní součet:' + '\n    ' + checksum)
     
     # sestavime data a odesleme je k overeni na server
-    data = {'checksum': checksum, 'game_name': jmeno_hry, 'username': jmeno_hrace}
+    data = {
+        'username': jmeno_hrace,
+        'game_name': jmeno_hry,
+        'checksum': checksum,
+        'achievement': achievement,
+        }
     url = 'http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/get_money.php'
     
     print('  Data se odesílají na server k ověření...')
@@ -46,6 +51,7 @@ def unlock(how_many):
         print('    Potvrzení proběhlo úspěšně :-)')
     else:
         print('    Potvrzení selhalo :-(')
+        print('    ' + vysledek)
     
     print('Kontrola skončila.')
 

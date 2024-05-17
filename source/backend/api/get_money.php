@@ -9,7 +9,7 @@ $data = json_decode($json, true);
 $user = trim($data['username']);
 $game = trim($data['game_name']);
 $check = trim($data['checksum']);
-$achievement = trim($data['achievement']); // TO DO
+$achievement = trim($data['achievement']);
 
 if($user == '' || $game == '' || $check == '') {
     echo json_encode(['vysledek' => 'Nekompletní údaje.']);
