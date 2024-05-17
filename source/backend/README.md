@@ -25,3 +25,23 @@ Skripty  pro účely testování přímo v projektu jsou dostupné na URL http:/
 Pro získání JSON dat je třeba použít HTTP request na dané URL (např. http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/users.php).
 
 Ruční testování lze provádět na [HTML stránce](http://senkyr.epsilon.spstrutnov.cz/eplauncher/index.html).
+
+## SQL schema
+
+Backend udržuje data ve třech tabulkách s následujícími sloupci:
+
+* `1ep_eplauncher_users` přehled registrovaných hráčů
+  - `id` jednoznačný identifikátor hráče, autoinkrementované celé číslo
+  - `username` uživatelské jméno po přihlašování, unikátní text
+  - `password` hash hesla získaný pomocí Bcrypt, text
+  - `money` měna pro odemykání her, celé číslo
+* `1ep_eplauncher_games` přehled her v nabídce
+  - `id` jednoznačný identifikátor hry, autoinkrementované celé číslo
+  - `name` jméno hry pro zobrazení, unikátní text
+  - `unlock_key` tajná fráze pro odemčení hry, text
+  - `price` cena hry potřebná pro její odemčení, celé číslo
+* `1ep_eplauncher_owned` přehled transakcí nákupů
+  - `id` jednoznačný identifikátor transakce, autoinkrementované celé číslo
+  - `user_id` kdo transakci provedl, číslo korespondující s `id` v tabulce uživatelů
+  - `game_id` kterou hru si odemkl, číslo korespondující s `id` v tabulce her
+  - `from_when` kdy k transakci došlo, timestamp okamžiku zanesení záznamu do tabulky

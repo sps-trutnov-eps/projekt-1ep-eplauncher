@@ -31,14 +31,14 @@ CREATE TABLE `1ep_eplauncher_owned` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `game_id` int(11) NOT NULL,
-  `from_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `from_when` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
 --
 -- Vypisuji data pro tabulku `1ep_eplauncher_owned`
 --
 
-INSERT INTO `1ep_eplauncher_owned` (`id`, `user_id`, `game_id`, `from_date`) VALUES
+INSERT INTO `1ep_eplauncher_owned` (`id`, `user_id`, `game_id`, `from_when`) VALUES
 (1, 1, 1, '2024-05-03 09:08:13'),
 (2, 2, 2, '2024-05-03 09:08:13'),
 (3, 1, 2, '2024-05-03 09:08:20');
