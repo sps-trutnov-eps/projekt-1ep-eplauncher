@@ -12,9 +12,10 @@ def main():
     global rychlostPrekazky, offsetDvery, dvere, listPrekazek, pozice, WinningPrekazek, pocetSmazanychPrekazek, pozice1X, pozice1Y, okno, goodEngingCheck, possiblePossition, gameOver
 
 
-    greyRectangle = pygame.image.load("Img\greyRectangle.png")
-    dvere = pygame.image.load("Img\dvere.png")
-    lineDark = (247, 192, 74)
+    greyRectangle = pygame.image.load("Img/ucitel.png")
+    greyRectangle = pygame.transform.scale(greyRectangle, (80,80))
+    dvere = pygame.image.load("Img/dvere.png")
+    lineDark = (247, 159, 0)
 
     FPS = 60
 
@@ -113,17 +114,12 @@ def main():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
-    
-        '''if pozice1X <= 850:
-            pozice1X += 1
-        else:
-            goodEngingCheck = 1'''
+
 
         stisknuteKlavesy = pygame.key.get_pressed()
 
         okno.fill((250, 206, 112))
 
-        print(gameOver)
         if stisknuteKlavesy[pygame.K_UP] and canMove == True:
             pozice -= 1
             canMove = False
@@ -153,7 +149,7 @@ def main():
 
         if gameOver == False and pocetSmazanychPrekazek <= WinningPrekazek:
             for lines in range(4):
-                pygame.draw.line(okno, lineDark, (0, 200*lines), (1200, 200*lines), 3)
+                pygame.draw.line(okno, lineDark, (0, 200*lines), (1200, 200*lines), 4)
 
 
         for i in listPrekazek:
@@ -172,7 +168,7 @@ def main():
                     xLine -= 0.75
                     
                     for lines in range(4):
-                        pygame.draw.line(okno, lineDark, (0, 200*lines), (xLine, 200*lines), 3)
+                        pygame.draw.line(okno, lineDark, (0, 200*lines), (xLine, 200*lines), 4)
                 else:
                     konecnaAnimace()
 
