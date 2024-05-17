@@ -23,7 +23,7 @@ $dotaz = "INSERT INTO 1ep_eplauncher_users (username, password) VALUES ('$userna
 if(!mysqli_query($spojeni, $dotaz)) {
     echo json_encode(['vysledek' => mysqli_error($spojeni)]);
 } else {
-    echo json_encode(['vysledek' => TRUE]);
+    echo json_encode(['vysledek' => true]);
 }
 
 mysqli_close($spojeni);
