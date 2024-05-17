@@ -10,10 +10,10 @@ $data = mysqli_query($spojeni, $dotaz);
 
 mysqli_close($spojeni);
 
-$ownership = [];
+$vlastneno = [];
 
 while($zaznam = mysqli_fetch_assoc($data)) {
-    $ownership[] = $zaznam;
+    $vlastneno[] = $zaznam;
 }
 
-echo json_encode($ownership);
+echo json_encode($vlastneno);

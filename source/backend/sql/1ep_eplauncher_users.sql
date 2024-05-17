@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: localhost
--- Vytvořeno: Pát 03. kvě 2024, 12:51
+-- Vytvořeno: Pát 17. kvě 2024, 16:14
 -- Verze serveru: 10.1.48-MariaDB-0+deb9u2
 -- Verze PHP: 7.3.33-1+0~20211119.91+debian9~1.gbp618351
 
@@ -38,10 +38,6 @@ CREATE TABLE `1ep_eplauncher_users` (
 -- Vypisuji data pro tabulku `1ep_eplauncher_users`
 --
 
-INSERT INTO `1ep_eplauncher_users` (`id`, `username`, `password`, `money`) VALUES
-(1, 'user1', '$2a$12$mMYc1OA2Q.RnU0awGOQN4.Ew26//dvaJ96Q6VxqugLB0pdJnFuOBO', 50),
-(2, 'user2', '$2a$12$mMYc1OA2Q.RnU0awGOQN4.Ew26//dvaJ96Q6VxqugLB0pdJnFuOBO', 50);
-
 --
 -- Indexy pro exportované tabulky
 --
@@ -61,7 +57,7 @@ ALTER TABLE `1ep_eplauncher_users`
 -- AUTO_INCREMENT pro tabulku `1ep_eplauncher_users`
 --
 ALTER TABLE `1ep_eplauncher_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

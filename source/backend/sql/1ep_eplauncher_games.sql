@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: localhost
--- Vytvořeno: Pát 03. kvě 2024, 12:50
+-- Vytvořeno: Pát 17. kvě 2024, 16:14
 -- Verze serveru: 10.1.48-MariaDB-0+deb9u2
 -- Verze PHP: 7.3.33-1+0~20211119.91+debian9~1.gbp618351
 
@@ -31,16 +31,13 @@ CREATE TABLE `1ep_eplauncher_games` (
   `id` int(11) NOT NULL,
   `name` varchar(120) COLLATE utf8_czech_ci NOT NULL,
   `unlock_key` varchar(255) COLLATE utf8_czech_ci NOT NULL,
-  `price` int(11) NOT NULL
+  `price` int(11) NOT NULL,
+  `checksum` varchar(64) COLLATE utf8_czech_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
 --
 -- Vypisuji data pro tabulku `1ep_eplauncher_games`
 --
-
-INSERT INTO `1ep_eplauncher_games` (`id`, `name`, `unlock_key`, `price`) VALUES
-(1, 'game1', '$2a$12$Xqz16LMNLv0PTZW0N12Ya.eUZh7R6r.LYHzVlvhgZqyUsbRi7YMs6', 10),
-(2, 'game2', '$2a$12$Xqz16LMNLv0PTZW0N12Ya.eUZh7R6r.LYHzVlvhgZqyUsbRi7YMs6', 20);
 
 --
 -- Indexy pro exportované tabulky
@@ -61,7 +58,7 @@ ALTER TABLE `1ep_eplauncher_games`
 -- AUTO_INCREMENT pro tabulku `1ep_eplauncher_games`
 --
 ALTER TABLE `1ep_eplauncher_games`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
