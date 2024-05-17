@@ -1,5 +1,6 @@
 import sys
 import pygame
+import random
 
 pygame.init()
 
@@ -20,7 +21,7 @@ font_cena = pygame.font.SysFont(None, 30)
 # Inicializace časovače a hodin
 casovac = pygame.time.get_ticks()
 cas = pygame.time.Clock()
-interval_pricteni_penez = 5000  # 5000 ms = 5 sekund
+interval_pricteni_penez = 4000  # 5000 ms = 5 sekund
 
 # Definování herní mřížky
 herni_ctverce = [pygame.Rect(150 * i, 192 * j, 150, 192) for i in range(8) for j in range(4)]
@@ -29,16 +30,29 @@ herni_ctverce = [pygame.Rect(150 * i, 192 * j, 150, 192) for i in range(8) for j
 kytka = pygame.image.load('kytka.png')
 strilec = pygame.image.load('strilec.png')
 zed = pygame.image.load('zed.png')
+basic_nepritel = pygame.image.load('nepritel_basic.png')
 
 kytka_rect = kytka.get_rect()
 strilec_rect = strilec.get_rect()
 zed_rect = zed.get_rect()
+basic_nepritel_rect = basic_nepritel.get_rect()
 
 # Definování proměnné pro vybraný objekt (None znamená, že žádný objekt není vybraný)
 vybrany_objekt = None
 
 # Vytvoření slovníku pro sledování umístěných objektů
 umistene_objekty = {}
+
+nepratele = []
+
+def spawn_enemy():
+    rada = random.randint(0, 3)
+    x = rozliseni_okna[0] - basic_nepritel_rect.width
+    y = 192 * rada + (192 - basic_nepritel_rect.height) // 2
+    nepratele.append(pygame.Rect(x, y, basic_nepritel_rect.width, basic_nepritel_rect.height))
+
+spawn_timer = pygame.time.get_ticks()
+spawn_interval = 5000     # 1000 = 1 sekunda
 
 while True:
     for udalost in pygame.event.get():
@@ -75,6 +89,16 @@ while True:
         penize += 10
         casovac = casovac2
 
+    # Spawn nového nepřítele každých 5 sekund
+    if pygame.time.get_ticks() - spawn_timer > spawn_interval:
+        spawn_enemy()
+        spawn_timer = pygame.time.get_ticks()
+        
+    # Pohyb nepřátel
+    for nepritel in nepratele:
+        nepritel.x -= 0.9                                      # rychlost pohybu nepratel
+    
+    
     # Vykreslení pozadí a prvků uživatelského rozhraní
     okno.fill((34, 139, 34))
     penize_text = font.render(str(penize), True, zluta)
@@ -123,6 +147,9 @@ while True:
             x -= zed_rect.width // 2
             y -= zed_rect.height // 2
             okno.blit(zed, (x, y))
-
+    
+    for nepritel in nepratele:
+        okno.blit(basic_nepritel, nepritel.topleft)
+    
     pygame.display.update()
     cas.tick(30)
