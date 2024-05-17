@@ -45,6 +45,8 @@ umistene_objekty = {}
 
 nepratele = []
 
+strely = []
+
 def spawn_enemy():
     rada = random.randint(0, 3)
     x = rozliseni_okna[0] - basic_nepritel_rect.width
@@ -53,6 +55,19 @@ def spawn_enemy():
 
 spawn_timer = pygame.time.get_ticks()
 spawn_interval = 5000     # 1000 = 1 sekunda
+
+class Strela:
+    def __init__(self, x, y):
+        self.rect = pygame.Rect(x, y, 10, 5)
+        
+    def move(self):
+        self.rect.x += 5
+        
+    def draw(self, surface):
+        pygame.draw.rect(surface, zluta, self.rect)
+
+strilec_timer = pygame.time.get_ticks()
+strilec_interval = 1000
 
 while True:
     for udalost in pygame.event.get():
@@ -86,7 +101,7 @@ while True:
     # Přičítání peněz periodicky
     casovac2 = pygame.time.get_ticks()
     if casovac2 - casovac > interval_pricteni_penez:
-        penize += 10
+        penize += 20
         casovac = casovac2
 
     # Spawn nového nepřítele každých 5 sekund
@@ -97,6 +112,25 @@ while True:
     # Pohyb nepřátel
     for nepritel in nepratele:
         nepritel.x -= 0.9                                      # rychlost pohybu nepratel
+    
+    # Vytvoření střel pro každého střílece
+    current_time = pygame.time.get_ticks()
+    if current_time - strilec_timer > strilec_interval:
+        for i, obj in umistene_objekty.items():
+            if obj == 'strilec':
+                x, y = herni_ctverce[i].center
+                y -= strilec_rect.height // 2
+                x += strilec_rect.width // 2
+                strely.append(Strela(x, y))
+        strilec_timer = current_time
+            
+    #pohyb strel
+    for strela in strely:
+        strela.move()
+        
+    # odstraneni strel mimo obrazovku
+    strely = [strela for strela in strely if strela.rect.x < rozliseni_okna[0]]
+    
     
     
     # Vykreslení pozadí a prvků uživatelského rozhraní
@@ -150,6 +184,9 @@ while True:
     
     for nepritel in nepratele:
         okno.blit(basic_nepritel, nepritel.topleft)
+    
+    for strala in strely:
+        strela.draw(okno)
     
     pygame.display.update()
     cas.tick(30)
