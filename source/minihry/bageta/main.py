@@ -37,6 +37,10 @@ font = pygame.font.Font(None, 50)
 
 def automat():
     global font
+    
+    
+    
+    
     while True:
         click_mysi = 0
         
@@ -186,12 +190,21 @@ def kod():
     global vlozeno
     
     timer = 360
-    pole_1 = random.randint(0,3)
-    pole_2 = random.randint(0,3)
-    pole_3 = random.randint(0,3)
-    pole_4 = random.randint(0,3)
-    pole_5 = random.randint(0,3)
-    pole_6 = random.randint(0,3)
+    
+    #list_sipek =[
+   # pole_1 = random.randint(0,3)
+   # pole_1_veri = 3
+   # pole_2 = random.randint(0,3)
+  #  pole_2_veri = 3
+ #   pole_3 = random.randint(0,3)
+ #   pole_2_veri = 3
+   ## pole_4 = random.randint(0,3)
+  #  pole_2_veri = 3
+  #  pole_5 = random.randint(0,3)
+ #   pole_2_veri = 3
+ #   pole_6 = random.randint(0,3)
+  #  pole_2_veri = 3
+       #     ]
     while True:
         if timer > 0:
             timer -= 1
@@ -207,12 +220,16 @@ def kod():
         okno.blit(obrazek_display, (0,0))
         okno.blit(font.render(str(round(timer/60)), True, (255, 255, 255)), (700, 700))
         
-        okno.blit(l_sipka_plna ,(113,100))
-        okno.blit(l_sipka_plna ,(295,100))
-        okno.blit(l_sipka_plna ,(480,100))
-        okno.blit(l_sipka_plna ,(665,100))
-        okno.blit(l_sipka_plna ,(850,100))
-        okno.blit(l_sipka_plna ,(1035,100))
+               
+
+                
+                
+    #    okno.blit(l_sipka_plna ,(113,100))
+    #    okno.blit(l_sipka_plna ,(295,100))
+    #    okno.blit(l_sipka_plna ,(480,100))
+    #    okno.blit(l_sipka_plna ,(665,100))
+    #    okno.blit(l_sipka_plna ,(850,100))
+    #    okno.blit(l_sipka_plna ,(1035,100))
         pygame.display.flip()
         clock.tick(60)  
 
