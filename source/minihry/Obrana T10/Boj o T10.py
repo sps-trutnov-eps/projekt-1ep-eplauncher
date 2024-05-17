@@ -1,34 +1,44 @@
 import sys
 import pygame
+
 pygame.init()
 
 rozliseni_okna = (1500, 768)
 okno = pygame.display.set_mode(rozliseni_okna)
-#----------------------------------------------------------------------
-zluta = (255,215,0)
-cash = 100
-kytkacena = "50 - Q"
-strileccena = "50 - W"
-zedcena = "100 - E"
-font = pygame.font.SysFont(None, 50)    # pripava pro text penez
-fontcena = pygame.font.SysFont(None, 30)    # font pro cenu
-timer = pygame.time.get_ticks()          # casovac k pricitani penez
+
+# Definování barev a počátečního množství peněz
+zluta = (255, 215, 0)
+penize = 100
+cena_kytka = 50
+cena_strilec = 50
+cena_zed = 100
+
+# Načtení fontů
+font = pygame.font.SysFont(None, 50)
+font_cena = pygame.font.SysFont(None, 30)
+
+# Inicializace časovače a hodin
+casovac = pygame.time.get_ticks()
 cas = pygame.time.Clock()
-cashplus = 5000      # cas pro pricteni penez - 1000 = 1 sekunda
-#----------------------------------------------------------------------
+interval_pricteni_penez = 5000  # 5000 ms = 5 sekund
+
+# Definování herní mřížky
 herni_ctverce = [pygame.Rect(150 * i, 192 * j, 150, 192) for i in range(8) for j in range(4)]
-vyber_ctverce = [pygame.Rect(1320, 50 + 150 * j, 180, 150) for j in range(3)]
 
-
-
+# Načtení obrázků
 kytka = pygame.image.load('kytka.png')
 strilec = pygame.image.load('strilec.png')
 zed = pygame.image.load('zed.png')
-#----------------------------------------------------------------------
-aktivni_ctverec = None
-aktivni_obrazek = None
-index_vybraneho_ctverce = None
 
+kytka_rect = kytka.get_rect()
+strilec_rect = strilec.get_rect()
+zed_rect = zed.get_rect()
+
+# Definování proměnné pro vybraný objekt (None znamená, že žádný objekt není vybraný)
+vybrany_objekt = None
+
+# Vytvoření slovníku pro sledování umístěných objektů
+umistene_objekty = {}
 
 while True:
     for udalost in pygame.event.get():
@@ -39,65 +49,80 @@ while True:
             pozice = pygame.mouse.get_pos()
             for i, ctverec in enumerate(herni_ctverce):
                 if ctverec.collidepoint(pozice):
-                    if aktivni_obrazek is not None and index_vybraneho_ctverce is not None:
-                        okno.blit(pygame.image.load(aktivni_obrazek + 'strilec.png'), (herni_ctverce[index_vybraneho_ctverce].x, herni_ctverce[index_vybraneho_ctverce].y))
-                        print(f"Umístění obrázku {aktivni_obrazek} na čtverec č.{index_vybraneho_ctverce}")
-                        index_vybraneho_ctverce = None
-                    else:
-                        print(f"Kliknuto na herní čtverec č.{i}")
-                        index_vybraneho_ctverce = i
-            for j, vyber_ctverce_single in enumerate(vyber_ctverce):
-                if vyber_ctverce_single.collidepoint(pozice):
-                    aktivni_obrazek = f"obrazek_{j}"
-            
-                
-    
-    
-    
-    timer2 = pygame.time.get_ticks()      # pricitani penez
-    if timer2 - timer > cashplus:
-        cash += 10
-        timer = timer2
+                    if vybrany_objekt == 'kytka' and penize >= cena_kytka:
+                        penize -= cena_kytka
+                        umistene_objekty[i] = 'kytka'
+                    elif vybrany_objekt == 'strilec' and penize >= cena_strilec:
+                        penize -= cena_strilec
+                        umistene_objekty[i] = 'strilec'
+                    elif vybrany_objekt == 'zed' and penize >= cena_zed:
+                        penize -= cena_zed
+                        umistene_objekty[i] = 'zed'
+                    print(f"Kliknuto na čtverec č.{i}, umístěno {vybrany_objekt}")
 
-     
-#----------------------------------------------------------------------   
-    
-    
-    
-    okno.fill((34,139,34))                  
-    penize = font.render(str(cash), True, zluta)     # text penez
-    cenakytky = fontcena.render(str(kytkacena), True, zluta)
-    cenastrilec = fontcena.render(str(strileccena), True, zluta)
-    cenazed = fontcena.render(str(zedcena), True, zluta)
-#----------------------------------------------------------------------
-    
-    
-    
-    
-    pygame.draw.rect(okno, (255,255,255), (0,192,1320,1))
-    pygame.draw.rect(okno, (255,255,255), (0,192*2,1320,1)) 
-    pygame.draw.rect(okno, (255,255,255), (0,192*3,1320,1))     
-    pygame.draw.rect(okno, (0,0,0), (150,0,1,768))       
-    pygame.draw.rect(okno, (0,0,0), (150*2,0,1,768)) 
-    pygame.draw.rect(okno, (0,0,0), (150*3,0,1,768)) 
-    pygame.draw.rect(okno, (0,0,0), (150*4,0,1,768))
-    pygame.draw.rect(okno, (0,0,0), (150*5,0,1,768))
-    pygame.draw.rect(okno, (0,0,0), (150*6,0,1,768))
-    pygame.draw.rect(okno, (0,0,0), (150*7,0,1,768))
-    pygame.draw.rect(okno, (0,0,0), (150*8,0,1,768))
-    pygame.draw.rect(okno, (139,69,19), (1320,0,180,768))
-    pygame.draw.rect(okno, (0,0,0), (1320,50,180,1))
-    okno.blit(penize, (1320,20))
-    okno.blit(kytka, (1380, 100)) # obrazek
-    okno.blit(cenakytky, (1390, 150))  # cena
-    okno.blit(cenastrilec, (1390, 300))  #cena
-    okno.blit(strilec, (1380, 250))  # obrazek
-    okno.blit(zed, (1380, 400))  # obrazek
-    okno.blit(cenazed, (1390, 450))  # cena
-    
-    pygame.draw.rect(okno, (0,0,0), (1320, 200, 300, 1))
-    pygame.draw.rect(okno, (0,0,0), (1320, 350, 300, 1))
-    pygame.draw.rect(okno, (0,0,0), (1320, 500, 300, 1))
-    pygame.draw.rect(okno, (0,0,0), (1320, 0, 1, 500))
-#----------------------------------------------------------------------          
+        elif udalost.type == pygame.KEYDOWN:
+            if udalost.key == pygame.K_q:
+                vybrany_objekt = 'kytka'
+            elif udalost.key == pygame.K_w:
+                vybrany_objekt = 'strilec'
+            elif udalost.key == pygame.K_e:
+                vybrany_objekt = 'zed'
+            print(f"Vybraný objekt: {vybrany_objekt}")
+
+    # Přičítání peněz periodicky
+    casovac2 = pygame.time.get_ticks()
+    if casovac2 - casovac > interval_pricteni_penez:
+        penize += 10
+        casovac = casovac2
+
+    # Vykreslení pozadí a prvků uživatelského rozhraní
+    okno.fill((34, 139, 34))
+    penize_text = font.render(str(penize), True, zluta)
+    cena_kytka_text = font_cena.render(f"{cena_kytka} - Q", True, zluta)
+    cena_strilec_text = font_cena.render(f"{cena_strilec} - W", True, zluta)
+    cena_zed_text = font_cena.render(f"{cena_zed} - E", True, zluta)
+
+    pygame.draw.rect(okno, (255, 255, 255), (0, 192, 1320, 1))
+    pygame.draw.rect(okno, (255, 255, 255), (0, 192*2, 1320, 1))
+    pygame.draw.rect(okno, (255, 255, 255), (0, 192*3, 1320, 1))
+    pygame.draw.rect(okno, (0, 0, 0), (150, 0, 1, 768))
+    pygame.draw.rect(okno, (0, 0, 0), (150*2, 0, 1, 768))
+    pygame.draw.rect(okno, (0, 0, 0), (150*3, 0, 1, 768))
+    pygame.draw.rect(okno, (0, 0, 0), (150*4, 0, 1, 768))
+    pygame.draw.rect(okno, (0, 0, 0), (150*5, 0, 1, 768))
+    pygame.draw.rect(okno, (0, 0, 0), (150*6, 0, 1, 768))
+    pygame.draw.rect(okno, (0, 0, 0), (150*7, 0, 1, 768))
+    pygame.draw.rect(okno, (0, 0, 0), (150*8, 0, 1, 768))
+    pygame.draw.rect(okno, (139, 69, 19), (1320, 0, 180, 768))
+    pygame.draw.rect(okno, (0, 0, 0), (1320, 50, 180, 1))
+    okno.blit(penize_text, (1320, 20))
+    okno.blit(kytka, (1380, 100))
+    okno.blit(cena_kytka_text, (1390, 150))
+    okno.blit(strilec, (1380, 250))
+    okno.blit(cena_strilec_text, (1390, 300))
+    okno.blit(zed, (1380, 400))
+    okno.blit(cena_zed_text, (1390, 450))
+
+    pygame.draw.rect(okno, (0, 0, 0), (1320, 200, 300, 1))
+    pygame.draw.rect(okno, (0, 0, 0), (1320, 350, 300, 1))
+    pygame.draw.rect(okno, (0, 0, 0), (1320, 500, 300, 1))
+    pygame.draw.rect(okno, (0, 0, 0), (1320, 0, 1, 500))
+
+    # Vykreslení umístěných objektů
+    for i, obj in umistene_objekty.items():
+        x, y = herni_ctverce[i].center
+        if obj == 'kytka':
+            x -= kytka_rect.width // 2
+            y -= kytka_rect.height // 2
+            okno.blit(kytka, (x, y))
+        elif obj == 'strilec':
+            x -= strilec_rect.width // 2
+            y -= strilec_rect.height // 2
+            okno.blit(strilec, (x, y))
+        elif obj == 'zed':
+            x -= zed_rect.width // 2
+            y -= zed_rect.height // 2
+            okno.blit(zed, (x, y))
+
     pygame.display.update()
+    cas.tick(30)
