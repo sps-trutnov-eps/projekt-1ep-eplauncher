@@ -114,7 +114,7 @@ def library(rozliseni, window, clock, username):
 
     from game_list import get_games
     games_owned = []
-    games = get_games(games_owned)
+    games = get_games(games_owned, username)
 
     for game in games:
         max_y += 57

@@ -8,6 +8,7 @@ from library_menu import get_user_info
 BACKGROUND_COLOR = (0, 128, 195)
 DARKER_BACKGROUND_COLOR = (0, 106, 164)
 
+URL_OWNED = 'http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/owned.php'
 
 class Games:
     def __init__(self, jmeno_hry, popis_hry, cislo_hry, nazev_slozky, nazev_hlavni_funkce, uzamcena):
@@ -79,20 +80,29 @@ class Games:
                 pygame.display.set_caption("EPLauncher")
 
 
-def check_ownership(games_owned, games):
+def check_ownership(games_owned, games, username):
     #Vybere user_id a game_id z odpovedi serveru
-    url = 'http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/owned.php'
-    response = requests.get('http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/owned.php')
+
+    response = requests.get(URL_OWNED)
     hry = json.loads(response.text)
+
+    server_user_id = get_user_info(username)
+    print(f'User ID: {server_user_id}')
+
     for hra in hry:
         user_id = hra.get('user_id')
         game_id = hra.get('game_id')
-        print({'user_id': user_id, 'game_id': game_id})    
 
-    uzivatel = get_user_info("test")
-    print(uzivatel)
+        # Porovnání user_id s každou hrou
+        if server_user_id == user_id:
+            print(f'Game ID: {game_id}')
+            games_owned.append(game_id)
 
-def get_games(games_owned):
+        # Debugging output to verify games owned
+    print(f'Games owned by user {username}: {games_owned}')
+
+
+def get_games(games_owned, username):
     #sem vypisujte své hry ve formátu:
     # název hry, její popis, kolikátá je v pořadí (kdo dřív příjde ten dřív mele), název její složky,
     # název hlavní funkce (pokud je), zda je defaultně uzamčená
@@ -116,7 +126,7 @@ def get_games(games_owned):
 
     games = [pokerun]
 
-    check_ownership(games_owned, games)
+    check_ownership(games_owned, games, username)
 
     for game in games:
         if game.locked:
