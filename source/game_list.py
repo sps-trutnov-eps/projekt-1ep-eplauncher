@@ -1,13 +1,16 @@
 import pygame
 import importlib
-import inspect
+import json
+import requests
 
 BACKGROUND_COLOR = (0, 128, 195)
 DARKER_BACKGROUND_COLOR = (0, 106, 164)
 
+URL = 'http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/buy_game.php'
+
 
 class Games:
-    def __init__(self, jmeno_hry, popis_hry, cislo_hry, nazev_slozky, nazev_hlavni_funkce, uzamcena):
+    def __init__(self, jmeno_hry, popis_hry, cislo_hry, nazev_slozky, nazev_hlavni_funkce, uzamcena, cena):
         self.name = jmeno_hry
         self.description = popis_hry
         self.id = cislo_hry
@@ -15,8 +18,9 @@ class Games:
         self.function_name = nazev_hlavni_funkce
         self.locked = uzamcena
         self.owned = False
+        self.cost = cena
 
-    def drawing(self, x, y, window, rozliseni, nazev_slozky, y_difference):
+    def drawing(self, x, y, window, rozliseni, nazev_slozky, y_difference, user_money, user_information, user_password):
         velky_font = pygame.font.Font(None, 45)
         maly_font = pygame.font.Font(None, 25)
         titul_hry = velky_font.render(self.name, True, (0, 0, 0))
@@ -51,9 +55,9 @@ class Games:
         pygame.draw.rect(window, (0, 0, 0), (rozliseni[0] - 70, y - 7 + y_difference, 2, 59))
 
         # spouštění hry
-        Games.startin_game(self, play_button, self.function_name)
+        Games.startin_game(self, play_button, user_money, user_information, user_password, self.function_name)
 
-    def startin_game(self, play_button, *args, **kwargs):
+    def startin_game(self, play_button, user_money, user_information, user_password, *args, **kwargs):
         pos = pygame.mouse.get_pos()
 
         # spouštěč hry
@@ -75,6 +79,34 @@ class Games:
                 window = pygame.display.set_mode((800, 800))
                 pygame.display.set_caption("EPLauncher")
 
+            elif self.locked:
+                if int(self.cost) < int(user_money):
+                    print("purchasing")
+                    game_id = self.id
+                    username = user_information["username"]
+                    password = user_password
+
+                    try:
+                        # Send the POST request
+                        response = requests.post(URL, json={'username': username, 'password': password, 'game_id': game_id})
+
+                        # Check if the response contains valid JSON
+                        try:
+                            response_data = response.json()
+                        except json.JSONDecodeError:
+                            print("Error: Response is not valid JSON")
+                            print("Response content:", response.text)
+                            return
+
+                        vysledek = response_data.get('vysledek')
+                        print(response_data)
+
+                    except requests.RequestException as e:
+                        # Handle any requests exceptions
+                        print(f"An error occurred: {e}")
+
+                    #TODO: aktualizování hodnoty money
+
 
 def check_ownership(games_owned, games):
     for game in games:
@@ -85,7 +117,7 @@ def check_ownership(games_owned, games):
 
 def get_games(games_owned):
     #sem vypisujte své hry ve formátu:
-    # název hry, její popis, kolikátá je v pořadí (kdo dřív příjde ten dřív mele), název její složky,
+    # název hry, její popis, kolikátá je v pořadí (podle databáze, doptejte se), název její složky,
     # název hlavní funkce (pokud je), zda je defaultně uzamčená
 
     # lze se řídit vzorem pokerun, poté co napíšete ten jeden řádek tak její název přidejte do listu games,
@@ -103,7 +135,7 @@ def get_games(games_owned):
     # velikost pro ikony her je 55px * 55px
     # ikonu vložte do samé složky co máte hlavní soubor vaší hry a pojmenujte ji icon.png
 
-    pokerun = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 0, "Pokerun", "main", False)
+    pokerun = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 0, "Pokerun", "main", True, 1)
 
     games = [pokerun]
 

@@ -22,15 +22,13 @@ even_smaller_font = pygame.font.Font(None, 25)
 # username přihlášeného uživatele
 
 
-
 y_difference = 0
 last_mouse_y = 0
 max_y = 0
 
-#urls
+# urls
 URL1 = 'http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/users.php'
 URL2 = 'http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/add_user.php'
-
 
 
 def get_user_info(username):
@@ -70,7 +68,7 @@ def scrolling():
         y_difference -= 10
 
 
-def library_draw(window, rozliseni, games, username_text, money_text):
+def library_draw(window, rozliseni, games, username_text, money_text, user_information, password):
     global y_difference, max_y
 
     window.fill(BACKGROUND_COLOR)
@@ -84,7 +82,8 @@ def library_draw(window, rozliseni, games, username_text, money_text):
     pygame.draw.rect(window, (0, 0, 0), (x - 75, y - 7, rozliseni[0] - 145, 2))
 
     for game in games:
-        game.drawing(x, y, window, rozliseni, games[0+game_number].location, y_difference)
+        game.drawing(x, y, window, rozliseni, games[0+game_number].location, y_difference,
+                     user_money=user_information["money"], user_information=user_information, user_password=password)
 
         y += 57
         game_number += 1
@@ -107,7 +106,7 @@ def library_draw(window, rozliseni, games, username_text, money_text):
     pygame.display.flip()
 
 
-def library(rozliseni, window, clock, username):
+def library(rozliseni, window, clock, username, password):
     global running, max_y
     clock.tick(60)
 
@@ -133,5 +132,5 @@ def library(rozliseni, window, clock, username):
             if udalost.type == pygame.QUIT:
                 running = False
 
-        library_draw(window, rozliseni, games, username_text, money_text)
+        library_draw(window, rozliseni, games, username_text, money_text, user_information, password)
         scrolling()

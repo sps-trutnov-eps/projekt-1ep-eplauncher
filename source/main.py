@@ -16,9 +16,9 @@ def main():
 
     completed_login = False
     if not completed_login:
-        completed_login, username = loginPage.login(rozliseni, window, clock)
+        completed_login, username, password = loginPage.login(rozliseni, window, clock)
     if completed_login:
-        library_menu.library(rozliseni, window, clock, username)
+        library_menu.library(rozliseni, window, clock, username, password)
 
 
 if __name__ == "__main__":

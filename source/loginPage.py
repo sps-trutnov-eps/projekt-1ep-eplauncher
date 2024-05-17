@@ -168,7 +168,7 @@ def login(rozliseni, window, clock):
         pygame.display.flip()
 
         if logged_in:
-            return True, username
+            return True, username, password
 
 
 def login_check(username, password):
