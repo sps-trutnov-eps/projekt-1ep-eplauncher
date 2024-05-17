@@ -20,7 +20,7 @@ jmeno = "jméno"
 jmenoSurface = font.render(jmeno, True, white)
 heslo = "heslo"
 hesloSurface = font.render(heslo, True, white)
-loginText = "login"
+loginText = "Přihlásit"
 loginTextSurface = font.render(loginText, True, white)
 
 logo = pygame.image.load("images\SPSlogo.jpg")
@@ -43,7 +43,7 @@ activePassword = False
 ShowPassword = ""
 logged_in = False
 register_font = pygame.font.Font(None, 25)
-registration_text = register_font.render("Click here to register.", True, white)
+registration_text = register_font.render("vytvořit účet", True, white)
 
 
 def get_clipboard_text():

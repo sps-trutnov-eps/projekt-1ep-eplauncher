@@ -19,7 +19,7 @@ jmeno = "jméno"
 jmenoSurface = font.render(jmeno, True, white)
 heslo = "heslo"
 hesloSurface = font.render(heslo, True, white)
-loginText = "Register"
+loginText = "Zaregistrovat"
 loginTextSurface = font.render(loginText, True, white)
 
 logo = pygame.image.load("images\SPSlogo.jpg")
@@ -137,7 +137,7 @@ def registration_draw(window, rozliseni):
         window.blit(jmenoSurface, (rozliseni[0] / 2 - 100, 480))
     if password == '':
         window.blit(hesloSurface, (rozliseni[0] / 2 - 100, 550))
-    window.blit(loginTextSurface, (rozliseni[0] / 2 - 64, 645))
+    window.blit(loginTextSurface, (rozliseni[0] / 2 - loginTextSurface.get_width()/2, 645))
 
     window.blit(logo, (rozliseni[0] / 2 - 110, rozliseni[1] / 2 - 200))
 
