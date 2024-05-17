@@ -62,10 +62,19 @@ $zaznam = mysqli_fetch_assoc($data);
 $achievement_id = $zaznam['id'];
 $castka = $zaznam['amount'];
 
+$dotaz = "SELECT * FROM 1ep_eplauncher_achieved WHERE user_id = '$user_id' AND achievement_id = '$achievement_id'";
+$data = mysqli_query($spojeni, $dotaz);
+
+if(mysqli_num_rows($data) > 0) {
+    echo json_encode(['vysledek' => 'Tento hráč již tento achievement získal.']);
+    mysqli_close($spojeni);
+    exit();
+}
+
 $dotaz = "INSERT INTO 1ep_eplauncher_achieved (user_id, achievement_id) VALUES ('$user_id', '$achievement_id')";
 
-if(mysqli_num_rows($data) != 0) {
-    echo json_encode(['vysledek' => 'Tento hráč již tento achievement získal.']);
+if(!mysqli_query($spojeni, $dotaz)) {
+    echo json_encode(['vysledek' => mysqli_error($spojeni)]);
     mysqli_close($spojeni);
     exit();
 }
