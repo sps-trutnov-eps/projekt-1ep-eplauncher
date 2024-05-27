@@ -243,6 +243,7 @@ def kod():
                     
         if vyhra:
            print("SKVĚLE!")
+           penezenka = 0
                     
         
         okno.blit(font.render(str(round(timer/60)), True, (255, 255, 255)), (700, 700))
