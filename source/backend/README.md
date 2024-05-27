@@ -8,6 +8,8 @@ Složka `sql/` obsahuje SQL skripty, kterými lze na databázovém serveru vytvo
 
 Složka `demo/` obsahuje ukázky kódu v Pythonu, kterými se dá komunikovat s backendem.
 
+Složka `data/` obsahuje CSV soubor s dostupnými hrami. Do databáze se data musejí přesunout ručně.
+
 Soubor `index.html` slouží k ručnímu testování jednotlivých skriptů (nelze spouštět lokálně, viz dále).
 
 ## Použití backendu
