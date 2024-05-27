@@ -38,6 +38,16 @@ if(!password_verify($password, $hash)) {
     exit();
 }
 
+// kontrola existence hry
+$dotaz = "SELECT * FROM 1ep_eplauncher_games WHERE id = '$game_id'";
+$data = mysqli_query($spojeni, $dotaz);
+
+if(mysqli_num_rows($data) == 0) {
+    echo json_encode(['vysledek' => 'Nakupovaná hra neexistuje.']);
+    mysqli_close($spojeni);
+    exit();
+}
+
 // kontrola predchoziho vlastnictvi hry
 $user_id = $user['id'];
 
