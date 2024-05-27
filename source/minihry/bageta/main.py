@@ -298,6 +298,7 @@ def kod():
         clock.tick(60)
         
 def prohra():
+    global font
     while True:
         for event in pygame.event.get(): 
             if event.type == pygame.QUIT: 
@@ -306,6 +307,7 @@ def prohra():
         
         
         okno.fill((255,0,0))
+        okno.blit(font.render("prohrál jsi", True, (255,255,255)), (700, 200))
         pygame.display.flip()
 if __name__ == "__main__":
     automat()
