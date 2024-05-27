@@ -2,7 +2,7 @@ import pygame
 import sys
 import random
 
-
+#platformy padají dolů po nich skáču nahoru a u toho sbírámě kytky
 pygame.init()
   
 rozliseni_okna = (1280, 900)
