@@ -10,7 +10,7 @@ sirka, vyska = 800, 600
 window = pygame.display.set_mode((sirka, vyska))
 pygame.display.set_caption("Speed Typing Test")
 
-pozadi = pygame.image.load("pozadi.png")
+
 bila = (255, 255, 255)
 cerna = (0, 0, 0)
 
