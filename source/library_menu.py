@@ -82,11 +82,15 @@ def library_draw(window, rozliseni, games, username_text, money_text, user_infor
     pygame.draw.rect(window, (0, 0, 0), (x - 75, y - 7, rozliseni[0] - 145, 2))
 
     for game in games:
-        game.drawing(x, y, window, rozliseni, games[0+game_number].location, y_difference,
-                     user_money=user_information["money"], user_information=user_information, user_password=password)
+        check_balance = game.drawing(x, y, window, rozliseni, games[0+game_number].location, y_difference,
+                                     user_money=user_information["money"],
+                                     user_information=user_information,
+                                     user_password=password)
 
         y += 57
         game_number += 1
+        if check_balance:
+            get_user_info(user_information[1])
 
     pygame.draw.rect(window, BACKGROUND_COLOR, (0, 0, rozliseni[0], 183))
 

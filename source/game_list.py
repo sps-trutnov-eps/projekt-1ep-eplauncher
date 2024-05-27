@@ -55,7 +55,8 @@ class Games:
         pygame.draw.rect(window, (0, 0, 0), (rozliseni[0] - 70, y - 7 + y_difference, 2, 59))
 
         # spouštění hry
-        Games.startin_game(self, play_button, user_money, user_information, user_password, self.function_name)
+        check_balance = Games.startin_game(self, play_button, user_money, user_information, user_password, self.function_name)
+        return check_balance
 
     def startin_game(self, play_button, user_money, user_information, user_password, *args, **kwargs):
         pos = pygame.mouse.get_pos()
@@ -81,7 +82,7 @@ class Games:
 
             elif self.locked:
                 if int(self.cost) < int(user_money):
-                    print("purchasing")
+                    #print("purchasing")
                     game_id = self.id
                     username = user_information["username"]
                     password = user_password
@@ -94,17 +95,20 @@ class Games:
                         try:
                             response_data = response.json()
                         except json.JSONDecodeError:
-                            print("Error: Response is not valid JSON")
-                            print("Response content:", response.text)
+                            #print("Error: Response is not valid JSON")
+                            #print("Response content:", response.text)
                             return
 
                         vysledek = response_data.get('vysledek')
-                        print(response_data)
+                        #print(response_data)
 
                     except requests.RequestException as e:
                         # Handle any requests exceptions
-                        print(f"An error occurred: {e}")
+                        #print(f"An error occurred: {e}")
+                        pass
 
+                    check_balance = True
+                    return check_balance
                     #TODO: aktualizování hodnoty money
 
 
@@ -135,7 +139,7 @@ def get_games(games_owned):
     # velikost pro ikony her je 55px * 55px
     # ikonu vložte do samé složky co máte hlavní soubor vaší hry a pojmenujte ji icon.png
 
-    pokerun = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 0, "Pokerun", "main", True, 1)
+    pokerun = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 10, "Pokerun", "main", False, 0)
 
     games = [pokerun]
 
