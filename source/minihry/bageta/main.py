@@ -32,7 +32,7 @@ splneno = False
 global penezenka
 penezenka = 7
 global vlozeno
-vlozeno = 6
+vlozeno = 0
 global font
 font = pygame.font.Font(None, 50)
 
@@ -55,7 +55,7 @@ def automat():
         if penezenka == 0:
             if vlozeno < 2:
                 print("konec")
-                prohra()
+                prohra()        
                 
         click_mysi = 0
         
