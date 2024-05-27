@@ -139,10 +139,10 @@ def get_games(games_owned):
     # velikost pro ikony her je 55px * 55px
     # ikonu vložte do samé složky co máte hlavní soubor vaší hry a pojmenujte ji icon.png
 
-    pokerun = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 0, "Pokerun", "main", False)
+    pokerun = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 0, "Pokerun", "main", False, 0)
     sokobox = Games("Sokobox", "Sokobox je hra s cílem posunout všechny bedny na jejich určené místo.", 1000, "Sokobox", "main", True, 10)
     
-    games = [pokerun]
+    games = [pokerun, sokobox]
 
     check_ownership(games_owned, games)
 
