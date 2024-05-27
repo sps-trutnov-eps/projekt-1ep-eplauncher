@@ -60,7 +60,8 @@ def automat():
         #print(kurzor_x, kurzor_y)
         
         if kurzor_x > 840 and kurzor_x < 932 and kurzor_y > 360 and kurzor_y < 480 and click_mysi == 1:
-            kod()
+            if vlozeno >= 2:
+                kod()
             
             
         if kurzor_x > 872 and kurzor_x < 930 and kurzor_y > 491 and kurzor_y < 557 and click_mysi == 1:
@@ -189,47 +190,69 @@ def kod():
     global penezenka
     global vlozeno
     
-    timer = 360
+    timer = 180
     
-    #list_sipek =[
-   # pole_1 = random.randint(0,3)
-   # pole_1_veri = 3
-   # pole_2 = random.randint(0,3)
-  #  pole_2_veri = 3
- #   pole_3 = random.randint(0,3)
- #   pole_2_veri = 3
-   ## pole_4 = random.randint(0,3)
-  #  pole_2_veri = 3
-  #  pole_5 = random.randint(0,3)
- #   pole_2_veri = 3
- #   pole_6 = random.randint(0,3)
-  #  pole_2_veri = 3
-       #     ]
+    arrow_images = {
+    "up": pygame.image.load("n_sipka_prazdna.png"),
+    "down": pygame.image.load("d_sipka_prazdna.png"),
+    "left": pygame.image.load("l_sipka_prazdna.png"),
+    "right": pygame.image.load("p_sipka_prazdna.png")
+    }
+    
+    arrow_correct_images = {
+    "up": pygame.image.load("n_sipka_plna.png"),
+    "down": pygame.image.load("d_sipka_plna.png"),
+    "left": pygame.image.load("l_sipka_plna.png"),
+    "right": pygame.image.load("p_sipka_plna.png")
+    }
+    
+    arrow_positions = [(113, 100), (295, 100), (480, 100), (665, 100), (850, 100), (1035, 100)]
+    
+    arrow_sequence = [random.choice(["up", "down", "left", "right"]) for _ in range(6)]
+    current_index = 0
+    vyhra = False
     while True:
-        if timer > 0:
+        okno.blit(obrazek_display, (0,0))
+        if current_index == len(arrow_sequence):
+            if timer >= 0:
+                vyhra = True
+        if timer > -1:
             timer -= 1
             print(timer)
         
         for event in pygame.event.get(): 
             if event.type == pygame.QUIT: 
                 pygame.quit() 
-                sys.exit()        
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if current_index < len(arrow_sequence):
+                    if (event.key == pygame.K_UP and arrow_sequence[current_index] == "up") or \
+                       (event.key == pygame.K_DOWN and arrow_sequence[current_index] == "down") or \
+                       (event.key == pygame.K_LEFT and arrow_sequence[current_index] == "left") or \
+                       (event.key == pygame.K_RIGHT and arrow_sequence[current_index] == "right"):
+                        current_index += 1    
         if pygame.key.get_pressed()[pygame.K_ESCAPE]:
              automat()
-             
-        okno.blit(obrazek_display, (0,0))
+
+        for i, direction in enumerate(arrow_sequence):
+         if i < current_index:
+            okno.blit(arrow_correct_images[direction], arrow_positions[i])
+         else:
+            okno.blit(arrow_images[direction], arrow_positions[i])             
+                    
+                    
+        if vyhra:
+           print("SKVĚLE!")
+                    
+        
         okno.blit(font.render(str(round(timer/60)), True, (255, 255, 255)), (700, 700))
         
                
 
                 
                 
-    #    okno.blit(l_sipka_plna ,(113,100))
-    #    okno.blit(l_sipka_plna ,(295,100))
-    #    okno.blit(l_sipka_plna ,(480,100))
-    #    okno.blit(l_sipka_plna ,(665,100))
-    #    okno.blit(l_sipka_plna ,(850,100))
-    #    okno.blit(l_sipka_plna ,(1035,100))
+
+
         pygame.display.flip()
         clock.tick(60)  
 
