@@ -18,6 +18,21 @@ start_time = 0
 cooldown = False
 shoot = False
 vel_hrc = 50
+#class boss(pygame.sprite.Sprite):
+ #   def __init__(self, hp, spd, x, y):
+  #      self.hp = hp
+   #     self.spd = spd
+    #    self.x = x
+     #   self.y = y
+      #  pygame.sprite.Sprite.__init__(self)
+       # self.image = pygame.image.load('images/M_tank.png')
+#       self.images.append(img)
+        # self.image = self.images[0]
+        #self.rect = self.image.get_rect()
+        
+#Mar = boss(500,5,150,50)    
+        
+
 class hrac(object):
     def __init__(self, hp, spd,x , y,):
         self.hp = hp
@@ -35,7 +50,7 @@ class hrac(object):
     
 hrc = hrac(100, 5.5, 600, 400,)
 
-
+load = pygame.image.load("images\M_tank.png")
 
 
 class Bullet(object):
@@ -113,6 +128,6 @@ while run:
         bullet.draw(okno)
     hrc.draw()   
     clock.tick(fps)
-
+    okno.blit(load,(0,0))
     pygame.display.update()
 
