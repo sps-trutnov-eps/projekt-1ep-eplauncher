@@ -8,6 +8,7 @@ screen = pygame.display.set_mode(size)
 running = True
 opravovani = False
 rules = False
+vyhra = False 
 clock = pygame.time.Clock()
 
 # Load images
@@ -28,7 +29,7 @@ sentences = [
     ("Její kosti odpočívaly v hrobě.", "Její kosti odpočívaly v hrobě."),
     ("Dědečkovy ubívaly síly.", "Dědečkovi ubývaly síly."),
     ("Rybízi z červenali.", "Rybízy zčervenaly."),
-    ("Martina a magda bruslej.", "Martina a Magda bruslí."),
+    ("Martina a magda bruslili.", "Martina a Magda bruslily."),
     ("Stébla trávy se vlnily ve vjetru.", "Stébla trávy se vlnila ve větru."),
     ("Legenda o Brumbálovy.", "Legenda o Brumbálovi."),
     ("Šváby jsou černý brouci.", "Švábi jsou černí brouci."),
@@ -36,10 +37,8 @@ sentences = [
     ("Tisíce lidí se sešli na letné.", "Tisíce lidí se sešly na Letné."),
     ("Vidry lový ryby.", "Vydry loví ryby."),
     ("Jana šla do školi.", "Jana šla do školy."),
-    ("Psy běžely rychle.", "Psi běželi rychle."),
-    ("To auto je můj.", "To auto je moje."),
+    ("Psy rychle běžely.", "Psi rychle běželi."),
     ("Oni byly unavený.", "Oni byli unavení."),
-    ("Moje oblíbená barva je modrý.", "Moje oblíbená barva je modrá."),
     ("Z rána jsme se vydaly na houby.", "Zrána jsme se vydali na houby."),
     ("Husté lesi skrývají datli.", "Husté lesy skrývají datly."),
     ("Herci, baletky i uvaděčky pracovali v divadle.", "Herci, baletky i uvaděčky pracovali v divadle."),
@@ -68,14 +67,16 @@ def draw_text(text, position, color=BLACK):
     font.render_to(screen, position, text, color)
 
 def check_sentence():
-    global result_message, result_color, total_correct, opravovani
+    global result_message, result_color, total_correct, opravovani, vyhra
     if user_input == correct_sentence:
         result_message = "Správně! Opravil(a) jsi větu správně."
         result_color = GREEN
         total_correct += 1
         if total_correct >= max_sentences:
-            result_message = "Vyhrál(a) jsi! Opravil(a) jsi všechny věty správně."
+            len(sentences) == 0
             opravovani = False
+            vyhra = True
+        
         else:
             next_sentence()
     else:
@@ -90,8 +91,8 @@ def next_sentence():
         user_input = ''
     else:
         current_sentence, correct_sentence = "", ""
-        result_message = "Žádné další věty nejsou k dispozici."
         opravovani = False
+        
 
 while running:
     screen.fill(WHITE)
@@ -136,7 +137,7 @@ while running:
     if rules:
         screen.fill(LIGHT_PINK)
         screen.blit(rules_cross, rules_cross_rect)
-    
+    if vyhra: screen.fill((255,255,255))
     pygame.display.update()
     clock.tick(60)
 
