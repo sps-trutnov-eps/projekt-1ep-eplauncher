@@ -20,6 +20,11 @@ pravidla = pygame.image.load("obrázky/pravidla.png")
 pravidla_rect = pravidla.get_rect(center=(900, 550))
 rules_cross = pygame.image.load("obrázky/rules_end.png")
 rules_cross_rect = rules_cross.get_rect(center=(940, 50))
+win = pygame.image.load("obrázky/vyhra.png")
+win_rect = win.get_rect(center=(500,300))
+
+
+
 
 # Font setup
 font = pygame.freetype.SysFont(None, 24)
@@ -52,7 +57,7 @@ check_button_rect = pygame.Rect(425, 400, 150, 50)
 result_message = ''
 result_color = (0, 0, 0)
 total_correct = 0
-max_sentences = 10
+max_sentences = 1
 
 # Colors
 WHITE = (255, 255, 255)
@@ -137,7 +142,9 @@ while running:
     if rules:
         screen.fill(LIGHT_PINK)
         screen.blit(rules_cross, rules_cross_rect)
-    if vyhra: screen.fill((255,255,255))
+    if vyhra:
+        screen.fill((255,255,255))
+        screen.blit(win, win_rect)
     pygame.display.update()
     clock.tick(60)
 
