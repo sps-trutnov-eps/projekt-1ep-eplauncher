@@ -2,6 +2,7 @@ import pygame
 import sys
 import os
 import random
+import time
 
 # ====================SokoBox==================
 # Předloha hry je stará dobrá klasika arkádová hra SokoBan 
@@ -279,9 +280,9 @@ def main():
                 # Vygeneruje nový level
                 all_sprites, walls, boxes, player, spots = draw_level(levels[level_index])
             else:
-                font = pygame.font.Font(None, 65)
-                text = font.render("You completed all levels!", True, GOLD)
-                text_rect = text.get_rect(center=(WIDTH // 1.6, 560))
+                font = pygame.font.Font(None, 55)
+                text = font.render(f"You completed all levels! Score: {points}", True, GOLD)
+                text_rect = text.get_rect(center=(WIDTH // 2, 490))
                 screen.blit(text, text_rect)
                 if counting:
                     print("Moves:", moves, "Time:", elapsed_time, "Level:", level_index)
