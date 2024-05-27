@@ -1,11 +1,13 @@
 import pygame
 import sys
+import random
+
 
 pygame.init()
-
+  
 rozliseni_okna = (1280, 900)
 okno = pygame.display.set_mode(rozliseni_okna)
-pygame.display.set_caption("Skákající hráč")
+pygame.display.set_caption("idk prostě hra xd")
 
 
 barva_pozadi = (50, 50, 50)
@@ -21,16 +23,18 @@ class Objekty:
     def posun(self):
         self.y_pos += self.rychlost
 
+def pad_veci(self):
+    random.randint(rozliseni_okna[0] - veci.x_velikost) 
+
 
 kyselina_textura = pygame.image.load('kyselina.png')
 man_textura = pygame.image.load("normal_man.png")
 man_textura_skok = pygame.image.load("jumping_man.png")
 
 
-hrac = Objekty(75, 700, 50, 50, 5)
-koule = Objekty(1000, 500, 50, 50, 4)
+hrac = Objekty(75, 700, 50, 50, 10)
 kyselina = Objekty(900, 600, 50, 50, 4)
-hracskok = Objekty(1100, 700, 50, 50, 4)
+veci = Objekty(0, 0, 50, 50, 5)
 
 
 je_na_zemi = True
@@ -40,7 +44,10 @@ rychlost_y = 0
 
 
 clock = pygame.time.Clock()
-fps = 60
+fps = 75
+
+
+
 
 while True:
     for udalost in pygame.event.get():
@@ -57,34 +64,34 @@ while True:
     if stisknute_klavesy[pygame.K_RIGHT]:
         hrac.x_pos += hrac.rychlost
 
-
     if stisknute_klavesy[pygame.K_SPACE] and je_na_zemi:
         je_na_zemi = False
         rychlost_y = -rychlost_skok
 
-
     if not je_na_zemi:
         hrac.y_pos += rychlost_y
         rychlost_y += gravitace
-
 
         if hrac.y_pos >= 700:
             hrac.y_pos = 700
             je_na_zemi = True
             rychlost_y = 0
 
-
     okno.fill(barva_pozadi)
+
+
+    if hrac.x_pos >= 1280 - hrac.x_velikost:
+        hrac.x_pos = 1280 - hrac.x_velikost
+
 
 
     if not je_na_zemi:
         okno.blit(man_textura_skok, (hrac.x_pos, hrac.y_pos))
     else:
         okno.blit(man_textura, (hrac.x_pos, hrac.y_pos))
+        
+    #okno.blit(kyselina_textura, (kyselina.x_pos, kyselina.y_pos))
 
-    pygame.draw.rect(okno, (100, 255, 0), (koule.x_pos, koule.y_pos, koule.x_velikost, koule.y_velikost))
-    okno.blit(kyselina_textura, (kyselina.x_pos, kyselina.y_pos))
-    okno.blit(man_textura_skok, (hracskok.x_pos, hracskok.y_pos))
 
     pygame.display.update()
 
