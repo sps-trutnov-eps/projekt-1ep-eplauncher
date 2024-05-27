@@ -302,14 +302,15 @@ def main():
                         points -= 1
                     points += level_index * 10
                     print("Points:", points)
+                    if points >= 70:
+                        return "Sokobox speedrun GOD!"
                     counting = False
-                
+                    
         pygame.display.flip()
         clock.tick(60)
         
     pygame.quit()
     sys.exit()
-    return points
 
 def Menu():
     pygame.init()
