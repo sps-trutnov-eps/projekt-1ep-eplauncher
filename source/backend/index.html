@@ -22,7 +22,9 @@
 
         <button id="users">Users</button>
         <button id="games">Games</button>
+        <button id="achievements">Achievements</button>
         <button id="owned">Owned</button>
+        <button id="achieved">Achieved</button>
 
         <h3>Akce serveru</h3>
 
@@ -36,6 +38,21 @@
         <input type="text" id="check_username" placeholder="Jméno..." />
         <input type="password" id="check_password" placeholder="Heslo..." />
         <button id="check_user">Ověřit uživatele</button>
+        </div>
+
+        <div>
+            <input type="text" id="buy_username" placeholder="Jméno..." />
+            <input type="password" id="buy_password" placeholder="Heslo..." />
+            <input type="text" id="buy_game_id" placeholder="ID hry..." />
+            <button id="buy_game">Koupit hru</button>
+        </div>
+
+        <div>
+            <input type="text" id="get_username" placeholder="Uživatel..." />
+            <input type="text" id="get_game_name" placeholder="Jméno hry..." />
+            <input type="text" id="get_checksum" placeholder="Checksum hry..." />
+            <input type="text" id="get_achievement" placeholder="Jméno achievementu..." />
+            <button id="get_money">Získat achievement</button>
         </div>
     </div>
 
@@ -84,9 +101,41 @@
                 });
         });
 
+        // achievements
+        document.getElementById('achievements').addEventListener('click', () => {
+            fetch('api/achievements.php')
+                .then(odpoved => odpoved.json())
+                .then(data => {
+                    document.getElementById('vystup').innerText = '';
+
+                    for(let i = 0; i < data.length; i++) {
+                        document.getElementById('vystup').innerText += JSON.stringify(data[i]) + '\n';
+                    }
+                })
+                .catch(chyba => {
+                    document.getElementById('vystup').innerText = chyba;
+                });
+        });
+
         // owned
         document.getElementById('owned').addEventListener('click', () => {
             fetch('api/owned.php')
+                .then(odpoved => odpoved.json())
+                .then(data => {
+                    document.getElementById('vystup').innerText = '';
+
+                    for(let i = 0; i < data.length; i++) {
+                        document.getElementById('vystup').innerText += JSON.stringify(data[i]) + '\n';
+                    }
+                })
+                .catch(chyba => {
+                    document.getElementById('vystup').innerText = chyba;
+                });
+        });
+
+        //achieved
+        document.getElementById('achieved').addEventListener('click', () => {
+            fetch('api/achieved.php')
                 .then(odpoved => odpoved.json())
                 .then(data => {
                     document.getElementById('vystup').innerText = '';
@@ -137,6 +186,60 @@
                 body: JSON.stringify({
                     username,
                     password,
+                }),
+            })
+            .then(odpoved => odpoved.json())
+            .then(data => {
+                document.getElementById('vystup').innerText = data.vysledek;
+            })
+            .catch(chyba => {
+                document.getElementById('vystup').innerText = chyba;
+            });
+        });
+
+        // buy_game
+        document.getElementById('buy_game').addEventListener('click', () => {
+            let username = document.getElementById('buy_username').value;
+            let password = document.getElementById('buy_password').value;
+            let game_id = document.getElementById('buy_game_id').value;
+            
+            fetch('api/buy_game.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username,
+                    password,
+                    game_id,
+                }),
+            })
+            .then(odpoved => odpoved.json())
+            .then(data => {
+                document.getElementById('vystup').innerText = data.vysledek;
+            })
+            .catch(chyba => {
+                document.getElementById('vystup').innerText = chyba;
+            });
+        });
+
+        // get_money
+        document.getElementById('get_money').addEventListener('click', () => {
+            let username = document.getElementById('get_username').value;
+            let game_name = document.getElementById('get_game_name').value;
+            let checksum = document.getElementById('get_checksum').value;
+            let achievement = document.getElementById('get_achievement').value;
+
+            fetch('api/get_money.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username,
+                    game_name,
+                    checksum,
+                    achievement,
                 }),
             })
             .then(odpoved => odpoved.json())

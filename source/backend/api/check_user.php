@@ -34,4 +34,4 @@ if(!password_verify($password, $hash)) {
     exit();
 }
 
-echo json_encode(['vysledek' => TRUE]);
+echo json_encode(['vysledek' => true]);
