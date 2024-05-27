@@ -10,7 +10,7 @@ sirka, vyska = 800, 600
 window = pygame.display.set_mode((sirka, vyska))
 pygame.display.set_caption("Speed Typing Test")
 
-
+pozadi = pygame.image.load("pozadi.png")
 bila = (255, 255, 255)
 cerna = (0, 0, 0)
 
@@ -19,7 +19,7 @@ font = pygame.font.SysFont("Arial", 48)
 small_font = pygame.font.SysFont("Arial", 24)
 
 
-words = ["kočka", "pes", "stůl", "židle", "auto", "kolo", "čas", "den", "noc", "týden","měsíc", "rok", "voda", "vítr", "mrak", "slunce", "město", "vesnice", "les","hora", "řeka", "potok", "moře", "ocean", "strom", "kvetina", "tráva", "země","svět", "světlo", "stín", "krása", "radost", "smutek", "láska", "náklonnost","soucit", "nádech", "výdech", "pohyb", "klid", "základ", "záměr", "cíl", "plán","dům", "chata", "bytek", "pohovka", "postel", "matrace", "polštář", "koberec","okno", "dveře", "střecha", "zeď", "podlaha", "schody", "koupelna", "kuchyně","obývací", "pokoj", "ložnice", "garáž", "záhrada", "skleník", "plot", "brána","práce", "úkol", "plán", "projekt", "cíl", "úspěch", "neúspěch", "výsledek","zkušenost", "znalost", "dojmy", "pocity", "nálada", "atmosféra", "veselí","klid", "radost", "vítězství", "porážka", "soutěž", "turnaj", "úcta", "sláva"]
+words = ["kočka", "pes", "stůl", "židle", "auto", "kolo", "čas", "den", "noc", "týden","měsíc", "rok", "voda", "vítr", "mrak", "slunce", "město", "vesnice", "les","hora", "řeka", "potok", "moře", "oceán", "strom", "květina", "tráva", "země","svět", "světlo", "stín", "krása", "radost", "smutek", "láska", "náklonnost","soucit", "nádech", "výdech", "pohyb", "klid", "základ", "záměr", "cíl", "plán","dům", "chata", "zbytek", "pohovka", "postel", "matrace", "polštář", "koberec","okno", "dveře", "střecha", "zeď", "podlaha", "schody", "koupelna", "kuchyně","mobil", "pokoj", "ložnice", "garáž", "záhrada", "skleník", "plot", "brána","práce", "úkol", "plán", "projekt", "cíl", "úspěch", "neúspěch", "výsledek","zkušenost", "znalost", "dojmy", "pocity", "nálada", "atmosféra", "veselí","klid", "radost", "vítězství", "porážka", "soutěž", "turnaj", "úcta", "sláva"]
 total_words = 100
 
 def get_random_words(n):
@@ -63,11 +63,11 @@ def main():
             elapsed_time = time.time() - start_time
             wpm = (completed_words / elapsed_time) * 60 if elapsed_time > 0 else 0
 
-            if wpm >= 50:
+            if wpm >= 40:
                 game_over = True
 
         if game_over:
-            end_text = "Konec hry! Dosáhli jste 50 WPM."
+            end_text = "Konec hry! Dosáhli jste 40 WPM."
             end_surface = font.render(end_text, True, cerna)
             window.blit(end_surface, (sirka // 2 - end_surface.get_width() // 2, vyska // 2 - end_surface.get_height() // 2))
 
