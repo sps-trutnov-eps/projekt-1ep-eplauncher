@@ -23,25 +23,40 @@ p_sipka_prazdna = pygame.image.load("p_sipka_prazdna.png")
 d_sipka_prazdna = pygame.image.load("d_sipka_prazdna.png")
 n_sipka_prazdna = pygame.image.load("n_sipka_prazdna.png")
 
+obrazek_bageta_1 = pygame.image.load("bageta_1.png")
+obrazek_bageta_2 = pygame.image.load("bageta_2.png")
+obrazek_bageta_3 = pygame.image.load("bageta_3.png")
 
-
-
-
+global splneno
+splneno = False 
 global penezenka
 penezenka = 7
 global vlozeno
-vlozeno = 0
+vlozeno = 6
 global font
-font = pygame.font.Font(None, 50) 
+font = pygame.font.Font(None, 50)
 
+global tier_1
+global tier_2
+global tier_3
+tier_1 = False 
+tier_2 = False 
+tier_3 = False 
 
 def automat():
     global font
-    
+    global tier_1
+    global tier_2
+    global tier_3
     
     
     
     while True:
+        if penezenka == 0:
+            if vlozeno < 2:
+                print("konec")
+                prohra()
+                
         click_mysi = 0
         
         for event in pygame.event.get(): 
@@ -61,7 +76,8 @@ def automat():
         
         if kurzor_x > 840 and kurzor_x < 932 and kurzor_y > 360 and kurzor_y < 480 and click_mysi == 1:
             if vlozeno >= 2:
-                kod()
+                if splneno == False:
+                                kod()
             
             
         if kurzor_x > 872 and kurzor_x < 930 and kurzor_y > 491 and kurzor_y < 557 and click_mysi == 1:
@@ -71,16 +87,34 @@ def automat():
             print("nemáš kartu")
             
         if kurzor_x > 521 and kurzor_x < 797 and kurzor_y > 642 and kurzor_y < 737 and click_mysi == 1:
-            print("nic zatím nevypdalo")              
-        
-        
-        
+            print("nic zatím nevypdalo")
+            
+        if splneno == True:
+         if vlozeno >= 2 and vlozeno < 5:
+            print("ziskal jsi bagetu standart")
+            tier_1 = True
+            
+        if splneno == True:
+         if vlozeno >= 5 and vlozeno < 7:
+            print("ziskal jsi bagetu premium")
+            tier_2 = True
+            
+        if splneno == True:
+         if vlozeno == 7:
+            print("ziskal jsi bagetu premium deluxe")
+            tier_3 = True                
         
 
         okno.blit(obrazek_zed, (0,0))
         okno.blit(obrazek_automat, (450,100))
+        if tier_1 == True :
+            okno.blit(obrazek_bageta_1, (450, 20))
+        if tier_2 == True :
+            okno.blit(obrazek_bageta_2, (450, 20))
+        if tier_3 == True :
+            okno.blit(obrazek_bageta_3, (450, 20))                
         pygame.display.flip()
-        
+
         
         
 def vklad_mince():
@@ -210,12 +244,18 @@ def kod():
     
     arrow_sequence = [random.choice(["up", "down", "left", "right"]) for _ in range(6)]
     current_index = 0
-    vyhra = False
+    global splneno
+    splneno = False
     while True:
         okno.blit(obrazek_display, (0,0))
         if current_index == len(arrow_sequence):
             if timer >= 0:
-                vyhra = True
+                splneno = True
+        if timer == -1:
+            if splneno == False:
+                prohra()
+                
+        
         if timer > -1:
             timer -= 1
             print(timer)
@@ -241,7 +281,7 @@ def kod():
             okno.blit(arrow_images[direction], arrow_positions[i])             
                     
                     
-        if vyhra:
+        if splneno:
            print("SKVĚLE!")
            penezenka = 0
                     
@@ -255,6 +295,17 @@ def kod():
 
 
         pygame.display.flip()
-        clock.tick(60)  
-
-automat()
+        clock.tick(60)
+        
+def prohra():
+    while True:
+        for event in pygame.event.get(): 
+            if event.type == pygame.QUIT: 
+                pygame.quit() 
+                sys.exit()        
+        
+        
+        okno.fill((255,0,0))
+        pygame.display.flip()
+if __name__ == "__main__":
+    automat()
