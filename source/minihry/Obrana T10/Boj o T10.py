@@ -173,7 +173,7 @@ while True:
     strely = nove_strely
     
     # Vykreslení pozadí a prvků uživatelského rozhraní
-    okno.fill((34, 139, 34))
+    okno.fill((34,139,34))
     penize_text = font.render(str(penize), True, zluta)
     cena_kytka_text = font_cena.render(f"{cena_kytka} - Q", True, zluta)
     cena_strilec_text = font_cena.render(f"{cena_strilec} - W", True, zluta)
