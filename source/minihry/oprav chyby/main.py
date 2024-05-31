@@ -43,7 +43,6 @@ sentences = [
     ("Vidry lový ryby.", "Vydry loví ryby."),
     ("Jana šla do školi.", "Jana šla do školy."),
     ("Psy rychle běžely.", "Psi rychle běželi."),
-    ("Oni byly unavený.", "Oni byli unavení."),
     ("Z rána jsme se vydaly na houby.", "Zrána jsme se vydali na houby."),
     ("Husté lesi skrývají datli.", "Husté lesy skrývají datly."),
     ("Herci, baletky i uvaděčky pracovali v divadle.", "Herci, baletky i uvaděčky pracovali v divadle."),
@@ -142,6 +141,15 @@ while running:
     if rules:
         screen.fill(LIGHT_PINK)
         screen.blit(rules_cross, rules_cross_rect)
+        draw_text(f"Pravidla", (425, 50))
+        draw_text(f"Oprav větu tak, že jí celou přepíšeš včetně diakritiky.", (35, 100))
+        draw_text(f"Opravuj tím, že napíšeš správnou větu na klávesnici.", (35, 160))
+        draw_text(f"Dej si pozor, aby jsi nedal mezeru za tečkou na konci, pak se to počítá jako špatně.", (35, 220))
+        draw_text(f"Máš tři životy takže se snaž, až opravíš 10 vět vyhráváš.", (35, 280))
+        draw_text(f"Když přijdeš o všechny 3 životy tvoje opravené věty se vynulují a začínáš od znovu.", (35, 340))
+        draw_text(f"Nepodváděj!", (35, 400))
+        draw_text(f"A to hlavní: užij si hru <3", (35, 460))
+        
     if vyhra:
         screen.fill((255,255,255))
         screen.blit(win, win_rect)
