@@ -7,7 +7,7 @@ pygame.init()
   
 rozliseni_okna = (1280, 900)
 okno = pygame.display.set_mode(rozliseni_okna)
-pygame.display.set_caption("idk prostě hra xd")
+pygame.display.set_caption("Chemie hra haha")
 
 
 barva_pozadi = (50, 50, 50)
