@@ -90,7 +90,7 @@ def library_draw(window, rozliseni, games, username_text, money_text, user_infor
         y += 57
         game_number += 1
         if check_balance:
-            get_user_info(user_information[1])
+            get_user_info(user_information["username"])
 
     pygame.draw.rect(window, BACKGROUND_COLOR, (0, 0, rozliseni[0], 183))
 

@@ -10,7 +10,7 @@ URL = 'http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/buy_game.php'
 
 
 class Games:
-    def __init__(self, jmeno_hry, popis_hry, cislo_hry, nazev_slozky, nazev_hlavni_funkce, uzamcena, cena):
+    def __init__(self, jmeno_hry, popis_hry, cislo_hry, nazev_slozky, nazev_souboru, nazev_hlavni_funkce, uzamcena, cena):
         self.name = jmeno_hry
         self.description = popis_hry
         self.id = cislo_hry
@@ -55,7 +55,8 @@ class Games:
         pygame.draw.rect(window, (0, 0, 0), (rozliseni[0] - 70, y - 7 + y_difference, 2, 59))
 
         # spouštění hry
-        check_balance = Games.startin_game(self, play_button, user_money, user_information, user_password, self.function_name)
+        check_balance = Games.startin_game(self, play_button, user_money, user_information, user_password,
+                                           self.function_name)
         return check_balance
 
     def startin_game(self, play_button, user_money, user_information, user_password, *args, **kwargs):
@@ -64,7 +65,7 @@ class Games:
         # spouštěč hry
         if pygame.mouse.get_pressed()[0] and play_button.colliderect((pos[0], pos[1], 1, 1)):
             if not self.locked:
-                module_name = f"minihry.{self.location}.{self.function_name}"
+                module_name = f"minihry.{self.location}"
                 module = importlib.import_module(module_name)
 
                 try:
@@ -75,12 +76,18 @@ class Games:
                 except Exception as e:
                     #print(f"Error executing module '{module_name}': {e}")
                     # pokud není zadán název funkce -> spustit jako skript
-                    exec(module.__loader__.get_source(module.__name__))
+                    try:
+                        module = importlib.import_module(f"minihry.{self.location}.source.Main")   # {self.function_name}
+                        func = getattr(module, self.function_name)
+
+                    except:
+                        exec(module.__loader__.get_source(module.__name__))
 
                 window = pygame.display.set_mode((800, 800))
                 pygame.display.set_caption("EPLauncher")
 
             elif self.locked:
+                #print("locked game")
                 if int(self.cost) < int(user_money):
                     #print("purchasing")
                     game_id = self.id
@@ -89,11 +96,16 @@ class Games:
 
                     try:
                         # Send the POST request
-                        response = requests.post(URL, json={'username': username, 'password': password, 'game_id': game_id})
+                        response = requests.post(URL, json={'username': username,
+                                                            'password': password,
+                                                            'game_id': game_id})
 
                         # Check if the response contains valid JSON
                         try:
                             response_data = response.json()
+                            self.owned = True
+                            self.locked = False
+                            print("self.owned je možná true")
                         except json.JSONDecodeError:
                             #print("Error: Response is not valid JSON")
                             #print("Response content:", response.text)
@@ -120,7 +132,7 @@ def check_ownership(games_owned, games):
 
 
 def get_games(games_owned):
-    #sem vypisujte své hry ve formátu:
+    # sem vypisujte své hry ve formátu:
     # název hry, její popis, kolikátá je v pořadí (podle databáze, doptejte se), název její složky,
     # název hlavní funkce (pokud je), zda je defaultně uzamčená
 
@@ -139,8 +151,8 @@ def get_games(games_owned):
     # velikost pro ikony her je 55px * 55px
     # ikonu vložte do samé složky co máte hlavní soubor vaší hry a pojmenujte ji icon.png
 
-    pokerun = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 0, "Pokerun", "main", False, 0)
-    sokobox = Games("Sokobox", "Sokobox je hra s cílem posunout všechny bedny na jejich určené místo.", 1000, "Sokobox", "main", True, 10)
+    pokerun = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 0, "Pokerun", "main", None, False, 0)
+    sokobox = Games("Sokobox", "Sokobox je hra s cílem posunout všechny bedny na jejich určené místo.", 1000, "Sokobox", "Main", "Menu", True, 10)
     
     games = [pokerun, sokobox]
 
