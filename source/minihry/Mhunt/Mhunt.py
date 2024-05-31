@@ -14,7 +14,7 @@ okno = pygame.display.set_mode((screen_width,
                                 screen_height))
 
 # caption and icon
-pygame.display.set_caption("Vítej v těločičně\
+pygame.display.set_caption("Vítej v tělocvičně\
 Mhunt od: Denis")
 
 
@@ -137,7 +137,7 @@ while running:
 	# movement of the invader
 	for i in range(no_of_invaders):
 		
-		if invader_Y[i] >= 750:
+		if invader_Y[i] >= 735:
 			if abs(player_X-invader_X[i]) < 80:
 				for j in range(no_of_invaders):
 					invader_Y[j] = 2000
@@ -154,7 +154,7 @@ while running:
 								bullet_Y, invader_Y[i])
 		if collision:
 			score_val += 1
-			bullet_Y = 600
+			bullet_Y = 800
 			bullet_state = "rest"
 			invader_X[i] = random.randint(64, 736)
 			invader_Y[i] = random.randint(30, 200)
