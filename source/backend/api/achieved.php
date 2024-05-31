@@ -5,15 +5,15 @@ require_once "../../config.php";
 
 $spojeni = mysqli_connect(dbhost, dbuser, dbpass, dbname);
 
-$dotaz = "SELECT * FROM 1ep_eplauncher_owned";
+$dotaz = "SELECT * FROM 1ep_eplauncher_achieved";
 $data = mysqli_query($spojeni, $dotaz);
 
 mysqli_close($spojeni);
 
-$vlastneno = [];
+$ziskano = [];
 
 while($zaznam = mysqli_fetch_assoc($data)) {
-    $vlastneno[] = $zaznam;
+    $ziskano[] = $zaznam;
 }
 
-echo json_encode($vlastneno);
+echo json_encode($ziskano);

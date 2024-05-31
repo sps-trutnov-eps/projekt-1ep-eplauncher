@@ -72,5 +72,5 @@ mysqli_query($spojeni, $dotaz);
 $dotaz = "INSERT INTO 1ep_eplauncher_owned (user_id, game_id) VALUES ('$user_id', '$game_id')";
 mysqli_query($spojeni, $dotaz);
 
-echo json_encode(['vysledek' => TRUE]);
+echo json_encode(['vysledek' => true]);
 mysqli_close($spojeni);
