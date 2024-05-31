@@ -21,7 +21,10 @@ pravidla_rect = pravidla.get_rect(center=(900, 550))
 rules_cross = pygame.image.load("obrázky/rules_end.png")
 rules_cross_rect = rules_cross.get_rect(center=(940, 50))
 win = pygame.image.load("obrázky/vyhra.png")
-win_rect = win.get_rect(center=(500,300))
+win_rect = win.get_rect(center=(500,250))
+menu = pygame.image.load("obrázky/menu.png")
+menu = pygame.transform.scale(menu, (200, 100))
+menu_rect = menu.get_rect(center=(475, 535))
 
 
 
@@ -120,6 +123,8 @@ while running:
                 rules = False
             elif check_button_rect.collidepoint(event.pos) and opravovani:
                 check_sentence()
+            elif menu_rect.collidepoint(event.pos) and vyhra:
+                vyhra = False
         elif event.type == pygame.KEYDOWN and opravovani:
             if event.key == pygame.K_BACKSPACE:
                 user_input = user_input[:-1]
@@ -146,13 +151,14 @@ while running:
         draw_text(f"Opravuj tím, že napíšeš správnou větu na klávesnici.", (35, 160))
         draw_text(f"Dej si pozor, aby jsi nedal mezeru za tečkou na konci, pak se to počítá jako špatně.", (35, 220))
         draw_text(f"Máš tři životy takže se snaž, až opravíš 10 vět vyhráváš.", (35, 280))
-        draw_text(f"Když přijdeš o všechny 3 životy tvoje opravené věty se vynulují a začínáš od znovu.", (35, 340))
+        draw_text(f"Když přijdeš o všechny 3 životy tvoje opravené věty se vynulují a začínáš od znovuv hlavním menu.", (35, 340))
         draw_text(f"Nepodváděj!", (35, 400))
         draw_text(f"A to hlavní: užij si hru <3", (35, 460))
         
     if vyhra:
         screen.fill((255,255,255))
         screen.blit(win, win_rect)
+        screen.blit(menu,menu_rect)
     pygame.display.update()
     clock.tick(60)
 
