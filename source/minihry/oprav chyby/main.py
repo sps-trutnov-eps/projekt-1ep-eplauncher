@@ -8,7 +8,8 @@ screen = pygame.display.set_mode(size)
 running = True
 opravovani = False
 rules = False
-vyhra = False 
+vyhra = False
+hearts = 3
 clock = pygame.time.Clock()
 
 # Load images
@@ -46,7 +47,7 @@ sentences = [
     ("Vidry lový ryby.", "Vydry loví ryby."),
     ("Jana šla do školi.", "Jana šla do školy."),
     ("Psy rychle běžely.", "Psi rychle běželi."),
-    ("Z rána jsme se vydaly na houby.", "Zrána jsme se vydali na houby."),
+    ("Z rána jsme se vydali na houby.", "Zrána jsme se vydali na houby."),
     ("Husté lesi skrývají datli.", "Husté lesy skrývají datly."),
     ("Herci, baletky i uvaděčky pracovali v divadle.", "Herci, baletky i uvaděčky pracovali v divadle."),
     ("V televizi vysílali pohádky.", "V televizi vysílali pohádky."),
@@ -59,7 +60,7 @@ check_button_rect = pygame.Rect(425, 400, 150, 50)
 result_message = ''
 result_color = (0, 0, 0)
 total_correct = 0
-max_sentences = 1
+max_sentences = 10
 
 # Colors
 WHITE = (255, 255, 255)
@@ -74,7 +75,7 @@ def draw_text(text, position, color=BLACK):
     font.render_to(screen, position, text, color)
 
 def check_sentence():
-    global result_message, result_color, total_correct, opravovani, vyhra
+    global result_message, result_color, total_correct, opravovani, vyhra, hearts
     if user_input == correct_sentence:
         result_message = "Správně! Opravil(a) jsi větu správně."
         result_color = GREEN
@@ -89,6 +90,8 @@ def check_sentence():
     else:
         result_message = "Špatně. Zkus to znovu."
         result_color = RED
+        hearts -= 1
+        if hearts == 0: opravovani = False
 
 def next_sentence():
     global current_sentence, correct_sentence, user_input, result_message
@@ -115,6 +118,7 @@ while running:
                 opravovani = True
                 result_message = ''
                 total_correct = 0
+                hearts = 3
                 random.shuffle(sentences)
                 next_sentence()
             elif pravidla_rect.collidepoint(event.pos):
@@ -140,20 +144,21 @@ while running:
         draw_text(user_input, (input_rect.x + 5, input_rect.y + 15))
         draw_text(f"Pro zkontrolování věty zmáčkni ENTER", (225, 360))
         draw_text(f"opraveno {total_correct}/10 ", (800, 550))
+        draw_text(f"Životy: {hearts} ", (50, 550))
         if result_message:
             draw_text(result_message, (200, 500), result_color)
     
     if rules:
         screen.fill(LIGHT_PINK)
         screen.blit(rules_cross, rules_cross_rect)
-        draw_text(f"Pravidla", (425, 50))
-        draw_text(f"Oprav větu tak, že jí celou přepíšeš včetně diakritiky.", (35, 100))
-        draw_text(f"Opravuj tím, že napíšeš správnou větu na klávesnici.", (35, 160))
-        draw_text(f"Dej si pozor, aby jsi nedal mezeru za tečkou na konci, pak se to počítá jako špatně.", (35, 220))
-        draw_text(f"Máš tři životy takže se snaž, až opravíš 10 vět vyhráváš.", (35, 280))
-        draw_text(f"Když přijdeš o všechny 3 životy tvoje opravené věty se vynulují a začínáš od znovuv hlavním menu.", (35, 340))
-        draw_text(f"Nepodváděj!", (35, 400))
-        draw_text(f"A to hlavní: užij si hru <3", (35, 460))
+        draw_text(f"Pravydla", (425, 50))
+        draw_text(f"Oprav vjetu tak, že jí celou přepíšež včetně diakritiky a velkích písmen.", (35, 100))
+        draw_text(f"Opravuj tím, že napíšeš zprávnou větu na klávesnicy.", (35, 160))
+        draw_text(f"Dej si pozor, aby jsi nedal mezeru za tečkou na konci, pak se to počítá jako žpatně.", (35, 220))
+        draw_text(f"Máš třy životi, takže se snaš, aš opravíž 10 vět vyhráváš.", (35, 280))
+        draw_text(f"Když přijdeš o všechny 3 životi, tvoje opravené věti se vynulují a začínáš vod znova.", (35, 340))
+        draw_text(f"Nepotváděj!", (35, 400))
+        draw_text(f"A to hlavný: užij sy hru <3", (35, 460))
         
     if vyhra:
         screen.fill((255,255,255))
