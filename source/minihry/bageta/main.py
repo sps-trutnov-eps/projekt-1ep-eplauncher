@@ -27,6 +27,8 @@ obrazek_bageta_1 = pygame.image.load("bageta_1.png")
 obrazek_bageta_2 = pygame.image.load("bageta_2.png")
 obrazek_bageta_3 = pygame.image.load("bageta_3.png")
 
+
+
 global splneno
 splneno = False 
 global penezenka
@@ -82,42 +84,39 @@ def automat():
             
         if kurzor_x > 872 and kurzor_x < 930 and kurzor_y > 491 and kurzor_y < 557 and click_mysi == 1:
             vklad_mince()           
-            
-        if kurzor_x > 900 and kurzor_x < 932 and kurzor_y > 318 and kurzor_y < 351 and click_mysi == 1:
-            print("nemáš kartu")
-            
-        if kurzor_x > 521 and kurzor_x < 797 and kurzor_y > 642 and kurzor_y < 737 and click_mysi == 1:
-            print("nic zatím nevypdalo")
+
             
         if splneno == True:
          if vlozeno >= 2 and vlozeno < 5:
-            print("ziskal jsi bagetu standart")
+            print("ziskal jsi bagetu")
+            okno.blit(obrazek_bageta_1, (450, 20))
             tier_1 = True
             
         if splneno == True:
          if vlozeno >= 5 and vlozeno < 7:
-            print("ziskal jsi bagetu premium")
+            print("ziskal jsi bagetu standart")
+            okno.blit(obrazek_bageta_2, (450, 20))
             tier_2 = True
             
         if splneno == True:
          if vlozeno == 7:
-            print("ziskal jsi bagetu premium deluxe")
+            print("ziskal jsi bagetu deluxe")
+            okno.blit(obrazek_bageta_3, (450, 20))
             tier_3 = True                
-        
+
+
 
         okno.blit(obrazek_zed, (0,0))
         okno.blit(obrazek_automat, (450,100))
+        pygame.display.flip()
         if tier_1 == True :
-            okno.blit(obrazek_bageta_1, (450, 20))
             return "nazev_achievementu_1"
         if tier_2 == True :
-            okno.blit(obrazek_bageta_2, (450, 20))
             return "nazev_achievementu_2"
         if tier_3 == True :
-            okno.blit(obrazek_bageta_3, (450, 20))
             return "nazev_achievementu_3"
             
-        pygame.display.flip()
+        
 
         
         
