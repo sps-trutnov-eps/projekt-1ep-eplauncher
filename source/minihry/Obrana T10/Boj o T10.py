@@ -167,6 +167,7 @@ while True:
                 if nepratele_zasahy[i] >= 3:
                     nepratele.pop(i)
                     nepratele_zasahy.pop(i)
+                    penize += 20                          # pricitani penez za kil
                 break
         if not zasah and strela.rect.x < rozliseni_okna[0] - 180:
             nove_strely.append(strela)
@@ -195,12 +196,12 @@ while True:
     pygame.draw.rect(okno, (0, 0, 0), (1320, 50, 180, 1))
     okno.blit(penize_text, (1320, 20))
     okno.blit(cas_text_render, (10, 10))
-    okno.blit(kytka, (1380, 100))
+    okno.blit(kytka, (1360, 60))
     okno.blit(cena_kytka_text, (1390, 150))
-    okno.blit(strilec, (1380, 250))
-    okno.blit(cena_strilec_text, (1390, 300))
-    okno.blit(zed, (1380, 400))
-    okno.blit(cena_zed_text, (1390, 450))
+    okno.blit(strilec, (1360, 210))
+    okno.blit(cena_strilec_text, (1380, 310))
+    okno.blit(zed, (1365, 360))
+    okno.blit(cena_zed_text, (1380, 465))
 
     pygame.draw.rect(okno, (0, 0, 0), (1320, 200, 300, 1))
     pygame.draw.rect(okno, (0, 0, 0), (1320, 350, 300, 1))
