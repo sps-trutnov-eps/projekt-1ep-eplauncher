@@ -176,7 +176,7 @@ def draw_level(level):
 
 # Hlavní funkce
 pygame.display.set_caption('SokoBox')
-def main():
+def hra():
     pygame.init()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     clock = pygame.time.Clock()
@@ -334,7 +334,7 @@ def Menu():
         m_state = pygame.mouse.get_pressed()
         m_pos = pygame.mouse.get_pos()
         if m_state[0] and rect_play.collidepoint(m_pos):
-            main()
+            hra()
             running = False 
             break 
         pygame.display.flip()
