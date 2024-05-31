@@ -3,7 +3,7 @@ import pygame
 import random
 import math
 from pygame import mixer
-
+#pro nepovoláné čtenáře: GET OUT OF MY SWAMP
 # initializing pygame
 pygame.init()
 
