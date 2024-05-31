@@ -109,10 +109,14 @@ def automat():
         okno.blit(obrazek_automat, (450,100))
         if tier_1 == True :
             okno.blit(obrazek_bageta_1, (450, 20))
+            return "nazev_achievementu_1"
         if tier_2 == True :
             okno.blit(obrazek_bageta_2, (450, 20))
+            return "nazev_achievementu_2"
         if tier_3 == True :
-            okno.blit(obrazek_bageta_3, (450, 20))                
+            okno.blit(obrazek_bageta_3, (450, 20))
+            return "nazev_achievementu_3"
+            
         pygame.display.flip()
 
         
@@ -173,7 +177,7 @@ def vklad_mince():
 
 
          if pygame.key.get_pressed()[pygame.K_ESCAPE]:
-             automat()
+             return 
              
              
              
@@ -272,7 +276,7 @@ def kod():
                        (event.key == pygame.K_RIGHT and arrow_sequence[current_index] == "right"):
                         current_index += 1    
         if pygame.key.get_pressed()[pygame.K_ESCAPE]:
-             automat()
+             return
 
         for i, direction in enumerate(arrow_sequence):
          if i < current_index:
@@ -287,7 +291,7 @@ def kod():
                     
         
         okno.blit(font.render(str(round(timer/60)), True, (255, 255, 255)), (700, 700))
-        
+
                
 
                 
@@ -309,5 +313,6 @@ def prohra():
         okno.fill((255,0,0))
         okno.blit(font.render("prohrál jsi", True, (255,255,255)), (700, 200))
         pygame.display.flip()
+        
 if __name__ == "__main__":
     automat()
