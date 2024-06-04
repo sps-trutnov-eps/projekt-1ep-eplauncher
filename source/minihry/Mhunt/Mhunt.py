@@ -38,9 +38,9 @@ def game_over():
 										True, (0,0,0))
 	okno.blit(game_over_text, (190, 250))
 
-# Background Sound
-#mixer.music.load('data/background.wav')
-#mixer.music.play(-1)
+ #Background Sound
+mixer.music.load('images\pozadi_hudba.mp3')
+mixer.music.play(-1)
 
 # player
 playerImage = pygame.image.load('images\hrac.png')
