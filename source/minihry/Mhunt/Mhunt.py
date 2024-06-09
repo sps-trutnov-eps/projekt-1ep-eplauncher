@@ -4,27 +4,27 @@ import random
 import math
 from pygame import mixer
 #pro nepovoláné čtenáře: GET OUT OF MY SWAMP
-# initializing pygame
+
 pygame.init()
 
-# creating screen
+
 screen_width = 1200
-screen_height = 1000
+screen_height = 800
 okno = pygame.display.set_mode((screen_width,
                                 screen_height))
 
-# caption and icon
+
 pygame.display.set_caption("Vítej v tělocvičně\
 Mhunt od: Denis")
 
 
-# Score
+
 score_val = 0
 scoreX = 5
 scoreY = 5
 font = pygame.font.Font('freesansbold.ttf', 20)
 
-# Game Over
+
 game_over_font = pygame.font.Font('freesansbold.ttf', 64)
 
 
@@ -38,17 +38,17 @@ def game_over():
 										True, (0,0,0))
 	okno.blit(game_over_text, (190, 250))
 
- #Background Sound
+
 mixer.music.load('images\pozadi_hudba.mp3')
 mixer.music.play(-1)
 
-# player
+
 playerImage = pygame.image.load('images\hrac.png')
 player_X = 370
-player_Y = 800
+player_Y = 650
 player_Xchange = 0
 
-# Invader
+
 invaderImage = []
 invader_X = []
 invader_Y = []
@@ -63,9 +63,7 @@ for num in range(no_of_invaders):
 	invader_Xchange.append(1.2)
 	invader_Ychange.append(50)
 
-# Bullet
-# rest - bullet is not moving
-# fire - bullet is moving
+
 bulletImage = pygame.image.load('images\strela.png')
 bullet_X = 0
 bullet_Y = 500
@@ -73,7 +71,7 @@ bullet_Xchange = 0
 bullet_Ychange = 3
 bullet_state = "rest"
 
-# Collision Concept
+
 def isCollision(x1, x2, y1, y2):
 	distance = math.sqrt((math.pow(x1 - x2,2)) +
 						(math.pow(y1 - y2,2)))
@@ -93,18 +91,17 @@ def bullet(x, y):
 	okno.blit(bulletImage, (x, y))
 	bullet_state = "fire"
 
-# game loop
+
 running = True
 while running:
 
-	# RGB
-	okno.fill((255, 255, 255))
+
+	okno.fill((128, 70, 27))
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			running = False
 
-		# Controlling the player movement
-		# from the arrow keys
+
 		if event.type == pygame.KEYDOWN:
 			if event.key == pygame.K_LEFT:
 				player_Xchange = -1.7
@@ -112,12 +109,12 @@ while running:
 				player_Xchange = 1.7
 			if event.key == pygame.K_SPACE:
 			
-				# Fixing the change of direction of bullet
+				
 				if bullet_state == "rest":
 					bullet_X = player_X
 					bullet(bullet_X, bullet_Y)
-					#bullet_sound = mixer.Sound('data/bullet.wav')
-					#bullet_sound.play()
+					bullet_sound = mixer.Sound('images\strela.wav')
+					bullet_sound.play()
 		if event.type == pygame.KEYUP:
 			player_Xchange = 0
 
@@ -137,12 +134,11 @@ while running:
 	# movement of the invader
 	for i in range(no_of_invaders):
 		
-		if invader_Y[i] >= 735:
+		if invader_Y[i] >= 600:
 			if abs(player_X-invader_X[i]) < 80:
 				for j in range(no_of_invaders):
 					invader_Y[j] = 2000
-					#explosion_sound = mixer.Sound('data/explosion.wav')
-					#explosion_sound.play()
+
 				game_over()
 				break
 
@@ -154,7 +150,7 @@ while running:
 								bullet_Y, invader_Y[i])
 		if collision:
 			score_val += 1
-			bullet_Y = 800
+			bullet_Y = 650
 			bullet_state = "rest"
 			invader_X[i] = random.randint(64, 736)
 			invader_Y[i] = random.randint(30, 200)
