@@ -19,6 +19,7 @@ class Games:
         self.locked = uzamcena
         self.owned = False
         self.cost = cena
+        self.file_name = nazev_souboru
 
     def drawing(self, x, y, window, rozliseni, nazev_slozky, y_difference, user_money, user_information, user_password):
         velky_font = pygame.font.Font(None, 45)
@@ -65,22 +66,26 @@ class Games:
         # spouštěč hry
         if pygame.mouse.get_pressed()[0] and play_button.colliderect((pos[0], pos[1], 1, 1)):
             if not self.locked:
-                module_name = f"minihry.{self.location}"
-                module = importlib.import_module(module_name)
-
                 try:
-                    if self.function_name:
-                        func = getattr(module, self.function_name)
-                        return func(*args, **kwargs)
+                    module_name = f"minihry.{self.location}.{self.file_name}"
+                    module = importlib.import_module(module_name)
+                except:
+                    module_name = f"minihry.{self.location}.source.{self.file_name}"
+                    module = importlib.import_module(module_name)
 
-                except Exception as e:
-                    #print(f"Error executing module '{module_name}': {e}")
+                if self.function_name is None:
                     # pokud není zadán název funkce -> spustit jako skript
-                    try:
-                        module = importlib.import_module(f"minihry.{self.location}.source.Main")   # {self.function_name}
-                        func = getattr(module, self.function_name)
+                    exec(module.__loader__.get_source(module.__name__))
 
-                    except:
+                else:
+                    try:
+                        func = getattr(module, self.function_name)
+                        return func()
+
+                    except Exception as e:
+                        print(f"Error executing module '{module_name}': {e}")
+
+                        # když stejně nic nefunguje, spustit jako skript
                         exec(module.__loader__.get_source(module.__name__))
 
                 window = pygame.display.set_mode((800, 800))
@@ -105,7 +110,7 @@ class Games:
                             response_data = response.json()
                             self.owned = True
                             self.locked = False
-                            print("self.owned je možná true")
+                            #print("self.owned je možná true")
                         except json.JSONDecodeError:
                             #print("Error: Response is not valid JSON")
                             #print("Response content:", response.text)
@@ -153,8 +158,11 @@ def get_games(games_owned):
 
     pokerun = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 0, "Pokerun", "main", None, False, 0)
     sokobox = Games("Sokobox", "Sokobox je hra s cílem posunout všechny bedny na jejich určené místo.", 1000, "Sokobox", "Main", "Menu", True, 10)
-    
-    games = [pokerun, sokobox]
+    bageta = Games("Bageta", "Kupte si co nejlepší bagetu!", 0, "bageta", "main", "automat", False, 0)
+    flappybird = Games("Flappybird", "Dosáhněte co nejvyšího skóre!", 0, "Flappy bird", "Flappy_Bird_py", "main", False, 0)
+
+    # TODO: doplnit ID a cenu her (bageta, flappybird)
+    games = [pokerun, sokobox, bageta, flappybird]
 
     check_ownership(games_owned, games)
 
