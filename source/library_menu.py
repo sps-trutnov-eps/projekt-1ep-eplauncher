@@ -89,8 +89,12 @@ def library_draw(window, rozliseni, games, username_text, money_text, user_infor
 
         y += 57
         game_number += 1
+
         if check_balance:
             user_information = get_user_info(user_information["username"])
+        elif check_balance is not None:
+            pass
+            #print(check_balance)
 
     pygame.draw.rect(window, BACKGROUND_COLOR, (0, 0, rozliseni[0], 183))
 
@@ -126,10 +130,7 @@ def library(rozliseni, window, clock, username, password):
     money_text = even_smaller_font.render(money_text_string, True, WHITE)
 
     from game_list import get_games
-
-
-
-    games_owned = []   # TODO: do tohoto listu všechny ID her, který uživatel vlastní
+    games_owned = []
     games = get_games(games_owned)
 
     for game in games:

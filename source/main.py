@@ -10,7 +10,7 @@ def main():
     pygame.display.set_caption("EPLauncher")
     window = pygame.display.set_mode(rozliseni)
     clock = pygame.time.Clock()
-    icon = pygame.image.load("images/SPSlogo.jpg")
+    icon = pygame.image.load("images/launcher_icon.png")
 
     pygame.display.set_icon(icon)
 
