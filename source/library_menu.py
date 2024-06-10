@@ -29,6 +29,7 @@ max_y = 0
 # urls
 URL1 = 'http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/users.php'
 URL2 = 'http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/add_user.php'
+URL3 = 'http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/owned.php'
 
 
 def get_user_info(username):
@@ -37,12 +38,18 @@ def get_user_info(username):
 
     # Create a dictionary to store users' information with their usernames as keys
     users_dict = {user['username']: user for user in user_info}
-
     # Retrieve the user with the specified ID from the dictionary
     users_info = users_dict.get(username)
 
+    
     return users_info
 
+def get_users_owned_games():
+    odpoved = requests.get(URL3)
+    hry_info = json.loads(response.text)
+
+    #dej to do slovniku, prirad s aktivnim userem (dle id) a pak to jen appendni do games_owned
+    return True
 
 def scrolling():
     global y_difference, last_mouse_y, running
@@ -131,6 +138,7 @@ def library(rozliseni, window, clock, username, password):
 
     games_owned = []   # TODO: do tohoto listu všechny ID her, který uživatel vlastní
     games = get_games(games_owned)
+
 
     for game in games:
         max_y += 57

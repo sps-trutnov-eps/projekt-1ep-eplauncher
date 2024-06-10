@@ -142,6 +142,7 @@ def check_ownership(games_owned, games):
                 game.locked = False
 
 
+
 def get_games(games_owned):
     # sem vypisujte své hry ve formátu:
     # název hry, její popis, kolikátá je v pořadí (podle databáze, doptejte se), název její složky,
