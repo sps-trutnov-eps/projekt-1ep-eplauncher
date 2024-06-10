@@ -339,11 +339,8 @@ def Menu():
         if m_state[0] and rect_play.collidepoint(m_pos):
             hra()
             running = False 
-            break 
+
         pygame.display.flip()
         clock.tick(60)
-    pygame.quit()
-    sys.exit()
-    return points
 
-Menu()
+    return points

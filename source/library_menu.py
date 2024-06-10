@@ -126,7 +126,10 @@ def library(rozliseni, window, clock, username, password):
     money_text = even_smaller_font.render(money_text_string, True, WHITE)
 
     from game_list import get_games
-    games_owned = []
+
+
+
+    games_owned = []   # TODO: do tohoto listu všechny ID her, který uživatel vlastní
     games = get_games(games_owned)
 
     for game in games:

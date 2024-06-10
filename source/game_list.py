@@ -93,7 +93,7 @@ class Games:
 
             elif self.locked:
                 #print("locked game")
-                if int(self.cost) < int(user_money):
+                if int(self.cost) <= int(user_money):
                     #print("purchasing")
                     game_id = self.id
                     username = user_information["username"]
@@ -108,8 +108,13 @@ class Games:
                         # Check if the response contains valid JSON
                         try:
                             response_data = response.json()
-                            self.owned = True
-                            self.locked = False
+                            print(response_data)
+                            gotten_response = str(response_data['vysledek'])
+                            print(gotten_response)
+
+                            if gotten_response == "true" or gotten_response == "Uživatel již hru vlastní.":
+                                self.owned = True
+                                self.locked = False
                             #print("self.owned je možná true")
                         except json.JSONDecodeError:
                             #print("Error: Response is not valid JSON")
@@ -117,7 +122,7 @@ class Games:
                             return
 
                         vysledek = response_data.get('vysledek')
-                        #print(response_data)
+
 
                     except requests.RequestException as e:
                         # Handle any requests exceptions
@@ -134,6 +139,7 @@ def check_ownership(games_owned, games):
         for number in games_owned:
             if number == game.id:
                 game.owned = True
+                game.locked = False
 
 
 def get_games(games_owned):
@@ -165,10 +171,5 @@ def get_games(games_owned):
     games = [pokerun, sokobox, bageta, flappybird]
 
     check_ownership(games_owned, games)
-
-    for game in games:
-        if game.locked:
-            if game.owned:
-                game.locked = False
 
     return games
