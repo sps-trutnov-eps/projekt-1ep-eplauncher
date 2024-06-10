@@ -90,7 +90,7 @@ def library_draw(window, rozliseni, games, username_text, money_text, user_infor
         y += 57
         game_number += 1
         if check_balance:
-            get_user_info(user_information[1])
+            user_information = get_user_info(user_information["username"])
 
     pygame.draw.rect(window, BACKGROUND_COLOR, (0, 0, rozliseni[0], 183))
 
@@ -108,6 +108,7 @@ def library_draw(window, rozliseni, games, username_text, money_text, user_infor
     pygame.draw.rect(window, BACKGROUND_COLOR, (0, rozliseni[1] - 185, rozliseni[0], 185))
 
     pygame.display.flip()
+    return user_information
 
 
 def library(rozliseni, window, clock, username, password):
@@ -125,7 +126,10 @@ def library(rozliseni, window, clock, username, password):
     money_text = even_smaller_font.render(money_text_string, True, WHITE)
 
     from game_list import get_games
-    games_owned = []
+
+
+
+    games_owned = []   # TODO: do tohoto listu všechny ID her, který uživatel vlastní
     games = get_games(games_owned)
 
     for game in games:
@@ -136,5 +140,5 @@ def library(rozliseni, window, clock, username, password):
             if udalost.type == pygame.QUIT:
                 running = False
 
-        library_draw(window, rozliseni, games, username_text, money_text, user_information, password)
+        user_information = library_draw(window, rozliseni, games, username_text, money_text, user_information, password)
         scrolling()
