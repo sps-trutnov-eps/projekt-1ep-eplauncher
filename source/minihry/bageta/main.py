@@ -5,27 +5,27 @@ pygame.init()
 clock = pygame.time.Clock()
 
 okno = pygame.display.set_mode((1400, 800))
-obrazek_automat = pygame.image.load("automat.png")
-obrazek_automat_vklad = pygame.image.load("automat_vklad.png")
-obrazek_10_korun = pygame.image.load("10_korun.png")
-obrazek_zed = pygame.image.load("zeď.png")
-obrazek_display = pygame.image.load("displej.png")
+obrazek_automat = pygame.image.load("minihry/bageta/automat.png")
+obrazek_automat_vklad = pygame.image.load("minihry/bageta/automat_vklad.png")
+obrazek_10_korun = pygame.image.load("minihry/bageta/10_korun.png")
+obrazek_zed = pygame.image.load("minihry/bageta/zeď.png")
+obrazek_display = pygame.image.load("minihry/bageta/displej.png")
 
 
 
-l_sipka_plna = pygame.image.load("l_sipka_plna.png")
-p_sipka_plna = pygame.image.load("p_sipka_plna.png")
-d_sipka_plna = pygame.image.load("d_sipka_plna.png")
-n_sipka_plna = pygame.image.load("n_sipka_plna.png")
+l_sipka_plna = pygame.image.load("minihry/bageta/l_sipka_plna.png")
+p_sipka_plna = pygame.image.load("minihry/bageta/p_sipka_plna.png")
+d_sipka_plna = pygame.image.load("minihry/bageta/d_sipka_plna.png")
+n_sipka_plna = pygame.image.load("minihry/bageta/n_sipka_plna.png")
 
-l_sipka_prazdna = pygame.image.load("l_sipka_prazdna.png")
-p_sipka_prazdna = pygame.image.load("p_sipka_prazdna.png")
-d_sipka_prazdna = pygame.image.load("d_sipka_prazdna.png")
-n_sipka_prazdna = pygame.image.load("n_sipka_prazdna.png")
+l_sipka_prazdna = pygame.image.load("minihry/bageta/l_sipka_prazdna.png")
+p_sipka_prazdna = pygame.image.load("minihry/bageta/p_sipka_prazdna.png")
+d_sipka_prazdna = pygame.image.load("minihry/bageta/d_sipka_prazdna.png")
+n_sipka_prazdna = pygame.image.load("minihry/bageta/n_sipka_prazdna.png")
 
-obrazek_bageta_1 = pygame.image.load("bageta_1.png")
-obrazek_bageta_2 = pygame.image.load("bageta_2.png")
-obrazek_bageta_3 = pygame.image.load("bageta_3.png")
+obrazek_bageta_1 = pygame.image.load("minihry/bageta/bageta_1.png")
+obrazek_bageta_2 = pygame.image.load("minihry/bageta/bageta_2.png")
+obrazek_bageta_3 = pygame.image.load("minihry/bageta/bageta_3.png")
 
 
 
@@ -50,59 +50,57 @@ def automat():
     global tier_1
     global tier_2
     global tier_3
-    
-    
-    
-    while True:
+
+    game_running = True
+    while game_running:
         if penezenka == 0:
             if vlozeno < 2:
-                print("konec")
+                #print("konec")
                 prohra()        
                 
         click_mysi = 0
         
         for event in pygame.event.get(): 
             if event.type == pygame.QUIT: 
-                pygame.quit() 
-                sys.exit()
+                game_running = False
 
-                
+
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 click_mysi = event.button
-                
- 
-                
-                
-        kurzor_x, kurzor_y = pygame.mouse.get_pos()       
+
+
+
+
+        kurzor_x, kurzor_y = pygame.mouse.get_pos()
         #print(kurzor_x, kurzor_y)
         
         if kurzor_x > 840 and kurzor_x < 932 and kurzor_y > 360 and kurzor_y < 480 and click_mysi == 1:
             if vlozeno >= 2:
                 if splneno == False:
-                                kod()
+                    kod()
             
-            
+
         if kurzor_x > 872 and kurzor_x < 930 and kurzor_y > 491 and kurzor_y < 557 and click_mysi == 1:
-            vklad_mince()           
+            vklad_mince()
 
             
         if splneno == True:
          if vlozeno >= 2 and vlozeno < 5:
-            print("ziskal jsi bagetu")
+            #print("ziskal jsi bagetu")
             okno.blit(obrazek_bageta_1, (450, 20))
             tier_1 = True
             
         if splneno == True:
          if vlozeno >= 5 and vlozeno < 7:
-            print("ziskal jsi bagetu standart")
+            #print("ziskal jsi bagetu standart")
             okno.blit(obrazek_bageta_2, (450, 20))
             tier_2 = True
             
         if splneno == True:
          if vlozeno == 7:
-            print("ziskal jsi bagetu deluxe")
+            #print("ziskal jsi bagetu deluxe")
             okno.blit(obrazek_bageta_3, (450, 20))
-            tier_3 = True                
+            tier_3 = True
 
 
 
@@ -115,28 +113,28 @@ def automat():
             return "nazev_achievementu_2"
         if tier_3 == True :
             return "nazev_achievementu_3"
-            
-        
 
-        
-        
+
+
+
+
 def vklad_mince():
     global font
     global penezenka
     global vlozeno
 
-    
-    
+
+
     space_cooldown = 0
     x_mince = 402
     plus = True
-    minus = False 
-    while True:
-        
-         for event in pygame.event.get(): 
-            if event.type == pygame.QUIT: 
-                pygame.quit() 
-                sys.exit()
+    minus = False
+    game_running = True
+    while game_running:
+
+         for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                game_running = False
                 
          if x_mince <= 373:
              minus = False
@@ -188,20 +186,20 @@ def vklad_mince():
          Vedle = False 
          if x_mince >= 695 and x_mince <= 850 and space:
              penezenka -= 1
-             print(penezenka)
-             print("trefa")
+             #print(penezenka)
+             #print("trefa")
              Trefa = True
              vlozeno += 1
              
          if x_mince < 695 and space:
              penezenka -= 1
-             print(penezenka)
-             print("vedle")
+             #print(penezenka)
+             #print("vedle")
              Vedle = True 
          if x_mince > 850 and space:
              penezenka -= 1
-             print(penezenka)
-             print("vedle")             
+             #print(penezenka)
+             #print("vedle")
              Vedle = True
              
          penezenka_status = font.render('Peněženka: ' + str(penezenka*10) + "Kč", True, (255, 255, 255))    
@@ -230,17 +228,17 @@ def kod():
     timer = 180
     
     arrow_images = {
-    "up": pygame.image.load("n_sipka_prazdna.png"),
-    "down": pygame.image.load("d_sipka_prazdna.png"),
-    "left": pygame.image.load("l_sipka_prazdna.png"),
-    "right": pygame.image.load("p_sipka_prazdna.png")
+    "up": pygame.image.load("minihry/bageta/n_sipka_prazdna.png"),
+    "down": pygame.image.load("minihry/bageta/d_sipka_prazdna.png"),
+    "left": pygame.image.load("minihry/bageta/l_sipka_prazdna.png"),
+    "right": pygame.image.load("minihry/bageta/p_sipka_prazdna.png")
     }
     
     arrow_correct_images = {
-    "up": pygame.image.load("n_sipka_plna.png"),
-    "down": pygame.image.load("d_sipka_plna.png"),
-    "left": pygame.image.load("l_sipka_plna.png"),
-    "right": pygame.image.load("p_sipka_plna.png")
+    "up": pygame.image.load("minihry/bageta/n_sipka_plna.png"),
+    "down": pygame.image.load("minihry/bageta/d_sipka_plna.png"),
+    "left": pygame.image.load("minihry/bageta/l_sipka_plna.png"),
+    "right": pygame.image.load("minihry/bageta/p_sipka_plna.png")
     }
     
     arrow_positions = [(113, 100), (295, 100), (480, 100), (665, 100), (850, 100), (1035, 100)]
@@ -249,7 +247,8 @@ def kod():
     current_index = 0
     global splneno
     splneno = False
-    while True:
+    game_running = True
+    while game_running:
         okno.blit(obrazek_display, (0,0))
         if current_index == len(arrow_sequence):
             if timer >= 0:
@@ -261,12 +260,11 @@ def kod():
         
         if timer > -1:
             timer -= 1
-            print(timer)
+            #print(timer)
         
-        for event in pygame.event.get(): 
-            if event.type == pygame.QUIT: 
-                pygame.quit() 
-                sys.exit()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                game_running = False
             elif event.type == pygame.KEYDOWN:
                 if current_index < len(arrow_sequence):
                     if (event.key == pygame.K_UP and arrow_sequence[current_index] == "up") or \
@@ -281,20 +279,20 @@ def kod():
          if i < current_index:
             okno.blit(arrow_correct_images[direction], arrow_positions[i])
          else:
-            okno.blit(arrow_images[direction], arrow_positions[i])             
-                    
+            okno.blit(arrow_images[direction], arrow_positions[i])
+
                     
         if splneno:
-           print("SKVĚLE!")
+           #print("SKVĚLE!")
            penezenka = 0
-                    
-        
+
+
         okno.blit(font.render(str(round(timer/60)), True, (255, 255, 255)), (700, 700))
 
-               
 
-                
-                
+
+
+
 
 
         pygame.display.flip()
@@ -302,12 +300,11 @@ def kod():
         
 def prohra():
     global font
-    while True:
+    game_running = True
+    while game_running:
         for event in pygame.event.get(): 
             if event.type == pygame.QUIT: 
-                pygame.quit() 
-                sys.exit()        
-        
+                game_running = False
         
         okno.fill((255,0,0))
         okno.blit(font.render("prohrál jsi", True, (255,255,255)), (700, 200))
