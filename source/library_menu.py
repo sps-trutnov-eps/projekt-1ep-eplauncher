@@ -1,6 +1,9 @@
 import pygame
 import requests
 import json
+import inspect
+import hashlib
+import os
 
 pygame.init()
 
@@ -90,11 +93,36 @@ def library_draw(window, rozliseni, games, username_text, money_text, user_infor
         y += 57
         game_number += 1
 
+        if check_balance is not None:
+            print(check_balance)
+
+            with open(f"minihry/{game.location}/{game.file_name}.py", "rb") as file:
+                file_content = file.read()
+
+            hash_object = hashlib.sha256()
+            hash_object.update(file_content)
+            checksum = hash_object.hexdigest()
+
+            print(checksum)
+
+            data = {
+                'username': user_information["username"],
+                'game_name': game.name,
+                'checksum': checksum,
+                'achievement': str(check_balance),
+            }
+            url = 'http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/get_money.php'
+
+            print('  Data se odesílají na server k ověření...')
+            response = requests.post(url, json=data)
+            vysledek = json.loads(response.text)['vysledek']
+
+            print(vysledek)
+
+            # TODO: Flappybird a bageta potřebují změnu checksum (již v games.csv)
+
         if check_balance:
             user_information = get_user_info(user_information["username"])
-        elif check_balance is not None:
-            pass
-            #print(check_balance)
 
     pygame.draw.rect(window, BACKGROUND_COLOR, (0, 0, rozliseni[0], 183))
 

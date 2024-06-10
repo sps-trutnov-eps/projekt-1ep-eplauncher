@@ -69,7 +69,7 @@ class Games:
                 try:
                     module_name = f"minihry.{self.location}.{self.file_name}"
                     module = importlib.import_module(module_name)
-                except:
+                except ModuleNotFoundError:
                     module_name = f"minihry.{self.location}.source.{self.file_name}"
                     module = importlib.import_module(module_name)
 
@@ -158,10 +158,9 @@ def get_games(games_owned):
 
     pokerun = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 0, "Pokerun", "main", None, False, 0)
     sokobox = Games("Sokobox", "Sokobox je hra s cílem posunout všechny bedny na jejich určené místo.", 1000, "Sokobox", "Main", "Menu", True, 10)
-    bageta = Games("Bageta", "Kupte si co nejlepší bagetu!", 1002, "bageta", "main", "automat", True, 15)
+    bageta = Games("Bageta", "Kupte si co nejlepší bagetu!", 1002, "bageta", "main", "automat", False, 15)
     flappybird = Games("Flappybird", "Dosáhněte co nejvyšího skóre!", 1001, "Flappy bird", "Flappy_Bird_py", "main", True, 20)
 
-    # TODO: doplnit ID a cenu her (bageta, flappybird)
     games = [pokerun, sokobox, bageta, flappybird]
 
     check_ownership(games_owned, games)
