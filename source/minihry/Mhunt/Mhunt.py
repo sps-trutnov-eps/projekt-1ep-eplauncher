@@ -174,9 +174,9 @@ while running:
 
 
 	if player_X <= 16:
-		player_X = 16;
+		player_X = 1099
 	elif player_X >= 1100:
-		player_X = 1100
+		player_X = 17
     
     
 
