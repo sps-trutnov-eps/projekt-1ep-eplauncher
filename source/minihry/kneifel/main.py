@@ -18,7 +18,7 @@ small_font = pygame.font.SysFont("Arial", 24)
 big_font = pygame.font.SysFont("Dosis", 38)
 words = ["Na", "částice", "kapaliny", "působí", "v", "tíhovém", "poli", "země", "tíhová", "síla",
          "která", "se", "díky", "tekutosti", "přenáší", "na", "ostatní", "částice", "ve", "všech", "směrech", "a", "způsobuje",
-         "hydrostatickou", "sílu"]
+         "hydrostatickou", "sílu", "saláti"]
 
 total_words = len(words)
 
