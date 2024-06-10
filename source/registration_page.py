@@ -22,8 +22,7 @@ hesloSurface = font.render(heslo, True, white)
 loginText = "Zaregistrovat"
 loginTextSurface = font.render(loginText, True, white)
 
-logo = pygame.image.load("minihry/Obrázky pro ostatní/Files/LOGO EPLauncher (transparentní).png")
-logo = pygame.transform.scale(logo, (250, 250))
+logo = pygame.image.load("images\SPSlogo.jpg")
 
 # nastaví textové pole pro psaní přihlašovacích údajů
 username = ''
@@ -124,7 +123,7 @@ def registration_draw(window, rozliseni):
     window.fill(background_color)
 
     # vykreslí rámeček profilovky
-    #profilovka = pygame.draw.rect(window, black, (rozliseni[0] / 2 - 110, rozliseni[1] / 2 - 200, 220, 220), 5)
+    profilovka = pygame.draw.rect(window, black, (rozliseni[0] / 2 - 110, rozliseni[1] / 2 - 200, 220, 220), 5)
 
     # lajny pro jméno a heslo
     pygame.draw.line(window, black, (rozliseni[0] / 2 - 110, 520), (rozliseni[0] / 2 + 110, 520), 5)
@@ -140,7 +139,7 @@ def registration_draw(window, rozliseni):
         window.blit(hesloSurface, (rozliseni[0] / 2 - 100, 550))
     window.blit(loginTextSurface, (rozliseni[0] / 2 - loginTextSurface.get_width()/2, 645))
 
-    window.blit(logo, (rozliseni[0] / 2 - logo.get_width()/2, rozliseni[1] / 2 - logo.get_height() + 20))
+    window.blit(logo, (rozliseni[0] / 2 - 110, rozliseni[1] / 2 - 200))
 
     # Vykresleni uzivatelem psaneho jmena
     username_surface = font.render(username, True, color)
