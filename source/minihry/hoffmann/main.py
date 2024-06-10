@@ -27,7 +27,7 @@ class Objekty:
 barva_ctverecku = (255, 255, 255)
 padaci_objekty = []
 
-hrac = Objekty(75, 850, 50, 50, 10, (255, 255, 255))
+hrac = Objekty(75, 850, 50, 50, 10, (102, 178, 255))
 cil = Objekty(0, 0, 1280, 25, 0, (0, 102, 0))
 
 je_na_zemi = True
