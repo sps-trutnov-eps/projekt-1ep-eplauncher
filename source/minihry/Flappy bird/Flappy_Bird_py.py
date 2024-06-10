@@ -29,12 +29,12 @@ pipe_gap = 250
 pipe_frequency = 2500
 last_pipe = pygame.time.get_ticks()
 # pozadí
-mesto = pygame.image.load('minihry/Flappy bird/1.pozadí FP.jpg').convert()
-hlina = pygame.image.load('minihry/Flappy bird/1.5 pozadí FP.jpg').convert()
-mesto_2 = pygame.image.load('minihry/Flappy bird/pozadí 2 .png').convert()
-hlina_2 = pygame.image.load('minihry/Flappy bird/pozadí 2.5.png').convert()
-mesto_3 = pygame.image.load('minihry/Flappy bird/pozadi 3.png').convert()
-hlina_3 = pygame.image.load('minihry/Flappy bird/pozadi 3.5 .png').convert()
+mesto = pygame.image.load('1.pozadí FP.jpg').convert()
+hlina = pygame.image.load('1.5 pozadí FP.jpg').convert()
+mesto_2 = pygame.image.load('pozadí 2 .png').convert()
+hlina_2 = pygame.image.load('pozadí 2.5.png').convert()
+mesto_3 = pygame.image.load('pozadi 3.png').convert()
+hlina_3 = pygame.image.load('pozadi 3.5 .png').convert()
 # parametry pozadí
 rychlost_hliny = 3
 pozice_hliny = 0
@@ -58,7 +58,7 @@ pozice_ptaka_blue_y = 300
 class Ptak(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('minihry/Flappy bird/zluty_ptak - kopie.png')
+        self.image = pygame.image.load('zluty_ptak - kopie.png')
         self.rect = self.image.get_rect()
         self.rect.topleft = [x, y]
         self.gravitace = 0
@@ -86,10 +86,10 @@ ptak_group = pygame.sprite.Group()
 ptak = Ptak(pozice_ptaka_x, pozice_ptaka_y)
 ptak_group.add(ptak)
 # Skiny
-ptak_red = pygame.image.load('minihry/Flappy bird/cerveny_ptak.png').convert_alpha()
+ptak_red = pygame.image.load('cerveny_ptak.png').convert_alpha()
 ptak_red_rect = ptak_red.get_rect(center = (400, 300))
 ptak_red = pygame.transform.rotozoom(ptak_red, 0, 3)
-ptak_blue = pygame.image.load('minihry/Flappy bird/modry_ptak.png').convert_alpha()
+ptak_blue = pygame.image.load('modry_ptak.png').convert_alpha()
 ptak_blue_rect = ptak_blue.get_rect(center = (400, 300))
 ptak_blue = pygame.transform.rotozoom(ptak_blue, 0, 3)
 zluta = True 
@@ -99,7 +99,7 @@ modra = False
 class Ptak_red(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('minihry/Flappy bird/cerveny_ptak.png')
+        self.image = pygame.image.load('cerveny_ptak.png')
         self.rect = self.image.get_rect()
         self.rect.topleft = [x, y]
         self.gravitace = 0
@@ -125,7 +125,7 @@ ptakred_group.add(ptakred_skin)
 class Ptak_blue(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('minihry/Flappy bird/modry_ptak.png')
+        self.image = pygame.image.load('modry_ptak.png')
         self.rect = self.image.get_rect()
         self.rect.topleft = [x, y]
         self.gravitace = 0
@@ -146,7 +146,7 @@ ptakblue_group = pygame.sprite.Group()
 ptakblue_skin = Ptak_blue(pozice_ptaka_blue_x, pozice_ptaka_blue_y)
 ptakblue_group.add(ptakblue_skin)
 # Intro
-ptak_intro = pygame.image.load('minihry/Flappy bird/zluty_ptak - kopie.png').convert_alpha()
+ptak_intro = pygame.image.load('zluty_ptak - kopie.png').convert_alpha()
 ptak_intro =pygame.transform.rotozoom(ptak_intro, 0, 3) 
 ptak_intro_rect = ptak_intro.get_rect(center = (400, 300))
 text = font_1.render('Press space to fly', False , (255, 255, 255))
@@ -160,8 +160,8 @@ rychlost_trubky = 3
 class pipe(pygame.sprite.Sprite):
     def __init__(self, x, y, smer):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('minihry/Flappy bird/trubka.png')
-        self.image = pygame.image.load('minihry/Flappy bird/trubka.png')
+        self.image = pygame.image.load('trubka.png')
+        self.image = pygame.image.load('trubka.png')
         self.rect = self.image.get_rect()
         if smer == 1:
             self.image = pygame.transform.flip(self.image, False, True )
@@ -190,12 +190,11 @@ def reset_game():
 
 def main():
     global game_active, last_pipe, pipe_frequency, rychlost_trubky, zluta, score_text, cervena, modra, tlacitka, pozice_hliny,pozice_mesta, start_time, pozice_hliny_2, pozice_hliny_3, rychlost_hliny_2, rychlost_hliny_3, pozice_mesta_2, rychlost_mesta_2, pozice_mesta_3, rychlost_mesta_3
-    game_still_running = True
-
-    while game_still_running:
+    while True:
         for udalost in pygame.event.get():
             if udalost.type == pygame.QUIT:
-                game_still_running = False
+                pygame.quit()
+                sys.exit()
                     
         #kolize
         # zluty
@@ -327,7 +326,7 @@ def main():
 
 
         pygame.display.update()  
-    #pygame.quit()
+    pygame.quit()
 
 if __name__ == '__main__':
     main()
