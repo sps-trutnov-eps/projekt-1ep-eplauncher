@@ -1,4 +1,4 @@
-
+import sys
 import pygame
 import random
 import math
@@ -14,7 +14,7 @@ okno = pygame.display.set_mode((screen_width,
                                 screen_height))
 
 
-pygame.display.set_caption("Vítej v tělocvičně\
+pygame.display.set_caption("Vítej na bojišti\
 Mhunt od: Denis")
 
 
@@ -37,6 +37,7 @@ def game_over():
 	game_over_text = game_over_font.render("GAME OVER",
 										True, (0,0,0))
 	okno.blit(game_over_text, (190, 250))
+
 
 
 mixer.music.load('images\pozadi_hudba.mp3')
@@ -90,6 +91,11 @@ def bullet(x, y):
 	global bullet_state
 	okno.blit(bulletImage, (x, y))
 	bullet_state = "fire"
+	
+def kontrola_achievement():
+	if score_val >= 5:
+		return "Dosáhl skóre 20!"
+		print("achivemtn")
 
 
 running = True
@@ -99,7 +105,10 @@ while running:
 	okno.fill((128, 70, 27))
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
+			pygame.quit()
+			quit()
 			running = False
+			
 
 
 		if event.type == pygame.KEYDOWN:
@@ -118,34 +127,28 @@ while running:
 		if event.type == pygame.KEYUP:
 			player_Xchange = 0
 
-	# adding the change in the player position
+	
 	player_X += player_Xchange
 	for i in range(no_of_invaders):
 		invader_X[i] += invader_Xchange[i]
 
-	# bullet movement
+	
 	if bullet_Y <= 0:
-		bullet_Y = 800
+		bullet_Y = 650
 		bullet_state = "rest"
 	if bullet_state == "fire":
 		bullet(bullet_X, bullet_Y)
 		bullet_Y -= bullet_Ychange
 
-	# movement of the invader
+	
 	for i in range(no_of_invaders):
 		
-		if invader_Y[i] >= 600:
-			if abs(player_X-invader_X[i]) < 80:
-				for j in range(no_of_invaders):
-					invader_Y[j] = 2000
-
-				game_over()
-				break
+		
 
 		if invader_X[i] >= 1000 or invader_X[i] <= 0:
 			invader_Xchange[i] *= -1
 			invader_Y[i] += invader_Ychange[i]
-		# Collision
+		
 		collision = isCollision(bullet_X, invader_X[i],
 								bullet_Y, invader_Y[i])
 		if collision:
@@ -157,14 +160,24 @@ while running:
 			invader_Xchange[i] *= -1
 
 		invader(invader_X[i], invader_Y[i], i)
+		if invader_Y[i] >= 600:
+			if abs(player_X-invader_X[i]) < 80:
+				for j in range(no_of_invaders):
+					invader_Y[j] = 2000
+				game_over()
+				kontrola_achievement()
 
 
-	# restricting the spaceship so that
-	# it doesn't go out of screen
+
+
+
+
 	if player_X <= 16:
 		player_X = 16;
 	elif player_X >= 1100:
 		player_X = 1100
+    
+    
 
 
 	player(player_X, player_Y)
