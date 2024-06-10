@@ -62,7 +62,7 @@ def spawn_enemy():
     nepratele_zasahy.append(0)
 
 spawn_timer = pygame.time.get_ticks()
-spawn_interval = 6000     # 5000 = 5 sekund
+spawn_interval = 6000     # 6000 = 6 sekund
 
 class Strela:
     def __init__(self, x, y):
@@ -75,7 +75,11 @@ class Strela:
         pygame.draw.rect(surface, zluta, self.rect)
 
 strilec_timer = pygame.time.get_ticks()
-strilec_interval = 3000  # 1000 ms = 1 sekunda
+strilec_interval = 3000  # 3000 ms = 3 sekundy
+
+# Timer for flowers
+kytka_timer = pygame.time.get_ticks()
+kytka_interval = 4000  # 4000 ms = 4 sekundy
 
 while True:
     for udalost in pygame.event.get():
@@ -129,7 +133,7 @@ while True:
         pygame.quit()
         sys.exit()
 
-    # Spawn nového nepřítele každých 5 sekund
+    # Spawn nového nepřítele každých 6 sekund
     if pygame.time.get_ticks() - spawn_timer > spawn_interval:
         spawn_enemy()
         spawn_timer = pygame.time.get_ticks()
@@ -142,6 +146,8 @@ while True:
         if nepritel.x <= 0:
             pygame.quit()
             print("Učitel začal hodinu a celá třída se teď musí učit, určitě nebudou rádi!!!")
+            sys.exit()
+
     # Vytvoření střel pro každého střílece
     current_time = pygame.time.get_ticks()
     if current_time - strilec_timer > strilec_interval:
@@ -167,12 +173,20 @@ while True:
                 if nepratele_zasahy[i] >= 3:
                     nepratele.pop(i)
                     nepratele_zasahy.pop(i)
-                    penize += 20                          # pricitani penez za kil
+                    penize += 10  # Přičítání peněz za kill
                 break
         if not zasah and strela.rect.x < rozliseni_okna[0] - 180:
             nove_strely.append(strela)
     strely = nove_strely
     
+    # Přičítání peněz za květiny
+    kytka_time = pygame.time.get_ticks()
+    if kytka_time - kytka_timer > kytka_interval:
+        for obj in umistene_objekty.values():
+            if obj == 'kytka':
+                penize += 5  #     penize za jednu kytku
+        kytka_timer = kytka_time
+
     # Vykreslení pozadí a prvků uživatelského rozhraní
     okno.fill((34,139,34))
     penize_text = font.render(str(penize), True, zluta)
