@@ -91,6 +91,11 @@ def check_sentence():
         hearts -= 1
         if hearts == 0:
             opravovani = False
+            
+def shuffle_sentences():
+    random.shuffle(sentences)
+
+shuffle_sentences()
 
 def next_sentence():
     global current_sentence, correct_sentence, user_input, result_message
