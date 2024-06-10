@@ -150,6 +150,7 @@ def draw_level(level):
     boxes = pygame.sprite.Group()
     player = None
     spots = pygame.sprite.Group()
+    player_start_x, player_start_y = 0, 0
 
     for y, row in enumerate(level):
         for x, tile in enumerate(row):
@@ -158,7 +159,8 @@ def draw_level(level):
                 all_sprites.add(wall, layer=0)
                 walls.add(wall)
             elif tile == 'P':
-                player = Player(x * TILE_SIZE, y * TILE_SIZE)
+                player_start_x, player_start_y = x * TILE_SIZE, y * TILE_SIZE
+                player = Player(player_start_x, player_start_y)
                 all_sprites.add(player, layer=1)
             elif tile == 'B':
                 box = Box(x * TILE_SIZE, y * TILE_SIZE)
@@ -172,7 +174,7 @@ def draw_level(level):
     for spot in spots:
         all_sprites.add(spot, layer=0)
 
-    return all_sprites, walls, boxes, player, spots
+    return all_sprites, walls, boxes, player, spots, player_start_x, player_start_y
 
 # Hlavní funkce
 pygame.display.set_caption('SokoBox')
@@ -184,7 +186,7 @@ def hra():
     level_index = 0 
     levels = [level1, level2, level3, level4, level5, level6]
 
-    all_sprites, walls, boxes, player, spots = draw_level(levels[level_index])
+    all_sprites, walls, boxes, player, spots, player_start_x, player_start_y = draw_level(levels[level_index])
 
     start_time = pygame.time.get_ticks()
 
@@ -218,7 +220,10 @@ def hra():
                         elif event.key == pygame.K_DOWN:
                             new_y += TILE_SIZE
                         elif event.key == pygame.K_r:
-                            all_sprites, walls, boxes, player, spots = draw_level(levels[level_index])
+                            # Resetujeme level
+                            all_sprites, walls, boxes, player, spots, player_start_x, player_start_y = draw_level(levels[level_index])
+                            player.rect.x, player.rect.y = player_start_x, player_start_y
+                            continue  # Přeskočíme kontrolu pohybu po resetování
                         
                         # Zkontroluje zda je krok povolen v zájmu se stěnou
                         if not any(wall.rect.collidepoint(new_x, new_y) for wall in walls):
@@ -278,7 +283,7 @@ def hra():
             if level_index < len(levels) - 1: 
                 level_index += 1
                 # Vygeneruje nový level
-                all_sprites, walls, boxes, player, spots = draw_level(levels[level_index])
+                all_sprites, walls, boxes, player, spots, player_start_x, player_start_y = draw_level(levels[level_index])
             else:
                 font = pygame.font.Font(None, 55)
                 text = font.render(f"You completed all levels! Score: {points}", True, GOLD)
@@ -309,8 +314,11 @@ def hra():
         
     pygame.quit()
     sys.exit()
-    return points
 
+    if points >= 70:
+        return True, "Sokobox speedrun GOD!"
+    
+    
 def Menu():
     pygame.init()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -341,6 +349,5 @@ def Menu():
         clock.tick(60)
     pygame.quit()
     sys.exit()
-    return points
 
-Menu()
+#Menu()
