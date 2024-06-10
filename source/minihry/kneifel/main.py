@@ -13,10 +13,12 @@ bila = (255, 255, 255)
 cerna = (0, 0, 0)
 
 font = pygame.font.SysFont("Arial", 48)
+medium_font = pygame.font.SysFont("verdana", 38)
 small_font = pygame.font.SysFont("Arial", 24)
 big_font = pygame.font.SysFont("Dosis", 38)
-words = ["kočka", "pes", "stůl", "židle", "auto", "kolo", "čas", "den", "noc", "týden",
-         "měsíc", "rok", "voda"]
+words = ["Na", "částice", "kapaliny", "působí", "v", "tíhovém", "poli", "země", "tíhová", "síla",
+         "která", "se", "díky", "tekutosti", "přenáší", "na", "ostatní", "částice", "ve", "všech", "směrech", "a", "způsobuje",
+         "hydrostatickou", "sílu"]
 
 total_words = len(words)
 
@@ -52,16 +54,16 @@ def main():
                         if word_index == total_words:
                             elapsed_time = time.time() - start_time
                             game_over = True
-                            win = elapsed_time <= 60
+                            win = elapsed_time <= 45
 
         if not game_over and start_time != 0:
             elapsed_time = time.time() - start_time
 
         if game_over:
             if win:
-                end_text = f"Vyhráli jste! Čas: {elapsed_time:.2f} vteřin."
+                end_text = f"Vyhráli jste! Čas: {elapsed_time:.2f} sekund."
             else:
-                end_text = f"Prohráli jste! Čas: {elapsed_time:.2f} vteřin."
+                end_text = f"Prohráli jste! Čas: {elapsed_time:.2f} sekund."
             
             end_surface = font.render(end_text, True, cerna)
             okno.blit(end_surface, (sirka // 2 - end_surface.get_width() // 2, vyska // 2 - end_surface.get_height() // 2))
@@ -93,10 +95,10 @@ def main():
             okno.blit(input_surface, (sirka // 2 - input_surface.get_width() // 2, vyska // 2 + current_word_surface.get_height()))
 
             elapsed_time_text = f"Čas: {elapsed_time:.2f} s"
-            elapsed_time_surface = small_font.render(elapsed_time_text, True, cerna)
+            elapsed_time_surface = medium_font.render(elapsed_time_text, True, cerna)
             okno.blit(elapsed_time_surface, (sirka // 2 - elapsed_time_surface.get_width() // 2, 10))
             
-            goal_text = "Cíl: Napsat zápis z Fyziky za méně než 60 vteřin."
+            goal_text = "Cíl: Napsat zápis z Fyziky za méně než 45 sekund."
             goal_surface = big_font.render(goal_text, True, cervena)
             okno.blit(goal_surface, (sirka // 2 - goal_surface.get_width() // 2, vyska - 80))
 
