@@ -40,6 +40,7 @@ def game_over():
 
 
 
+
 mixer.music.load('images\pozadi_hudba.mp3')
 mixer.music.play(-1)
 
@@ -93,9 +94,9 @@ def bullet(x, y):
 	bullet_state = "fire"
 	
 def kontrola_achievement():
-	if score_val >= 5:
-		return "Dosáhl skóre 20!"
-		print("achivemtn")
+	if score_val >= 25:
+		return "Dosáhl skóre 25!"
+
 
 
 running = True
@@ -164,8 +165,8 @@ while running:
 			if abs(player_X-invader_X[i]) < 80:
 				for j in range(no_of_invaders):
 					invader_Y[j] = 2000
-				game_over()
 				kontrola_achievement()
+				game_over()
 
 
 
