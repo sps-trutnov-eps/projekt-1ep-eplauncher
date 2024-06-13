@@ -1,6 +1,9 @@
 import pygame
 import requests
 import json
+import inspect
+import hashlib
+import os
 
 pygame.init()
 
@@ -89,8 +92,44 @@ def library_draw(window, rozliseni, games, username_text, money_text, user_infor
 
         y += 57
         game_number += 1
+
         if check_balance:
             user_information = get_user_info(user_information["username"])
+
+        if check_balance is not None:
+            print(check_balance)
+
+            try:
+                with open(f"minihry/{game.location}/{game.file_name}.py", "rb") as file:
+                    file_content = file.read()
+            except:
+                with open(f"minihry/{game.location}/source/{game.file_name}.py", "rb") as file:
+                    file_content = file.read()
+
+            hash_object = hashlib.sha256()
+            hash_object.update(file_content)
+            checksum = hash_object.hexdigest()
+
+            print(checksum)
+
+            data = {
+                'username': user_information["username"],
+                'game_name': game.name,
+                'checksum': checksum,
+                'achievement': str(check_balance),
+            }
+
+            url = 'http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/get_money.php'
+
+            #print('  Data se odesílají na server k ověření...')
+            response = requests.post(url, json=data)
+            vysledek = json.loads(response.text)['vysledek']
+
+            print(f"               {vysledek}")
+
+            # TODO: Flappybird a bageta potřebují změnu checksum
+
+
 
     pygame.draw.rect(window, BACKGROUND_COLOR, (0, 0, rozliseni[0], 183))
 
@@ -126,10 +165,7 @@ def library(rozliseni, window, clock, username, password):
     money_text = even_smaller_font.render(money_text_string, True, WHITE)
 
     from game_list import get_games
-
-
-
-    games_owned = []   # TODO: do tohoto listu všechny ID her, který uživatel vlastní
+    games_owned = []
     games = get_games(games_owned)
 
     for game in games:

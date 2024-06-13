@@ -69,7 +69,7 @@ class Games:
                 try:
                     module_name = f"minihry.{self.location}.{self.file_name}"
                     module = importlib.import_module(module_name)
-                except:
+                except ModuleNotFoundError:
                     module_name = f"minihry.{self.location}.source.{self.file_name}"
                     module = importlib.import_module(module_name)
 
@@ -93,45 +93,40 @@ class Games:
 
             elif self.locked:
                 #print("locked game")
-                if int(self.cost) <= int(user_money):
-                    #print("purchasing")
-                    game_id = self.id
-                    username = user_information["username"]
-                    password = user_password
+                #if int(self.cost) < int(user_money):
+                #print("purchasing")
+                game_id = self.id
+                username = user_information["username"]
+                password = user_password
 
+                try:
+                    # Send the POST request
+                    response = requests.post(URL, json={'username': username,
+                                                        'password': password,
+                                                        'game_id': game_id})
+
+                    # Check if the response contains valid JSON
                     try:
-                        # Send the POST request
-                        response = requests.post(URL, json={'username': username,
-                                                            'password': password,
-                                                            'game_id': game_id})
+                        response_data = response.json()
+                        self.owned = True
+                        self.locked = False
+                        #print("self.owned je možná true")
+                    except json.JSONDecodeError:
+                        #print("Error: Response is not valid JSON")
+                        #print("Response content:", response.text)
+                        return
 
-                        # Check if the response contains valid JSON
-                        try:
-                            response_data = response.json()
-                            print(response_data)
-                            gotten_response = str(response_data['vysledek'])
-                            print(gotten_response)
+                    vysledek = response_data.get('vysledek')
+                    #print(response_data)
 
-                            if gotten_response == "true" or gotten_response == "Uživatel již hru vlastní.":
-                                self.owned = True
-                                self.locked = False
-                            #print("self.owned je možná true")
-                        except json.JSONDecodeError:
-                            #print("Error: Response is not valid JSON")
-                            #print("Response content:", response.text)
-                            return
+                except requests.RequestException as e:
+                    # Handle any requests exceptions
+                    #print(f"An error occurred: {e}")
+                    pass
 
-                        vysledek = response_data.get('vysledek')
-
-
-                    except requests.RequestException as e:
-                        # Handle any requests exceptions
-                        #print(f"An error occurred: {e}")
-                        pass
-
-                    check_balance = True
-                    return check_balance
-                    #TODO: aktualizování hodnoty money
+                check_balance = True
+                return check_balance
+                #TODO: aktualizování hodnoty money
 
 
 def check_ownership(games_owned, games):
@@ -139,7 +134,6 @@ def check_ownership(games_owned, games):
         for number in games_owned:
             if number == game.id:
                 game.owned = True
-                game.locked = False
 
 
 def get_games(games_owned):
@@ -167,9 +161,13 @@ def get_games(games_owned):
     bageta = Games("Bageta", "Kupte si co nejlepší bagetu!", 1002, "bageta", "main", "automat", True, 15)
     flappybird = Games("Flappybird", "Dosáhněte co nejvyšího skóre!", 1001, "Flappy bird", "Flappy_Bird_py", "main", True, 20)
 
-    # TODO: doplnit ID a cenu her (bageta, flappybird)
     games = [pokerun, sokobox, bageta, flappybird]
 
     check_ownership(games_owned, games)
+
+    for game in games:
+        if game.locked:
+            if game.owned:
+                game.locked = False
 
     return games
