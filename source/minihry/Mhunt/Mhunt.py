@@ -17,6 +17,13 @@ okno = pygame.display.set_mode((screen_width,
 pygame.display.set_caption("Vítej na bojišti\
 Mhunt od: Denis")
 
+class pozadi(pygame.sprite.Sprite):
+    def __init__(self, image_file, location):
+        pygame.sprite.Sprite.__init__(self)  #call Sprite initializer
+        self.image = pygame.image.load(image_file)
+        self.rect = self.image.get_rect()
+        self.rect.left, self.rect.top = location
+Pozadi = pozadi("images\pozadi.png", [0,0])
 
 
 score_val = 0
@@ -62,7 +69,7 @@ for num in range(no_of_invaders):
 	invaderImage.append(pygame.image.load('images\M_tank.png'))
 	invader_X.append(random.randint(64, 737))
 	invader_Y.append(random.randint(30, 180))
-	invader_Xchange.append(1.2)
+	invader_Xchange.append(1.5)
 	invader_Ychange.append(50)
 
 
@@ -70,7 +77,7 @@ bulletImage = pygame.image.load('images\strela.png')
 bullet_X = 0
 bullet_Y = 500
 bullet_Xchange = 0
-bullet_Ychange = 3
+bullet_Ychange = 9
 bullet_state = "rest"
 
 
@@ -103,7 +110,8 @@ running = True
 while running:
 
 
-	okno.fill((128, 70, 27))
+	okno.fill((0, 0, 0))
+	okno.blit(Pozadi.image, Pozadi.rect)
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			pygame.quit()
@@ -114,9 +122,9 @@ while running:
 
 		if event.type == pygame.KEYDOWN:
 			if event.key == pygame.K_LEFT:
-				player_Xchange = -1.7
+				player_Xchange = -2.5
 			if event.key == pygame.K_RIGHT:
-				player_Xchange = 1.7
+				player_Xchange = 2.5
 			if event.key == pygame.K_SPACE:
 			
 				
