@@ -43,7 +43,7 @@ def game_over():
 
 mixer.music.load('images\pozadi_hudba.mp3')
 mixer.music.play(-1)
-
+mixer.music.set_volume(0.2)
 
 playerImage = pygame.image.load('images\hrac.png')
 player_X = 370
