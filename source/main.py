@@ -1,6 +1,5 @@
 def main():
     import pygame
-    import sys
     import loginPage
     import library_menu
     pygame.init()

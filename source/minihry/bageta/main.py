@@ -28,7 +28,6 @@ obrazek_bageta_2 = pygame.image.load("minihry/bageta/bageta_2.png")
 obrazek_bageta_3 = pygame.image.load("minihry/bageta/bageta_3.png")
 
 
-
 global splneno
 splneno = False 
 global penezenka
@@ -43,28 +42,37 @@ global tier_2
 global tier_3
 tier_1 = False 
 tier_2 = False 
-tier_3 = False 
+tier_3 = False
+
+game_running = False
+function_running = False
+thingy_running = False
+prohra_going_on = False
 
 def automat():
     global font
     global tier_1
     global tier_2
-    global tier_3
+    global tier_3, okno, prohra_going_on, thingy_running, game_running, function_running
+    okno = pygame.display.set_mode((1400, 800))
     
-    
-    
-    while True:
+    game_running = True
+    while game_running:
         if penezenka == 0:
             if vlozeno < 2:
                 #print("konec")
-                prohra()        
+                prohra()
                 
         click_mysi = 0
         
         for event in pygame.event.get(): 
             if event.type == pygame.QUIT: 
-                pygame.quit() 
-                sys.exit()
+                game_running = False
+                prohra_going_on = False
+                thingy_running = False
+                game_running = False
+                function_running = False
+
 
                 
             elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -79,11 +87,12 @@ def automat():
         if kurzor_x > 840 and kurzor_x < 932 and kurzor_y > 360 and kurzor_y < 480 and click_mysi == 1:
             if vlozeno >= 2:
                 if splneno == False:
-                                kod()
-            
+                    kod()
+
             
         if kurzor_x > 872 and kurzor_x < 930 and kurzor_y > 491 and kurzor_y < 557 and click_mysi == 1:
-            vklad_mince()           
+            vklad_mince()
+
 
             
         if splneno == True:
@@ -115,15 +124,15 @@ def automat():
             return "bageta_standart"
         if tier_3 == True :
             return "bageta_deluxe"
+
+    okno = pygame.display.set_mode((800, 800))
             
         
 
         
         
 def vklad_mince():
-    global font
-    global penezenka
-    global vlozeno
+    global font, penezenka, vlozeno, okno, prohra_going_on, thingy_running, game_running, function_running
 
     
     
@@ -131,12 +140,16 @@ def vklad_mince():
     x_mince = 402
     plus = True
     minus = False 
-    while True:
+    function_running = True
+    while function_running:
         
          for event in pygame.event.get(): 
             if event.type == pygame.QUIT: 
-                pygame.quit() 
-                sys.exit()
+                function_running = False
+                prohra_going_on = False
+                thingy_running = False
+                game_running = False
+                function_running = False
                 
          if x_mince <= 373:
              minus = False
@@ -226,7 +239,7 @@ def kod():
     global font
     global penezenka
     global vlozeno
-    
+    global okno
     timer = 180
     
     arrow_images = {
@@ -247,9 +260,10 @@ def kod():
     
     arrow_sequence = [random.choice(["up", "down", "left", "right"]) for _ in range(6)]
     current_index = 0
-    global splneno
+    global splneno, prohra_going_on, thingy_running, game_running, function_running
     splneno = False
-    while True:
+    thingy_running = True
+    while thingy_running:
         okno.blit(obrazek_display, (0,0))
         if current_index == len(arrow_sequence):
             if timer >= 0:
@@ -257,7 +271,8 @@ def kod():
         if timer == -1:
             if splneno == False:
                 prohra()
-                
+                thingy_running = False
+
         
         if timer > -1:
             timer -= 1
@@ -265,8 +280,13 @@ def kod():
         
         for event in pygame.event.get(): 
             if event.type == pygame.QUIT: 
-                pygame.quit() 
-                sys.exit()
+                thingy_running = False
+                prohra_going_on = False
+                thingy_running = False
+                game_running = False
+                function_running = False
+                okno = pygame.display.set_mode((800, 800))
+
             elif event.type == pygame.KEYDOWN:
                 if current_index < len(arrow_sequence):
                     if (event.key == pygame.K_UP and arrow_sequence[current_index] == "up") or \
@@ -301,17 +321,22 @@ def kod():
         clock.tick(60)
         
 def prohra():
-    global font
-    while True:
+    global font, okno, prohra_going_on, thingy_running, game_running, function_running
+    prohra_going_on = True
+    while prohra_going_on:
         for event in pygame.event.get(): 
             if event.type == pygame.QUIT: 
-                pygame.quit() 
-                sys.exit()        
+                prohra_going_on = False
+                thingy_running = False
+                game_running = False
+                function_running = False
         
         
         okno.fill((255,0,0))
         okno.blit(font.render("prohrál jsi", True, (255,255,255)), (700, 200))
         pygame.display.flip()
-        
+    okno = pygame.display.set_mode((800, 800))
+
+
 if __name__ == "__main__":
     automat()

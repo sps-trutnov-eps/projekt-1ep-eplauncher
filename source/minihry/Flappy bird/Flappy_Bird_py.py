@@ -190,11 +190,11 @@ def reset_game():
 
 def main():
     global game_active, last_pipe, pipe_frequency, rychlost_trubky, zluta, score_text, cervena, modra, tlacitka, pozice_hliny,pozice_mesta, start_time, pozice_hliny_2, pozice_hliny_3, rychlost_hliny_2, rychlost_hliny_3, pozice_mesta_2, rychlost_mesta_2, pozice_mesta_3, rychlost_mesta_3
-    while True:
+    game_is_running = True
+    while game_is_running:
         for udalost in pygame.event.get():
             if udalost.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+                game_is_running = False
                     
         #kolize
         # zluty
@@ -325,8 +325,8 @@ def main():
 
 
 
-        pygame.display.update()  
-    pygame.quit()
+        pygame.display.update()
+
 
 if __name__ == '__main__':
     main()

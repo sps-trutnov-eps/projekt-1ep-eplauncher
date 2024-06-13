@@ -32,7 +32,7 @@ points = 0
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.original_image = pygame.image.load(os.path.join('minihry/Sokobox/Textures', 'player_texture.png')).convert_alpha()
+        self.original_image = pygame.image.load('minihry/Sokobox/source/Textures/player_texture.png').convert_alpha()
         self.original_image = pygame.transform.scale(self.original_image, (TILE_SIZE, TILE_SIZE))  # Resize image
         self.image = self.original_image
         self.rect = self.image.get_rect(topleft=(x, y))
@@ -49,7 +49,7 @@ class Player(pygame.sprite.Sprite):
 class Box(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.image = pygame.image.load(os.path.join('minihry/Sokobox/Textures', 'box_texture.png')).convert_alpha()
+        self.image = pygame.image.load('minihry/Sokobox/source/Textures/box_texture.png').convert_alpha()
         self.image = pygame.transform.scale(self.image, (TILE_SIZE, TILE_SIZE))  # Resize image
         self.rect = self.image.get_rect(topleft=(x, y))
 
@@ -57,7 +57,7 @@ class Box(pygame.sprite.Sprite):
 class Wall(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.image = pygame.image.load(os.path.join('minihry/Sokobox/Textures', 'wall_texture.png')).convert_alpha()
+        self.image = pygame.image.load('minihry/Sokobox/source/Textures/wall_texture.png').convert_alpha()
         self.image = pygame.transform.scale(self.image, (TILE_SIZE, TILE_SIZE))  # Resize image
         self.rect = self.image.get_rect(topleft=(x, y))
 
@@ -65,7 +65,7 @@ class Wall(pygame.sprite.Sprite):
 class Spot(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.image = pygame.image.load(os.path.join('minihry/Sokobox/Textures', 'box_place_texture.png')).convert_alpha()
+        self.image = pygame.image.load('minihry/Sokobox/source/Textures/box_place_texture.png').convert_alpha()
         self.image = pygame.transform.scale(self.image, (TILE_SIZE, TILE_SIZE))  # Resize image
         self.rect = self.image.get_rect(topleft=(x, y))
 

@@ -93,40 +93,40 @@ class Games:
 
             elif self.locked:
                 #print("locked game")
-                if int(self.cost) < int(user_money):
-                    #print("purchasing")
-                    game_id = self.id
-                    username = user_information["username"]
-                    password = user_password
+                #if int(self.cost) < int(user_money):
+                #print("purchasing")
+                game_id = self.id
+                username = user_information["username"]
+                password = user_password
 
+                try:
+                    # Send the POST request
+                    response = requests.post(URL, json={'username': username,
+                                                        'password': password,
+                                                        'game_id': game_id})
+
+                    # Check if the response contains valid JSON
                     try:
-                        # Send the POST request
-                        response = requests.post(URL, json={'username': username,
-                                                            'password': password,
-                                                            'game_id': game_id})
+                        response_data = response.json()
+                        self.owned = True
+                        self.locked = False
+                        #print("self.owned je možná true")
+                    except json.JSONDecodeError:
+                        #print("Error: Response is not valid JSON")
+                        #print("Response content:", response.text)
+                        return
 
-                        # Check if the response contains valid JSON
-                        try:
-                            response_data = response.json()
-                            self.owned = True
-                            self.locked = False
-                            #print("self.owned je možná true")
-                        except json.JSONDecodeError:
-                            #print("Error: Response is not valid JSON")
-                            #print("Response content:", response.text)
-                            return
+                    vysledek = response_data.get('vysledek')
+                    #print(response_data)
 
-                        vysledek = response_data.get('vysledek')
-                        #print(response_data)
+                except requests.RequestException as e:
+                    # Handle any requests exceptions
+                    #print(f"An error occurred: {e}")
+                    pass
 
-                    except requests.RequestException as e:
-                        # Handle any requests exceptions
-                        #print(f"An error occurred: {e}")
-                        pass
-
-                    check_balance = True
-                    return check_balance
-                    #TODO: aktualizování hodnoty money
+                check_balance = True
+                return check_balance
+                #TODO: aktualizování hodnoty money
 
 
 def check_ownership(games_owned, games):
@@ -158,7 +158,7 @@ def get_games(games_owned):
 
     pokerun = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 0, "Pokerun", "main", None, False, 0)
     sokobox = Games("Sokobox", "Sokobox je hra s cílem posunout všechny bedny na jejich určené místo.", 1000, "Sokobox", "Main", "Menu", True, 10)
-    bageta = Games("Bageta", "Kupte si co nejlepší bagetu!", 1002, "bageta", "main", "automat", False, 15)
+    bageta = Games("Bageta", "Kupte si co nejlepší bagetu!", 1002, "bageta", "main", "automat", True, 15)
     flappybird = Games("Flappybird", "Dosáhněte co nejvyšího skóre!", 1001, "Flappy bird", "Flappy_Bird_py", "main", True, 20)
 
     games = [pokerun, sokobox, bageta, flappybird]
