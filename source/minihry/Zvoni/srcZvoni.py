@@ -32,7 +32,7 @@ def main():
     pozice = 2
 
     canMove = True
-    movementTimer = 20 #frames
+    movementTimer = 80 #frames
 
     rychlostPrekazky = 5
 
@@ -136,12 +136,14 @@ def main():
         okno.fill((250, 206, 112))
 
         if stisknuteKlavesy[pygame.K_UP] or stisknuteKlavesy[pygame.K_w] and canMove == True:
-            pozice -= 1
             canMove = False
+            pozice -= 1
+            
 
         elif stisknuteKlavesy[pygame.K_DOWN] or stisknuteKlavesy[pygame.K_s] and canMove == True: 
-            pozice += 1
             canMove = False
+            pozice += 1
+            
 
         if stisknuteKlavesy[pygame.K_g]:
             pass
@@ -155,8 +157,8 @@ def main():
         if canMove == False:
             movementTimer -= 1 
             if movementTimer < 0:
+                movementTimer = 80
                 canMove = True
-                movementTimer = 20
                 
         if pocetSmazanychPrekazek >= WinningPrekazek:
             canMove = False
@@ -210,5 +212,6 @@ def main():
         
 if __name__ == "__main__":
     main()
+    
 
 

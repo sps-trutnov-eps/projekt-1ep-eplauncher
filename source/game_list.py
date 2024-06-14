@@ -148,11 +148,6 @@ def get_games(games_owned):
     # 72 characters
     # pokud je delší, vymysli si kratší, nebo uprav kód
 
-    # na konec svého kódu umistěte tyto dva řádky
-    # screen = pygame.display.set_mode((800, 800))
-    # pygame.display.set_caption("EPLauncher")
-    # toto takto dělejte dokud nezjistim jak to opravit
-
     # velikost pro ikony her je 55px * 55px
     # ikonu vložte do samé složky co máte hlavní soubor vaší hry a pojmenujte ji icon.png
 
@@ -160,8 +155,9 @@ def get_games(games_owned):
     sokobox = Games("Sokobox", "Sokobox je hra s cílem posunout všechny bedny na jejich určené místo.", 1000, "Sokobox", "Main", "Menu", True, 10)
     bageta = Games("Bageta", "Kupte si co nejlepší bagetu!", 1002, "bageta", "main", "automat", True, 15)
     flappybird = Games("Flappybird", "Dosáhněte co nejvyšího skóre!", 1001, "Flappy bird", "Flappy_Bird_py", "main", True, 20)
+    zvoni = Games("Zvoní", "Dojděte do třídy před zvoněním", 1003, "Zvoni", "srcZvoni.py", "main", True, 15)
 
-    games = [pokerun, sokobox, bageta, flappybird]
+    games = [pokerun, sokobox, bageta, flappybird, zvoni]
 
     check_ownership(games_owned, games)
 
