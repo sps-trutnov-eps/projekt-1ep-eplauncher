@@ -32,6 +32,7 @@ max_y = 0
 # urls
 URL1 = 'http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/users.php'
 URL2 = 'http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/add_user.php'
+URL3 = 'http://senkyr.epsilon.spstrutnov.cz/eplauncher/api/owned.php'
 
 
 def get_user_info(username):
@@ -40,12 +41,28 @@ def get_user_info(username):
 
     # Create a dictionary to store users' information with their usernames as keys
     users_dict = {user['username']: user for user in user_info}
-
     # Retrieve the user with the specified ID from the dictionary
     users_info = users_dict.get(username)
 
+    #print(users_info)
     return users_info
 
+def get_users_owned_games(users_info):
+    odpoved = requests.get(URL3)
+    allOwnedGamesInfo = json.loads(odpoved.text)
+
+    active_user_id = users_info["id"]
+
+    hry_a_uzivatel = []
+
+    for game in allOwnedGamesInfo:
+        if game['user_id'] == active_user_id:
+            game_id = game['game_id']
+            hry_a_uzivatel.append(int(game_id))
+
+    print(hry_a_uzivatel)
+    if hry_a_uzivatel:
+        return hry_a_uzivatel
 
 def scrolling():
     global y_difference, last_mouse_y, running
@@ -158,15 +175,21 @@ def library(rozliseni, window, clock, username, password):
 
     # obsahuje id, username, password, money
     user_information = get_user_info(username)
+    
+    
 
     money = user_information["money"]
     money_text_string = f"Mince: {money}"
-
     money_text = even_smaller_font.render(money_text_string, True, WHITE)
 
     from game_list import get_games
-    games_owned = []
+
+    
+    #obsahuje id her, ktere aktivni uzivatel vlastni
+    games_owned = get_users_owned_games(user_information)
+    
     games = get_games(games_owned)
+
 
     for game in games:
         max_y += 57
@@ -175,6 +198,7 @@ def library(rozliseni, window, clock, username, password):
         for udalost in pygame.event.get():
             if udalost.type == pygame.QUIT:
                 running = False
+                pygame.quit()
 
         user_information = library_draw(window, rozliseni, games, username_text, money_text, user_information, password)
         scrolling()

@@ -136,6 +136,7 @@ def check_ownership(games_owned, games):
                 game.owned = True
 
 
+
 def get_games(games_owned):
     # sem vypisujte své hry ve formátu:
     # název hry, její popis, kolikátá je v pořadí (podle databáze, doptejte se), název její složky,
@@ -161,6 +162,7 @@ def get_games(games_owned):
     bageta = Games("Bageta", "Kupte si co nejlepší bagetu!", 1002, "bageta", "main", "automat", True, 15)
     flappybird = Games("Flappybird", "Dosáhněte co nejvyšího skóre!", 1001, "Flappy bird", "Flappy_Bird_py", "main", True, 20)
 
+    
     games = [pokerun, sokobox, bageta, flappybird]
 
     check_ownership(games_owned, games)
