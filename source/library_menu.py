@@ -41,15 +41,25 @@ def get_user_info(username):
     # Retrieve the user with the specified ID from the dictionary
     users_info = users_dict.get(username)
 
-    
+    #print(users_info)
     return users_info
 
-def get_users_owned_games():
+def get_users_owned_games(users_info):
     odpoved = requests.get(URL3)
-    hry_info = json.loads(response.text)
+    allOwnedGamesInfo = json.loads(odpoved.text)
 
-    #dej to do slovniku, prirad s aktivnim userem (dle id) a pak to jen appendni do games_owned
-    return True
+    active_user_id = users_info["id"]
+
+    hry_a_uzivatel = []
+
+    for game in allOwnedGamesInfo:
+        if game['user_id'] == active_user_id:
+            game_id = game['game_id']
+            hry_a_uzivatel.append({game_id})
+
+    print(hry_a_uzivatel)
+    if hry_a_uzivatel:
+        return hry_a_uzivatel
 
 def scrolling():
     global y_difference, last_mouse_y, running
@@ -126,6 +136,9 @@ def library(rozliseni, window, clock, username, password):
 
     # obsahuje id, username, password, money
     user_information = get_user_info(username)
+    
+    #obsahuje id her, ktere aktivni uzivatel vlastni
+    hryODuzivatelu = get_users_owned_games(user_information)
 
     money = user_information["money"]
     money_text_string = f"Mince: {money}"
@@ -138,7 +151,9 @@ def library(rozliseni, window, clock, username, password):
 
     games_owned = []   # TODO: do tohoto listu všechny ID her, který uživatel vlastní
     games = get_games(games_owned)
-
+    for hraID in hryODuzivatelu:
+        games_owned.append(hraID)
+    print(games_owned)
 
     for game in games:
         max_y += 57
