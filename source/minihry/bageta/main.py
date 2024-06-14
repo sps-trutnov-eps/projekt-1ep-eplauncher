@@ -119,13 +119,14 @@ def automat():
         okno.blit(obrazek_automat, (450,100))
         pygame.display.flip()
         if tier_1 == True :
+            okno = pygame.display.set((800, 800))
             return "normalni_bageta"
         if tier_2 == True :
+            okno = pygame.display.set((800, 800))
             return "bageta_standart"
         if tier_3 == True :
+            okno = pygame.display.set((800, 800))
             return "bageta_deluxe"
-
-    okno = pygame.display.set_mode((800, 800))
             
         
 
