@@ -13,16 +13,18 @@ def main():
 
 
     greyRectangle = pygame.image.load("source/minihry/Zvoni/Img/ucitel.png")
-    greyRectangle = pygame.transform.scale(greyRectangle, (80,80))
+    greyRectangle = pygame.transform.scale(greyRectangle, (100,100))
     dvere = pygame.image.load("source/minihry/Zvoni/Img/dvere.png")
     lineDark = (247, 159, 0)
     
     student1 = pygame.image.load("source/minihry/Zvoni/Img/student.png")
-    student1 = pygame.transform.scale(student1, (80, 80))
+    student1 = pygame.transform.scale(student1, (100, 100))
     student2 = pygame.image.load("source/minihry/Zvoni/Img/student2.png")
-    student2 = pygame.transform.scale(student2, (80, 80))
+    student2 = pygame.transform.scale(student2, (120, 120))
     student3 = pygame.image.load("source/minihry/Zvoni/Img/student3.png")
-    student3 = pygame.transform.scale(student3, (80, 80))
+    student3 = pygame.transform.scale(student3, (100, 100))
+
+    pygame.display.set_caption("Zvoní")
 
     FPS = 120
 
@@ -37,7 +39,7 @@ def main():
     rychlostPrekazky = 5
 
     pocetSmazanychPrekazek = 0
-    WinningPrekazek = 15
+    WinningPrekazek = 150
     xLine = 1200  
     offsetDvery = 0
     goodEngingCheck = 0
@@ -73,7 +75,7 @@ def main():
 
         def outOfBounds(self):
             global pocetSmazanychPrekazek
-            if self.poziceX < -64:
+            if self.poziceX < -120:
                 for i,o in enumerate(listPrekazek):
                     del listPrekazek[i]
                     pocetSmazanychPrekazek += 1
@@ -95,11 +97,15 @@ def main():
     
     def SpawnPrekazek():
         if pocetSmazanychPrekazek <= WinningPrekazek:
-            threading.Timer(0.8, SpawnPrekazek).start()
-            for i in range(3):
-                listPrekazek.append(
-                    Prekazky()
-                )
+            try:
+                    threading.Timer(0.9, SpawnPrekazek).start()
+                    for i in range(3):
+                        listPrekazek.append(
+                        Prekazky())
+            except RuntimeError:
+                pygame.quit()
+                exit()
+                        
     
     def FontChoossenSize(font, size):
         return pygame.font.SysFont(font, size)
@@ -133,14 +139,14 @@ def main():
 
         stisknuteKlavesy = pygame.key.get_pressed()
 
-        okno.fill((250, 206, 112))
+        okno.fill((249, 200, 84))
 
-        if stisknuteKlavesy[pygame.K_UP] or stisknuteKlavesy[pygame.K_w] and canMove == True:
+        if (stisknuteKlavesy[pygame.K_UP] or stisknuteKlavesy[pygame.K_w]) and canMove == True:
             canMove = False
             pozice -= 1
             
 
-        elif stisknuteKlavesy[pygame.K_DOWN] or stisknuteKlavesy[pygame.K_s] and canMove == True: 
+        elif (stisknuteKlavesy[pygame.K_DOWN] or stisknuteKlavesy[pygame.K_s]) and canMove == True: 
             canMove = False
             pozice += 1
             
@@ -157,8 +163,9 @@ def main():
         if canMove == False:
             movementTimer -= 1 
             if movementTimer < 0:
-                movementTimer = 80
+                movementTimer = 20
                 canMove = True
+                
                 
         if pocetSmazanychPrekazek >= WinningPrekazek:
             canMove = False
