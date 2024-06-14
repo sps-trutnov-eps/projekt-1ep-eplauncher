@@ -160,8 +160,8 @@ def mhunt_game():
                 invader_Xchange[i] *= -1
                 invader_Y[i] += invader_Ychange[i]
             
-            collision = isCollision(bullet_X, invader_X[i]+40,
-                                    bullet_Y, invader_Y[i])
+            collision = isCollision(bullet_X+15, invader_X[i]+50,
+                                    bullet_Y, invader_Y[i]+20)
             if collision:
                 score_val += 1
                 bullet_Y = 650
@@ -171,7 +171,7 @@ def mhunt_game():
                 invader_Xchange[i] *= -1
 
             invader(invader_X[i], invader_Y[i], i)
-            if invader_Y[i] >= 600:
+            if invader_Y[i] >= 550:
                 if abs(player_X-invader_X[i]) < 80:
                     for j in range(no_of_invaders):
                         invader_Y[j] = 2000
