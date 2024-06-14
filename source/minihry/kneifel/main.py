@@ -60,7 +60,7 @@ def main():
                         if word_index == total_words:
                             elapsed_time = time.time() - start_time
                             game_over = True
-                            win = elapsed_time <= 45
+                            win = elapsed_time <= 50
 
         if not game_over and start_time != 0:
             elapsed_time = time.time() - start_time
@@ -106,7 +106,7 @@ def main():
             elapsed_time_surface = medium_font.render(elapsed_time_text, True, cerna)
             okno.blit(elapsed_time_surface, (sirka // 2 - elapsed_time_surface.get_width() // 2, 10))
             
-            goal_text = "Cíl: Napsat zápis z Fyziky za méně než 45 sekund."
+            goal_text = "Cíl: Napsat zápis z Fyziky za méně než 50 sekund."
             goal_surface = big_font.render(goal_text, True, cervena)
             okno.blit(goal_surface, (sirka // 2 - goal_surface.get_width() // 2, vyska - 80))
 
