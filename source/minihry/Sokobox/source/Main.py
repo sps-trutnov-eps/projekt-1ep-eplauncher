@@ -32,7 +32,7 @@ points = 0
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.original_image = pygame.image.load(os.path.join('minihry/Sokobox/source/Textures', 'player_texture.png')).convert_alpha()
+        self.original_image = pygame.image.load('minihry/Sokobox/source/Textures/player_texture.png').convert_alpha()
         self.original_image = pygame.transform.scale(self.original_image, (TILE_SIZE, TILE_SIZE))  # Resize image
         self.image = self.original_image
         self.rect = self.image.get_rect(topleft=(x, y))
@@ -49,7 +49,7 @@ class Player(pygame.sprite.Sprite):
 class Box(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.image = pygame.image.load(os.path.join('minihry/Sokobox/source/Textures', 'box_texture.png')).convert_alpha()
+        self.image = pygame.image.load('minihry/Sokobox/source/Textures/box_texture.png').convert_alpha()
         self.image = pygame.transform.scale(self.image, (TILE_SIZE, TILE_SIZE))  # Resize image
         self.rect = self.image.get_rect(topleft=(x, y))
 
@@ -57,7 +57,7 @@ class Box(pygame.sprite.Sprite):
 class Wall(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.image = pygame.image.load(os.path.join('minihry/Sokobox/source/Textures', 'wall_texture.png')).convert_alpha()
+        self.image = pygame.image.load('minihry/Sokobox/source/Textures/wall_texture.png').convert_alpha()
         self.image = pygame.transform.scale(self.image, (TILE_SIZE, TILE_SIZE))  # Resize image
         self.rect = self.image.get_rect(topleft=(x, y))
 
@@ -65,7 +65,7 @@ class Wall(pygame.sprite.Sprite):
 class Spot(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.image = pygame.image.load(os.path.join('minihry/Sokobox/source/Textures', 'box_place_texture.png')).convert_alpha()
+        self.image = pygame.image.load('minihry/Sokobox/source/Textures/box_place_texture.png').convert_alpha()
         self.image = pygame.transform.scale(self.image, (TILE_SIZE, TILE_SIZE))  # Resize image
         self.rect = self.image.get_rect(topleft=(x, y))
 
@@ -150,6 +150,7 @@ def draw_level(level):
     boxes = pygame.sprite.Group()
     player = None
     spots = pygame.sprite.Group()
+    player_start_x, player_start_y = 0, 0
 
     for y, row in enumerate(level):
         for x, tile in enumerate(row):
@@ -158,7 +159,8 @@ def draw_level(level):
                 all_sprites.add(wall, layer=0)
                 walls.add(wall)
             elif tile == 'P':
-                player = Player(x * TILE_SIZE, y * TILE_SIZE)
+                player_start_x, player_start_y = x * TILE_SIZE, y * TILE_SIZE
+                player = Player(player_start_x, player_start_y)
                 all_sprites.add(player, layer=1)
             elif tile == 'B':
                 box = Box(x * TILE_SIZE, y * TILE_SIZE)
@@ -172,7 +174,7 @@ def draw_level(level):
     for spot in spots:
         all_sprites.add(spot, layer=0)
 
-    return all_sprites, walls, boxes, player, spots
+    return all_sprites, walls, boxes, player, spots, player_start_x, player_start_y
 
 # Hlavní funkce
 pygame.display.set_caption('SokoBox')
@@ -184,7 +186,7 @@ def hra():
     level_index = 0 
     levels = [level1, level2, level3, level4, level5, level6]
 
-    all_sprites, walls, boxes, player, spots = draw_level(levels[level_index])
+    all_sprites, walls, boxes, player, spots, player_start_x, player_start_y = draw_level(levels[level_index])
 
     start_time = pygame.time.get_ticks()
 
@@ -218,7 +220,10 @@ def hra():
                         elif event.key == pygame.K_DOWN:
                             new_y += TILE_SIZE
                         elif event.key == pygame.K_r:
-                            all_sprites, walls, boxes, player, spots = draw_level(levels[level_index])
+                            # Resetujeme level
+                            all_sprites, walls, boxes, player, spots, player_start_x, player_start_y = draw_level(levels[level_index])
+                            player.rect.x, player.rect.y = player_start_x, player_start_y
+                            continue  # Přeskočíme kontrolu pohybu po resetování
                         
                         # Zkontroluje zda je krok povolen v zájmu se stěnou
                         if not any(wall.rect.collidepoint(new_x, new_y) for wall in walls):
@@ -278,7 +283,7 @@ def hra():
             if level_index < len(levels) - 1: 
                 level_index += 1
                 # Vygeneruje nový level
-                all_sprites, walls, boxes, player, spots = draw_level(levels[level_index])
+                all_sprites, walls, boxes, player, spots, player_start_x, player_start_y = draw_level(levels[level_index])
             else:
                 font = pygame.font.Font(None, 55)
                 text = font.render(f"You completed all levels! Score: {points}", True, GOLD)
@@ -344,3 +349,5 @@ def Menu():
         clock.tick(60)
 
     return points
+
+#Menu()

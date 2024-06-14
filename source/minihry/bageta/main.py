@@ -29,59 +29,84 @@ obrazek_bageta_3 = pygame.image.load("minihry/bageta/bageta_3.png")
 
 
 
-global splneno
 splneno = False 
-global penezenka
-penezenka = 7
-global vlozeno
-vlozeno = 0
-global font
-font = pygame.font.Font(None, 50)
 
-global tier_1
-global tier_2
-global tier_3
+penezenka = 7
+
+vlozeno = 0
+
+font = pygame.font.Font(None, 50)
 tier_1 = False 
 tier_2 = False 
-tier_3 = False 
+tier_3 = False
+
+
+game_running = False
+function_running = False
+thingy_running = False
+prohra_going_on = False
+font = pygame.font.Font(None, 50)
 
 def automat():
-    global font
-    global tier_1
-    global tier_2
-    global tier_3
+    global splneno, penezenka, vlozeno, font, tier_1, tier_2, tier_3
+    
+    splneno = False 
 
+    penezenka = 7
+
+    vlozeno = 0
+
+    tier_1 = False 
+    tier_2 = False 
+    tier_3 = False
+
+   
+    
+    global okno, prohra_going_on, thingy_running, game_running, function_running
+    okno = pygame.display.set_mode((1400, 800))
+    
+    game_running = False
+    function_running = False
+    thingy_running = False
+    prohra_going_on = False 
+    
     game_running = True
     while game_running:
         if penezenka == 0:
             if vlozeno < 2:
                 #print("konec")
-                prohra()        
+                prohra()
                 
         click_mysi = 0
         
         for event in pygame.event.get(): 
             if event.type == pygame.QUIT: 
                 game_running = False
+                prohra_going_on = False
+                thingy_running = False
+                game_running = False
+                function_running = False
 
 
+                
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 click_mysi = event.button
-
-
-
-
-        kurzor_x, kurzor_y = pygame.mouse.get_pos()
+                
+ 
+                
+                
+        kurzor_x, kurzor_y = pygame.mouse.get_pos()       
         #print(kurzor_x, kurzor_y)
         
         if kurzor_x > 840 and kurzor_x < 932 and kurzor_y > 360 and kurzor_y < 480 and click_mysi == 1:
             if vlozeno >= 2:
                 if splneno == False:
                     kod()
-            
 
+            
         if kurzor_x > 872 and kurzor_x < 930 and kurzor_y > 491 and kurzor_y < 557 and click_mysi == 1:
             vklad_mince()
+
 
             
         if splneno == True:
@@ -100,7 +125,7 @@ def automat():
          if vlozeno == 7:
             #print("ziskal jsi bagetu deluxe")
             okno.blit(obrazek_bageta_3, (450, 20))
-            tier_3 = True
+            tier_3 = True                
 
 
 
@@ -108,33 +133,38 @@ def automat():
         okno.blit(obrazek_automat, (450,100))
         pygame.display.flip()
         if tier_1 == True :
-            return "nazev_achievementu_1"
+            okno = pygame.display.set((800, 800))
+            return "normalni_bageta"
         if tier_2 == True :
-            return "nazev_achievementu_2"
+            okno = pygame.display.set((800, 800))
+            return "bageta_standart"
         if tier_3 == True :
-            return "nazev_achievementu_3"
+            okno = pygame.display.set((800, 800))
+            return "bageta_deluxe"
+            
+        
 
-
-
-
-
+        
+        
 def vklad_mince():
-    global font
-    global penezenka
-    global vlozeno
+    global font, penezenka, vlozeno, okno, prohra_going_on, thingy_running, game_running, function_running
 
-
-
+    
+    
     space_cooldown = 0
     x_mince = 402
     plus = True
-    minus = False
-    game_running = True
-    while game_running:
-
-         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+    minus = False 
+    function_running = True
+    while function_running:
+        
+         for event in pygame.event.get(): 
+            if event.type == pygame.QUIT: 
+                function_running = False
+                prohra_going_on = False
+                thingy_running = False
                 game_running = False
+                function_running = False
                 
          if x_mince <= 373:
              minus = False
@@ -224,7 +254,7 @@ def kod():
     global font
     global penezenka
     global vlozeno
-    
+    global okno
     timer = 180
     
     arrow_images = {
@@ -245,10 +275,10 @@ def kod():
     
     arrow_sequence = [random.choice(["up", "down", "left", "right"]) for _ in range(6)]
     current_index = 0
-    global splneno
+    global splneno, prohra_going_on, thingy_running, game_running, function_running
     splneno = False
-    game_running = True
-    while game_running:
+    thingy_running = True
+    while thingy_running:
         okno.blit(obrazek_display, (0,0))
         if current_index == len(arrow_sequence):
             if timer >= 0:
@@ -256,15 +286,22 @@ def kod():
         if timer == -1:
             if splneno == False:
                 prohra()
-                
+                thingy_running = False
+
         
         if timer > -1:
             timer -= 1
             #print(timer)
         
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+        for event in pygame.event.get(): 
+            if event.type == pygame.QUIT: 
+                thingy_running = False
+                prohra_going_on = False
+                thingy_running = False
                 game_running = False
+                function_running = False
+                okno = pygame.display.set_mode((800, 800))
+
             elif event.type == pygame.KEYDOWN:
                 if current_index < len(arrow_sequence):
                     if (event.key == pygame.K_UP and arrow_sequence[current_index] == "up") or \
@@ -279,36 +316,42 @@ def kod():
          if i < current_index:
             okno.blit(arrow_correct_images[direction], arrow_positions[i])
          else:
-            okno.blit(arrow_images[direction], arrow_positions[i])
-
+            okno.blit(arrow_images[direction], arrow_positions[i])             
+                    
                     
         if splneno:
            #print("SKVĚLE!")
            penezenka = 0
-
-
+                    
+        
         okno.blit(font.render(str(round(timer/60)), True, (255, 255, 255)), (700, 700))
 
+               
 
-
-
-
+                
+                
 
 
         pygame.display.flip()
         clock.tick(60)
         
 def prohra():
-    global font
-    game_running = True
-    while game_running:
+    global font, okno, prohra_going_on, thingy_running, game_running, function_running
+    prohra_going_on = True
+    while prohra_going_on:
         for event in pygame.event.get(): 
             if event.type == pygame.QUIT: 
+                prohra_going_on = False
+                thingy_running = False
                 game_running = False
+                function_running = False
+        
         
         okno.fill((255,0,0))
         okno.blit(font.render("prohrál jsi", True, (255,255,255)), (700, 200))
         pygame.display.flip()
-        
+    okno = pygame.display.set_mode((800, 800))
+
+
 if __name__ == "__main__":
     automat()

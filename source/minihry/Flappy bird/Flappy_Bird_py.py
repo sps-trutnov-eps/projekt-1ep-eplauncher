@@ -14,7 +14,7 @@ def display_score():
 
 
 pygame.init()
-pygame.display.set_caption('Flappy Bird')
+pygame.display.set_caption('minihry/Flappy bird/Flappy Bird')
 rozliseni_okna = (800, 600)
 okno = pygame.display.set_mode(rozliseni_okna)
 tlacitka = pygame.key.get_pressed()
@@ -190,12 +190,11 @@ def reset_game():
 
 def main():
     global game_active, last_pipe, pipe_frequency, rychlost_trubky, zluta, score_text, cervena, modra, tlacitka, pozice_hliny,pozice_mesta, start_time, pozice_hliny_2, pozice_hliny_3, rychlost_hliny_2, rychlost_hliny_3, pozice_mesta_2, rychlost_mesta_2, pozice_mesta_3, rychlost_mesta_3
-    game_still_running = True
-
-    while game_still_running:
+    game_is_running = True
+    while game_is_running:
         for udalost in pygame.event.get():
             if udalost.type == pygame.QUIT:
-                game_still_running = False
+                game_is_running = False
                     
         #kolize
         # zluty
@@ -326,8 +325,8 @@ def main():
 
 
 
-        pygame.display.update()  
-    #pygame.quit()
+        pygame.display.update()
+
 
 if __name__ == '__main__':
     main()
