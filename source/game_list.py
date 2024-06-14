@@ -161,8 +161,8 @@ def get_games(games_owned):
     sokobox = Games("Sokobox", "Sokobox je hra s cílem posunout všechny bedny na jejich určené místo.", 1000, "Sokobox", "Main", "Menu", True, 10)
     bageta = Games("Bageta", "Kupte si co nejlepší bagetu!", 1002, "bageta", "main", "automat", True, 15)
     flappybird = Games("Flappybird", "Dosáhněte co nejvyšího skóre!", 1001, "Flappy bird", "Flappy_Bird_py", "main", True, 20)
+    mhunt = Games("Mhunt", "Invaze Mtanků!", 1003, "Mhunt", "startmenu", "startmenu", True, 10)
 
-    
     games = [pokerun, sokobox, bageta, flappybird]
 
     check_ownership(games_owned, games)

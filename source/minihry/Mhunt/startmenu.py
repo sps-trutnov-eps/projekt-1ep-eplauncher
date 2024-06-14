@@ -57,8 +57,9 @@ def startmenu():
      
                 if width/2-70 <= mys[0] <= width/2+70 and height/2 <= mys[1] <= height/2+40:  
                     from Mhunt import mhunt_game
-                    mhunt_game()
+                    achievement = mhunt_game()
                     running = False
+
                     
                        
                       
@@ -78,7 +79,9 @@ def startmenu():
         okno.blit(text , (width/2-30,height/2))  
         okno.blit(nazev, (width/2-60,height/4))  
         okno.blit(ovladani, (width/18, height/3)) 
-        pygame.display.update() 
+        pygame.display.update()
+    if achievement is not None:
+        return achievement
 if __name__ == "__main__":
     startmenu()
     
