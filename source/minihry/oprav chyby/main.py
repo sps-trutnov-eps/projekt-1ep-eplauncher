@@ -13,7 +13,7 @@ vyhra = False
 hearts = 3
 clock = pygame.time.Clock()
 
-# Load images
+
 title = pygame.image.load("obrázky/opraf_chiby2.png")
 title_rect = title.get_rect(center=(500, 150))
 button = pygame.image.load("obrázky/hrat_button.png")
@@ -28,7 +28,6 @@ menu = pygame.image.load("obrázky/menu.png")
 menu = pygame.transform.scale(menu, (200, 100))
 menu_rect = menu.get_rect(center=(475, 535))
 
-# Font setup
 font = pygame.freetype.SysFont(None, 24)
 sentences = [
     ("Kravata a zako mu skvěle ladili.", "Kravata a sako mu skvěle ladily."),
@@ -59,7 +58,6 @@ result_color = (0, 0, 0)
 total_correct = 0
 max_sentences = 10
 
-# Colors
 WHITE = (255, 255, 255)
 LIGHT_BLUE = (235, 255, 255)
 LIGHT_PINK = (255, 245, 255)
@@ -147,7 +145,7 @@ while running:
         text_surface, _ = font.render(user_input, BLACK)
         screen.blit(text_surface, (input_rect.x + 5, input_rect.y + 15))
 
-        # Blikající kurzor
+        
         if cursor_visible:
             pygame.draw.line(screen, BLACK, (input_rect.x + 5 + text_surface.get_width(), input_rect.y + 10), (input_rect.x + 5 + text_surface.get_width(), input_rect.y + 40), 2)
         
@@ -157,7 +155,7 @@ while running:
         if result_message:
             draw_text(result_message, (200, 500), result_color)
 
-        # Update cursor visibility
+        
         if pygame.time.get_ticks() - cursor_time > 500:
             cursor_visible = not cursor_visible
             cursor_time = pygame.time.get_ticks()
