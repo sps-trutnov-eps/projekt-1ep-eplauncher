@@ -11,7 +11,6 @@ pygame.display.set_caption("idk prostě hra xd")
 
 barva_pozadi = (50, 50, 50)
 
-
 class Objekty:
     def __init__(self, x_pos, y_pos, x_velikost, y_velikost, rychlost, barva):
         self.x_pos = x_pos
@@ -27,8 +26,10 @@ class Objekty:
 barva_ctverecku = (255, 255, 255)
 padaci_objekty = []
 
-hrac = Objekty(75, 850, 50, 50, 10, (102, 178, 255))
+hrac = Objekty(565, 780, 50, 50, 10, (102, 178, 255))
 cil = Objekty(0, 0, 1280, 25, 0, (0, 102, 0))
+kyselina = Objekty(0, 875, 1280, 25, 0, (0, 255, 0))
+platforma = Objekty(540, 830, 100, 30, 0, (255, 100, 50))
 
 je_na_zemi = True
 rychlost_skok = 20
@@ -65,8 +66,6 @@ while True:
 
     stisknute_klavesy = pygame.key.get_pressed()
 
-
-
     if stisknute_klavesy[pygame.K_LEFT]:
         hrac.x_pos -= hrac.rychlost
 
@@ -88,8 +87,6 @@ while True:
         rychlost_y = -rychlost_skok_2
         na_platforme = None
 
-
-
     if not je_na_zemi:
         hrac.y_pos += rychlost_y
         rychlost_y += gravitace
@@ -110,6 +107,12 @@ while True:
                 na_platforme = objekt
                 break
 
+        if kontrola_kolizi(hrac, platforma):
+            hrac.y_pos = platforma.y_pos - hrac.y_velikost
+            je_na_zemi = True
+            rychlost_y = 0
+            na_platforme = platforma
+
         if hrac.y_pos >= 850:
             hrac.y_pos = 850
             je_na_zemi = True
@@ -127,6 +130,11 @@ while True:
     if hrac.x_pos <= 0:
         hrac.x_pos = 0
 
+    if hrac.y_pos + hrac.y_velikost >= kyselina.y_pos:
+        print("Prohral si! spadl jsi do kyseliny")
+        pygame.quit()
+        sys.exit()
+
     okno.fill(barva_pozadi)
 
     current_time = time.time()
@@ -143,9 +151,11 @@ while True:
 
     for objekt in padaci_objekty:
         pygame.draw.rect(okno, objekt.barva, (objekt.x_pos, objekt.y_pos, objekt.x_velikost, objekt.y_velikost))
-
+        
     pygame.draw.rect(okno, hrac.barva, (hrac.x_pos, hrac.y_pos, hrac.x_velikost, hrac.y_velikost))
     pygame.draw.rect(okno, cil.barva, (cil.x_pos, cil.y_pos, cil.x_velikost, cil.y_velikost))
+    pygame.draw.rect(okno, kyselina.barva, (kyselina.x_pos, kyselina.y_pos, kyselina.x_velikost, kyselina.y_velikost))
+    pygame.draw.rect(okno, platforma.barva, (platforma.x_pos, platforma.y_pos, platforma.x_velikost, platforma.y_velikost))
     
     pygame.display.update()
     clock.tick(fps)
