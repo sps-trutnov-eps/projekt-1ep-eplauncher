@@ -165,8 +165,8 @@ def get_games(games_owned):
 
     pokerun = Games("Pokérun", "Pokérun je skákací hra, ve které je hlavní cíl získat co nejvíce bodů.", 0, "Pokerun", "main", None, False, 0)
     sokobox = Games("Sokobox", "Sokobox je hra s cílem posunout všechny bedny na jejich určené místo.", 1000, "Sokobox", "Main", "Menu", True, 10)
-    bageta = Games("Bageta", "Kupte si co nejlepší bagetu!", 0, "bageta", "main", "automat", False, 0)
-    flappybird = Games("Flappybird", "Dosáhněte co nejvyšího skóre!", 0, "Flappy bird", "Flappy_Bird_py", "main", False, 0)
+    bageta = Games("Bageta", "Kupte si co nejlepší bagetu!", 1002, "bageta", "main", "automat", True, 0)
+    flappybird = Games("Flappybird", "Dosáhněte co nejvyšího skóre!", 1001, "Flappy bird", "Flappy_Bird_py", "main", True, 0)
 
     # TODO: doplnit ID a cenu her (bageta, flappybird)
     games = [pokerun, sokobox, bageta, flappybird]

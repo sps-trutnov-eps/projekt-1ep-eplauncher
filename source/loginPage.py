@@ -106,27 +106,21 @@ def login(rozliseni, window, clock):
                     else:
                         username += event.unicode
                 if activePassword:
-                    if event.key == pygame.K_RETURN:
-                        # Kubíček - "Měl by to být enter"
-                        pass
-                    elif event.key == pygame.K_BACKSPACE:
-                        # Handle Backspace key
+                    if event.key == pygame.K_BACKSPACE:
                         password = password[:-1]
                         ShowPassword = ShowPassword[:-1]
                     elif event.key == pygame.K_v and pygame.key.get_mods() & pygame.KMOD_CTRL:
                         # Handle Ctrl+V (paste) shortcut
                         clipboard_text = get_clipboard_text()
                         if clipboard_text:
-                            # Clear the password first
-                            password = ''
-                            ShowPassword = ''
                             # Append the pasted text to the password
                             password += clipboard_text
                             ShowPassword += "*" * len(clipboard_text)
                     else:
+                        if not event.key == pygame.K_LSHIFT:
                         # Add the pressed character to the password
-                        password += event.unicode
-                        ShowPassword += "*"
+                            password += event.unicode
+                            ShowPassword += "*"
 
         window.fill(background_color)
 

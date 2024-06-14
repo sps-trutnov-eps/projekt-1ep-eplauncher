@@ -55,7 +55,7 @@ def get_users_owned_games(users_info):
     for game in allOwnedGamesInfo:
         if game['user_id'] == active_user_id:
             game_id = game['game_id']
-            hry_a_uzivatel.append({game_id})
+            hry_a_uzivatel.append(int(game_id))
 
     print(hry_a_uzivatel)
     if hry_a_uzivatel:
@@ -137,22 +137,19 @@ def library(rozliseni, window, clock, username, password):
     # obsahuje id, username, password, money
     user_information = get_user_info(username)
     
-    #obsahuje id her, ktere aktivni uzivatel vlastni
-    hryODuzivatelu = get_users_owned_games(user_information)
+    
 
     money = user_information["money"]
     money_text_string = f"Mince: {money}"
-
     money_text = even_smaller_font.render(money_text_string, True, WHITE)
 
     from game_list import get_games
-
-
-
-    games_owned = []   # TODO: do tohoto listu všechny ID her, který uživatel vlastní
+    
+    #obsahuje id her, ktere aktivni uzivatel vlastni
+    games_owned = get_users_owned_games(user_information)
+    
     games = get_games(games_owned)
-    for hraID in hryODuzivatelu:
-        games_owned.append(hraID)
+
     print(games_owned)
 
     for game in games:
@@ -162,6 +159,7 @@ def library(rozliseni, window, clock, username, password):
         for udalost in pygame.event.get():
             if udalost.type == pygame.QUIT:
                 running = False
+                pygame.quit()
 
         user_information = library_draw(window, rozliseni, games, username_text, money_text, user_information, password)
         scrolling()
