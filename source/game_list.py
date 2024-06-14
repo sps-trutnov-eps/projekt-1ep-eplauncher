@@ -162,8 +162,9 @@ def get_games(games_owned):
     bageta = Games("Bageta", "Kupte si co nejlepší bagetu!", 1002, "bageta", "main", "automat", True, 15)
     flappybird = Games("Flappybird", "Dosáhněte co nejvyšího skóre!", 1001, "Flappy bird", "Flappy_Bird_py", "main", True, 20)
     mhunt = Games("Mhunt", "Invaze Mtanků!", 1003, "Mhunt", "startmenu", "startmenu", True, 10)
+    zvoni = Games("Zvoní", "Dostaň se do třídy v čas!", 1004, "Zvoni", "srcZvoni", "main", True, 15)
 
-    games = [pokerun, sokobox, bageta, flappybird]
+    games = [pokerun, sokobox, bageta, flappybird, zvoni]
 
     check_ownership(games_owned, games)
 
