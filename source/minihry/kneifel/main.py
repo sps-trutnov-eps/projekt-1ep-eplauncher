@@ -1,5 +1,6 @@
 import pygame
 import time
+import random
 
 pygame.init()
 
@@ -16,11 +17,14 @@ font = pygame.font.SysFont("Arial", 48)
 medium_font = pygame.font.SysFont("verdana", 38)
 small_font = pygame.font.SysFont("Arial", 24)
 big_font = pygame.font.SysFont("Dosis", 38)
+
 words = ["Na", "částice", "kapaliny", "působí", "v", "tíhovém", "poli", "země", "tíhová", "síla",
          "která", "se", "díky", "tekutosti", "přenáší", "na", "ostatní", "částice", "ve", "všech", "směrech", "a", "způsobuje",
          "hydrostatickou", "sílu", "saláti"]
 
-total_words = len(words)
+words2 = ["V", "rovnovážné", "poloze", "jsou", "tělesa", "podepřená", "pod", "těžištěm", "nebo", "zavěšená",
+          "nad", "těžištěm.", "Při", "vychílení", "tělesa", "z", "rovnovážné", "polohy", "se", "změní", "podmínky", "rovnováhy", "a",
+          "přitom", "mohou", "nastat", "tři", "příklady", "saláti"]
 
 def main():
     run = True
@@ -30,6 +34,8 @@ def main():
     game_over = False
     win = False
     elapsed_time = 0
+    current_words = random.choice([words, words2])
+    total_words = len(current_words)
 
     while run:
         okno.fill(bila)
@@ -47,7 +53,7 @@ def main():
                     else:
                         input_text += event.unicode
 
-                    if input_text.strip() == words[word_index]:
+                    if input_text.strip() == current_words[word_index]:
                         word_index += 1
                         input_text = ''
                         
@@ -84,11 +90,13 @@ def main():
                         word_index = 0
                         start_time = 0
                         elapsed_time = 0
+                        current_words = random.choice([words, words2]) 
+                        total_words = len(current_words)
                     elif event.key == pygame.K_q:
                         run = False
         else:
             if word_index < total_words:
-                current_word_surface = font.render(words[word_index], True, cerna)
+                current_word_surface = font.render(current_words[word_index], True, cerna)
                 okno.blit(current_word_surface, (sirka // 2 - current_word_surface.get_width() // 2, vyska // 2 - current_word_surface.get_height() // 2))
 
             input_surface = font.render(input_text, True, cerna)
@@ -108,4 +116,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
