@@ -164,7 +164,7 @@ def get_games(games_owned):
     mhunt = Games("Mhunt", "Invaze Mtanků!", 1003, "Mhunt", "startmenu", "startmenu", True, 10)
     zvoni = Games("Zvoní", "Dostaň se do třídy v čas!", 1004, "Zvoni", "srcZvoni", "main", True, 15)
 
-    games = [pokerun, sokobox, bageta, flappybird, zvoni]
+    games = [pokerun, sokobox, bageta, flappybird, mhunt, zvoni]
 
     check_ownership(games_owned, games)
 
