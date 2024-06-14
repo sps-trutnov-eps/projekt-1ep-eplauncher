@@ -15,7 +15,7 @@ okno = pygame.display.set_mode((screen_width,
 
 
 pygame.display.set_caption("Vítej na bojišti\
-Mhunt od: Denis")
+ Mhunt od: Denis")
 
 class pozadi(pygame.sprite.Sprite):
     def __init__(self, image_file, location):
@@ -160,7 +160,7 @@ def mhunt_game():
                 invader_Xchange[i] *= -1
                 invader_Y[i] += invader_Ychange[i]
             
-            collision = isCollision(bullet_X, invader_X[i],
+            collision = isCollision(bullet_X, invader_X[i]+40,
                                     bullet_Y, invader_Y[i])
             if collision:
                 score_val += 1

@@ -46,14 +46,18 @@ def startmenu():
               
             if ev.type == pygame.QUIT:  
                 running = False
-                quit()
-                  
+                pygame.quit()
+                quit() 
+                
+        
+                
          
             if ev.type == pygame.MOUSEBUTTONDOWN:  
                   
      
                 if width/2-70 <= mys[0] <= width/2+70 and height/2 <= mys[1] <= height/2+40:  
-                    import Mhunt 
+                    from Mhunt import mhunt_game
+                    mhunt_game()
                     running = False
                     
                        
