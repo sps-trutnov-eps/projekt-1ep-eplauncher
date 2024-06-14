@@ -28,33 +28,47 @@ obrazek_bageta_2 = pygame.image.load("minihry/bageta/bageta_2.png")
 obrazek_bageta_3 = pygame.image.load("minihry/bageta/bageta_3.png")
 
 
-global splneno
-splneno = False 
-global penezenka
-penezenka = 7
-global vlozeno
-vlozeno = 0
-global font
-font = pygame.font.Font(None, 50)
 
-global tier_1
-global tier_2
-global tier_3
+splneno = False 
+
+penezenka = 7
+
+vlozeno = 0
+
+font = pygame.font.Font(None, 50)
 tier_1 = False 
 tier_2 = False 
 tier_3 = False
+
 
 game_running = False
 function_running = False
 thingy_running = False
 prohra_going_on = False
+font = pygame.font.Font(None, 50)
 
 def automat():
-    global font
-    global tier_1
-    global tier_2
-    global tier_3, okno, prohra_going_on, thingy_running, game_running, function_running
+    global splneno, penezenka, vlozeno, font, tier_1, tier_2, tier_3
+    
+    splneno = False 
+
+    penezenka = 7
+
+    vlozeno = 0
+
+    tier_1 = False 
+    tier_2 = False 
+    tier_3 = False
+
+   
+    
+    global okno, prohra_going_on, thingy_running, game_running, function_running
     okno = pygame.display.set_mode((1400, 800))
+    
+    game_running = False
+    function_running = False
+    thingy_running = False
+    prohra_going_on = False 
     
     game_running = True
     while game_running:
@@ -119,13 +133,14 @@ def automat():
         okno.blit(obrazek_automat, (450,100))
         pygame.display.flip()
         if tier_1 == True :
+            okno = pygame.display.set((800, 800))
             return "normalni_bageta"
         if tier_2 == True :
+            okno = pygame.display.set((800, 800))
             return "bageta_standart"
         if tier_3 == True :
+            okno = pygame.display.set((800, 800))
             return "bageta_deluxe"
-
-    okno = pygame.display.set_mode((800, 800))
             
         
 

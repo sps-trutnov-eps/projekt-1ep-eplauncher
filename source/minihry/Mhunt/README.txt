@@ -1,0 +1,1 @@
+Dobrý den doufám že jste užili mojí hru
