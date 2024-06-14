@@ -19,11 +19,11 @@ Mhunt od: Denis")
 
 class pozadi(pygame.sprite.Sprite):
     def __init__(self, image_file, location):
-        pygame.sprite.Sprite.__init__(self)  #call Sprite initializer
+        pygame.sprite.Sprite.__init__(self)  
         self.image = pygame.image.load(image_file)
         self.rect = self.image.get_rect()
         self.rect.left, self.rect.top = location
-Pozadi = pozadi("images\pozadi.png", [0,0])
+Pozadi = pozadi("images\pozadi.jpg", [0,0])
 
 
 score_val = 0
@@ -37,7 +37,7 @@ game_over_font = pygame.font.Font('freesansbold.ttf', 64)
 
 def show_score(x, y):
 	score = font.render("Points: " + str(score_val),
-						True, (0,0,0))
+						True, (255,255,255))
 	okno.blit(score, (x , y ))
 
 def game_over():
@@ -69,7 +69,7 @@ for num in range(no_of_invaders):
 	invaderImage.append(pygame.image.load('images\M_tank.png'))
 	invader_X.append(random.randint(64, 737))
 	invader_Y.append(random.randint(30, 180))
-	invader_Xchange.append(1.5)
+	invader_Xchange.append(1.2)
 	invader_Ychange.append(50)
 
 
@@ -77,7 +77,7 @@ bulletImage = pygame.image.load('images\strela.png')
 bullet_X = 0
 bullet_Y = 500
 bullet_Xchange = 0
-bullet_Ychange = 9
+bullet_Ychange = 3.5
 bullet_state = "rest"
 
 
@@ -105,90 +105,96 @@ def kontrola_achievement():
 		return "Dosáhl skóre 25!"
 
 
-
-running = True
-while running:
-
-
-	okno.fill((0, 0, 0))
-	okno.blit(Pozadi.image, Pozadi.rect)
-	for event in pygame.event.get():
-		if event.type == pygame.QUIT:
-			pygame.quit()
-			quit()
-			running = False
-			
-
-
-		if event.type == pygame.KEYDOWN:
-			if event.key == pygame.K_LEFT:
-				player_Xchange = -2.5
-			if event.key == pygame.K_RIGHT:
-				player_Xchange = 2.5
-			if event.key == pygame.K_SPACE:
-			
-				
-				if bullet_state == "rest":
-					bullet_X = player_X
-					bullet(bullet_X, bullet_Y)
-					bullet_sound = mixer.Sound('images\strela.wav')
-					bullet_sound.play()
-		if event.type == pygame.KEYUP:
-			player_Xchange = 0
-
-	
-	player_X += player_Xchange
-	for i in range(no_of_invaders):
-		invader_X[i] += invader_Xchange[i]
-
-	
-	if bullet_Y <= 0:
-		bullet_Y = 650
-		bullet_state = "rest"
-	if bullet_state == "fire":
-		bullet(bullet_X, bullet_Y)
-		bullet_Y -= bullet_Ychange
-
-	
-	for i in range(no_of_invaders):
-		
-		
-
-		if invader_X[i] >= 1000 or invader_X[i] <= 0:
-			invader_Xchange[i] *= -1
-			invader_Y[i] += invader_Ychange[i]
-		
-		collision = isCollision(bullet_X, invader_X[i],
-								bullet_Y, invader_Y[i])
-		if collision:
-			score_val += 1
-			bullet_Y = 650
-			bullet_state = "rest"
-			invader_X[i] = random.randint(64, 736)
-			invader_Y[i] = random.randint(30, 200)
-			invader_Xchange[i] *= -1
-
-		invader(invader_X[i], invader_Y[i], i)
-		if invader_Y[i] >= 600:
-			if abs(player_X-invader_X[i]) < 80:
-				for j in range(no_of_invaders):
-					invader_Y[j] = 2000
-				kontrola_achievement()
-				game_over()
-
-
-
-
-
-
-	if player_X <= 16:
-		player_X = 1099
-	elif player_X >= 1100:
-		player_X = 17
+def mhunt_game():
+    global player_X, player_Y, player_Xchange, bullet_Y, bullet_X, bullet_Xchange, bullet_Ychange, bullet_state, score_val
     
-    
+    running = True
+    while running:
 
 
-	player(player_X, player_Y)
-	show_score(scoreX, scoreY)
-	pygame.display.update()
+        okno.fill((0, 0, 0))
+        okno.blit(Pozadi.image, Pozadi.rect)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+                running = False
+                
+
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    player_Xchange = -1.7
+                if event.key == pygame.K_RIGHT:
+                    player_Xchange = 1.7
+                if event.key == pygame.K_SPACE:
+                
+                    
+                    if bullet_state == "rest":
+                        bullet_X = player_X
+                        bullet(bullet_X, bullet_Y)
+                        bullet_sound = mixer.Sound('images\strela.wav')
+                        bullet_sound.play()
+            if event.type == pygame.KEYUP:
+                player_Xchange = 0
+
+        
+        player_X += player_Xchange
+        for i in range(no_of_invaders):
+            invader_X[i] += invader_Xchange[i]
+
+        
+        if bullet_Y <= 0:
+            bullet_Y = 650
+            bullet_state = "rest"
+        if bullet_state == "fire":
+            bullet(bullet_X, bullet_Y)
+            bullet_Y -= bullet_Ychange
+
+        
+        for i in range(no_of_invaders):
+            
+            
+
+            if invader_X[i] >= 1000 or invader_X[i] <= 0:
+                invader_Xchange[i] *= -1
+                invader_Y[i] += invader_Ychange[i]
+            
+            collision = isCollision(bullet_X, invader_X[i],
+                                    bullet_Y, invader_Y[i])
+            if collision:
+                score_val += 1
+                bullet_Y = 650
+                bullet_state = "rest"
+                invader_X[i] = random.randint(64, 736)
+                invader_Y[i] = random.randint(30, 200)
+                invader_Xchange[i] *= -1
+
+            invader(invader_X[i], invader_Y[i], i)
+            if invader_Y[i] >= 600:
+                if abs(player_X-invader_X[i]) < 80:
+                    for j in range(no_of_invaders):
+                        invader_Y[j] = 2000
+                    kontrola_achievement()
+                    game_over()
+
+
+
+
+
+
+        if player_X <= 16:
+            player_X = 1099
+        elif player_X >= 1100:
+            player_X = 17
+        
+        
+
+
+        player(player_X, player_Y)
+        show_score(scoreX, scoreY)
+        pygame.display.update()
+        
+        
+if __name__ == "__main__":
+    mhunt_game()
