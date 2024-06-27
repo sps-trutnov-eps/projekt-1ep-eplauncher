@@ -141,6 +141,7 @@ def automat():
         if tier_3 == True :
             okno = pygame.display.set((800, 800))
             return "bageta_deluxe"
+    okno = pygame.display.set_mode((800, 800))
             
         
 
@@ -350,7 +351,7 @@ def prohra():
         okno.fill((255,0,0))
         okno.blit(font.render("prohrál jsi", True, (255,255,255)), (700, 200))
         pygame.display.flip()
-    okno = pygame.display.set_mode((800, 800))
+    #okno = pygame.display.set_mode((800, 800))
 
 
 if __name__ == "__main__":

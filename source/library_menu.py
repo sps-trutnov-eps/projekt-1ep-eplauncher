@@ -60,7 +60,6 @@ def get_users_owned_games(users_info):
             game_id = game['game_id']
             hry_a_uzivatel.append(int(game_id))
 
-    print(hry_a_uzivatel)
     if hry_a_uzivatel:
         return hry_a_uzivatel
 
@@ -187,7 +186,9 @@ def library(rozliseni, window, clock, username, password):
     
     #obsahuje id her, ktere aktivni uzivatel vlastni
     games_owned = get_users_owned_games(user_information)
-    
+    if games_owned == None:
+        games_owned = []
+
     games = get_games(games_owned)
 
 
